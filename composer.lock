@@ -1,0 +1,35 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "1de62345eb6422ad49a7440c7d5ffec9",
+    "packages": [
+        {
+            "name": "litleco/litle-sdk-for-php",
+            "version": "8.17.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LitleCo/litle-sdk-for-php.git",
+                "reference": "master"
+            },
+            "type": "library"
+        }
+    ],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": [
+
+    ],
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
+}
