@@ -2,8 +2,19 @@
 
 /**
  * Transaction Interface
+ *
+ * @author Nate Krantz <nkrantz@petflow.com>
+ * @copyright Petflow 2013
  */
 abstract class Transaction {
+
+	/**
+	 * Constants for our defualt configuration
+	 */
+	const DEFAULT_CFG_URL			= 'https://www.testlitle.com/sandbox/communicator/online';
+	const DEFAULT_CFG_PROXY			= '';
+	const DEFAULT_CFG_TIMEOUT		= '30';
+	const DEFAULT_CFG_REPORT_GROUP	= 'Default Report Group';
 
 	/**
 	 * @var [type]
