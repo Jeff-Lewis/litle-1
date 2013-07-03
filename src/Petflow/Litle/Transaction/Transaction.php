@@ -9,23 +9,57 @@
 abstract class Transaction {
 
 	/**
-	 * Constants for our defualt configuration
+	 * The URL is where the service makes the request, by default, we use the sandbox.
 	 */
 	const DEFAULT_CFG_URL			= 'https://www.testlitle.com/sandbox/communicator/online';
+
+	/**
+	 * 
+	 */
 	const DEFAULT_CFG_PROXY			= '';
-	const DEFAULT_CFG_TIMEOUT		= '30';
+
+	/**
+	 * The default time out, set to 60 seconds as recommended by the Litle user guide
+	 * as to avoid the possibility of creating undetected duplicate transactions.
+	 */
+	const DEFAULT_CFG_TIMEOUT		= '60';
+
+	/**
+	 * 
+	 */
 	const DEFAULT_CFG_REPORT_GROUP	= 'Default Report Group';
 
 	/**
-	 * @var [type]
+	 * @var array Contains the configuration opens for opening a request.
 	 */
 	protected static $config;
 
 	/**
 	 * Make a Transaction
+	 *
+	 * With this function a request to the litle service will be made via 
+	 * the litle_sdk_for_php libraries. Each transaction type must implement
+	 * this function so that we can take care of oddities for the specific
+	 * transaction types. Since this function is a wrapper for the sdk, it
+	 * is expected to be pretty lightweight.
+	 *
+	 * On an error, it will throw exceptions originating from the
+	 * litle_sdk library. In the future, we may decide to write our own
+	 * version of the sdk library so this interface will still be
+	 * appliciable as such.
+	 *
+	 * After a response is recieved and no exceptions are raised, the
+	 * function will then return a response and is depended on the
+	 * respond() function of this class.
+	 *
+	 * @throws InvalidArgumentException If the provided parameters aren't sufficient
+	 * for a request to be made
+	 *
+	 * @throws Exception If any error occurs in the process of making the request.
 	 * 
-	 * @param  [type] $params [description]
-	 * @return [type]         [description]
+	 * @param  array $params The parameters to be sent to the request.
+	 * @return array         An associative array representation of the response defined in the
+	 *                       respond() function.
 	 */
 	abstract public function make($params);
 
