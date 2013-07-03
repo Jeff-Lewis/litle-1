@@ -7,33 +7,22 @@
             "email": "nate@petflow.com"
         }
     ],
-    "repositories" : [
+    "repositories": [
         {
-            "type": "package",
-            "package": {
-                "name": "litleco/litle-sdk-for-php",
-                "version": "8.17.0",
-                "source": {
-                    "url": "https://github.com/LitleCo/litle-sdk-for-php.git",
-                    "type": "git",
-                    "reference": "master"
-                },
-                "autoload": {
-                    "classmap": [
-                        "lib/LitleOline.php"
-                    ]
-                }
-            }
+            "type": "vcs",
+            "url": "https://github.com/nkrantz23/litle-sdk-for-php"
         }
     ],
     "require": {
-        "litleco/litle-sdk-for-php" : "8.17.*"
+        "nkrantz/litle-sdk-for-php" : "dev-master"
     },
     "autoload": {
         "classmap": [
             "tests/UnitTestCase.php",
             "tests/FunctionalTestCase.php"
         ],
-        "psr-0": {"Petflow\\Litle" : "lib/"}
+        "psr-0": {
+            "Petflow\\Litle" : "src/"
+        }
     }
 }
