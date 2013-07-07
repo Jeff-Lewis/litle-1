@@ -1,5 +1,7 @@
 <?php namespace Petflow\Litle\ResponseCode;
 
+use Petflow\Litle\Exception;
+
 /**
  * Response Code
  *
@@ -38,7 +40,7 @@ abstract class ResponseCode {
 		if (array_key_exists($code, static::$codes)) {
 			return static::$codes[$code];
 		} else {
-			return [];
+			throw new Exception\InvalidResponseCodeException('Unknown response code provided: '.$code);
 		}
 	}
 

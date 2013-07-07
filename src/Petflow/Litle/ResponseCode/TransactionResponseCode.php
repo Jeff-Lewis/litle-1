@@ -28,7 +28,7 @@ class TransactionResponseCode extends ResponseCode {
 				'message'		=> 'Processing Network Unavailable',
 				'type'			=> 'soft_decline',
 				'description'	=> 'There is a problem with the card network. Contact the network for more information.'
-			]
+			],
 		'101' => [
 				'message'		=> 'Issuer Unavailable',
 				'type'			=> 'soft_decline',

@@ -1,4 +1,4 @@
-<?php namesapce Petflow\Litle\ResponseCode;
+<?php namespace Petflow\Litle\ResponseCode;
 
 /**
  * CV Response Codes
