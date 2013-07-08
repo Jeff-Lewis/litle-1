@@ -134,24 +134,17 @@ abstract class Transaction {
 	 * only perform the translation one element deep, it will not check
 	 * any multidimensional arrays.
 	 *
-	 * @throws Exception If the provided params argument is not an array
-	 * 
-	 * @param  array $params The input array to translate into camelCase
+	 * @param Array $params The input array to translate into camelCase
 	 */
-	public function translate($params) {
+	public function translate(array $params) {
 		$out = [];
 
-		// @todo refactor into an exception class
-		if (!is_array($params)) {
-			throw new \Exception('Non-array provided to Petflow\Litle\Transaction::translate().');
-		} else {
-			foreach ($params as $key => $val) {
-				$new_key = ucwords(str_replace('_', ' ', $key));
-				$out[lcfirst(str_replace(' ', '', $new_key))] = $val;
-			}	
+		foreach ($params as $key => $val) {
+			$new_key = ucwords(str_replace('_', ' ', $key));
+			$out[lcfirst(str_replace(' ', '', $new_key))] = $val;
+		}	
 
-			return $out;
-		}
+		return $out;
 	}
 
 }

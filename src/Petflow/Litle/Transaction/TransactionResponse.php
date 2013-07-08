@@ -89,6 +89,10 @@ class TransactionResponse {
         return $this->is_duplicate;
     }
 
+    public function isApproved() {
+        return $this->code === '000';
+    }
+
     /**
      * Set Fields
      */
