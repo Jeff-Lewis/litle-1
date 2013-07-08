@@ -13,6 +13,12 @@
             "url": "https://github.com/nkrantz23/litle-sdk-for-php"
         }
     ],
+    "version": "dev-master",
+    "source": {
+        "url": "git://github.com/petflow/litle",
+        "type": "git",
+        "reference": "master"
+    },
     "require": {
         "nkrantz/litle-sdk-for-php" : "dev-master"
     },
