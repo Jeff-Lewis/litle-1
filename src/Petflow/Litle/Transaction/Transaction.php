@@ -3,6 +3,9 @@
 /**
  * Transaction Interface
  *
+ * An interface that defines the process of making a request to 
+ * the Litle online service. Transactions are perfor
+ *
  * @author Nate Krantz <nkrantz@petflow.com>
  * @copyright Petflow 2013
  */
@@ -11,28 +14,82 @@ abstract class Transaction {
 	/**
 	 * The URL is where the service makes the request, by default, we use the sandbox.
 	 */
-	const DEFAULT_CFG_URL			= 'https://www.testlitle.com/sandbox/communicator/online';
+	const DEFAULT_CFG_URL = 'https://www.testlitle.com/sandbox/communicator/online';
 
 	/**
-	 * 
+	 * Consult Litle documentation.
 	 */
-	const DEFAULT_CFG_PROXY			= '';
+	const DEFAULT_CFG_PROXY	= '';
 
 	/**
 	 * The default time out, set to 60 seconds as recommended by the Litle user guide
 	 * as to avoid the possibility of creating undetected duplicate transactions.
 	 */
-	const DEFAULT_CFG_TIMEOUT		= '60';
+	const DEFAULT_CFG_TIMEOUT = '60';
 
 	/**
-	 * 
+	 * Consult litle documentation.
 	 */
-	const DEFAULT_CFG_REPORT_GROUP	= 'Default Report Group';
+	const DEFAULT_CFG_REPORT_GROUP = 'Default Report Group';
 
 	/**
 	 * @var array Contains the configuration opens for opening a request.
 	 */
 	protected static $config;
+
+	/**
+	 * @var \LitleOnlineRequest LitleOnlineRequest object for making transactions
+	 */
+	protected $transaction;
+
+	/**
+	 * Construct
+	 *
+	 * When constructing a sale transaction, each transaction must
+	 * accept params for the username, pass, and merchant, optional
+	 * overrides for other Litle configuration options, and an optional
+	 * dependency injection if we want to override the litle_online_request
+	 * class.
+	 *
+	 * Consult litle documentation for more information on the parameters
+	 * and overrides you can send, found in the class block documentation
+	 * at the begining of this file.
+	 *
+	 * @todo This should be moved to the abstract class!
+	 *
+	 * @param array $params Expecting the 'username', 'password', and 'merchant' for litle.
+	 * @param array $overrides Can override options such as 'url', 'proxy', 'timeout', and 'reportGroup'
+	 */
+	public function __construct($params, $overrides = [], $litle_online_request=null) {
+		$provided_cfg = [];
+
+		if (isset($params['username']) && isset($params['password']) && isset($params['merchant'])) {
+			$provided_cfg = [
+				'user' 					=> $params['username'],
+				'password' 				=> $params['password'],
+				'currency_merchant_map' => ['DEFAULT' => $params['merchant']]
+			];
+		} 
+
+		// merge what was provided into the defaults, overrwriting what is
+		// necessary.
+		static::$config = array_merge(
+			[
+				'url'			=> static::DEFAULT_CFG_URL,
+				'proxy' 		=> static::DEFAULT_CFG_PROXY,
+				'timeout' 		=> static::DEFAULT_CFG_TIMEOUT,
+				'reportGroup' 	=> static::DEFAULT_CFG_REPORT_GROUP
+			],
+			$provided_cfg
+		);
+
+		// litle dependency injection
+		if (is_null($litle_online_request)) {
+			$this->transaction = new \LitleOnlineRequest(static::$config);
+		} else {
+			$this->transaction = $litle_online_request;
+		}
+	}
 
 	/**
 	 * Make a Transaction
@@ -52,22 +109,20 @@ abstract class Transaction {
 	 * function will then return a response and is depended on the
 	 * respond() function of this class.
 	 *
-	 * @throws InvalidArgumentException If the provided parameters aren't sufficient
-	 * for a request to be made
-	 *
-	 * @throws Exception If any error occurs in the process of making the request.
-	 * 
-	 * @param  array $params The parameters to be sent to the request.
-	 * @return array         An associative array representation of the response defined in the
-	 *                       respond() function.
+	 * @param  array $params The parameters to be sent to the request service.
 	 */
 	abstract public function make($params);
 
 	/**
 	 * Respond
+	 *
+	 * With this function respond to a request that was performed by
+	 * the make() function. Typically, this will take the response and
+	 * ensure that it is valid XML, parse out the parameters that the
+	 * current transaction type nedds, and then feed back an array
+	 * containing the response.
 	 * 
-	 * @param  [type] $response [description]
-	 * @return [type]           [description]
+	 * @param  XMLDocumemt $response An XMLDocument containing the response.
 	 */
 	abstract public function respond($response);
 
@@ -82,11 +137,11 @@ abstract class Transaction {
 	 * @throws Exception If the provided params argument is not an array
 	 * 
 	 * @param  array $params The input array to translate into camelCase
-	 * @return array         An output array containing the same information
 	 */
 	public function translate($params) {
 		$out = [];
 
+		// @todo refactor into an exception class
 		if (!is_array($params)) {
 			throw new \Exception('Non-array provided to Petflow\Litle\Transaction::translate().');
 		} else {

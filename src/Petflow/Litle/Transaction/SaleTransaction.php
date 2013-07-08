@@ -1,9 +1,22 @@
 <?php namespace Petflow\Litle\Transaction;
 
+use Petflow\Litle\ResponseCode\TransactionResponseCode as TransactionResponseCode;
+
 use Petflow\Litle\Exception\DuplicateTransactionException as DuplicateTransactionException;
+use Petflow\Litle\Exception\UnknownResponseCodeException as UnknownResponseCodeException;
 
 /**
  * Perform a Sale Transaction
+ *
+ * A class to perform sale transactions against the litle service, currently
+ * using the litle_sdk_for_php library as the communication platform
+ * between the client here and the service.
+ *
+ * For more information on the parameters we can send to the service, the 
+ * request/response, and other litle specific questions you can consult
+ * the documentation below.
+ *
+ * https://github.com/LitleCo/litle-xml/blob/master/reference_guides/Litle_XML_Reference_Guide_XML8.17_V2.32.pdf
  *
  * @author Nate Krantz <nate@petflow.com>
  * @copyright Petflow 2013
@@ -11,54 +24,15 @@ use Petflow\Litle\Exception\DuplicateTransactionException as DuplicateTransactio
 class SaleTransaction extends Transaction {	
 
 	/**
-	 * @var [type] LitleOnlineRequest
-	 */
-	protected $transaction;
-
-	/**
-	 * [__construct description]
-	 * @param [type] $configuration [description]
-	 */
-	public function __construct($params = [], $overrides = [], $litle_online_request=null) {
-		$provided_cfg = [];
-		
-		if (isset($params['username']) && isset($params['password']) && isset($params['merchent'])) {
-			$provided_cfg = [
-				'user' 					=> $params['username'],
-				'password' 				=> $params['password'],
-				'currency_merchant_map' => ['DEFAULT' => $params['merchent']]
-			];
-		} 
-
-		// merge what was provided into the defaults, overrwriting what is
-		// necessary.
-		static::$config = array_merge(
-			[
-				'url'			=> static::DEFAULT_CFG_URL,
-				'proxy' 		=> static::DEFAULT_CFG_PROXY,
-				'timeout' 		=> static::DEFAULT_CFG_TIMEOUT,
-				'reportGroup' 	=> static::DEFAULT_CFG_REPORT_GROUP
-			],
-			$provided_cfg
-		);
-
-		// litle dependency injection
-		if (is_null($litle_online_request)) {
-			$this->transaction = new \LitleOnlineRequest(static::$config);
-		} else {
-			$this->transaction = $litle_online_request;
-		}
-	}
-
-	/**
 	 * Perform a Sale Transaction
 	 *
-	 * @todo  lets add some better error handling
+	 * Will attempt to perform a sale transaction with the transaction
+	 * object set up in by the constructor. For more information on 
+	 * the parameters that can be sent, please refer to the documentation
+	 * for SaleTransactions provided in the class documentation block.
 	 *
-	 * @throws Exception If something goes wrong in the process
-	 * 
-	 * @param  [type] $params [description]
-	 * @return [type]         [description]
+	 * @param  array $params The parameters being sent to litle a the transaction.
+	 * @return array 		 A parsed response containing the variables produced by the response.
 	 */
 	public function make($params) {
 		return $this->respond(
@@ -68,9 +42,15 @@ class SaleTransaction extends Transaction {
 
 	/**
 	 * Respond to a Sale Transaction
+	 *
+	 * This will attempt to parse a sale transaction, using the XML response
+	 * to grab fields using the \XMLParser.
+	 *
+	 * @todo Add check / exception if response is NOT XML.
+	 * @todo XMLParser throws exceptions, we could catch and throw our own.
 	 * 
-	 * @param  [type] $response [description]
-	 * @return [type]           [description]
+	 * @param  array $response An XML node containing the response.
+	 * @return array 		   An array of key/value pairs parsed from the XML response.
 	 */
 	public function respond($response) {
 		$parsed = [
@@ -87,6 +67,16 @@ class SaleTransaction extends Transaction {
 					->format('Y-m-d H:i:s'),
 		];
 
+		try {
+			$parsed['detailed_response'] = TransactionResponseCode::code($parsed['response']);
+
+		} catch (UnknownResponseCodeException $e) {
+			$parsed['detailed_response'] = $e->getMessage();
+		}
+		 
+
+		// @todo this could be in the parent class, since each transaction type
+		// can have this attribute.
 		if ($parsed['duplicate']) {
 			throw new DuplicateTransactionException($parsed);
 		}

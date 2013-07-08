@@ -15,11 +15,11 @@ class FunctionalTestCase extends PHPUnit_Framework_TestCase {
 	 * 
 	 * @return [type] [description]
 	 */
-	protected function getParams() {
+	protected static function getParams() {
 		return [
 			'username' => 'PETFLOW',
 			'password' => '',
-			'merchent' => '120400'
+			'merchant' => '120400'
 		];
 	}
 

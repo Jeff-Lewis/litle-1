@@ -16,12 +16,6 @@ abstract class ResponseCode {
 	 * response codes for the given response code class. The return
 	 * value will have the codes as keys and following the format:
 	 *
-	 * 	[
-	 * 		code => [
-	 * 	 		message		=> <string> <optional>
-	 * 	 		description => <string>
-	 * 		]
-	 * 	]
 	 * @return array Array containing codes and additional information about each code.
 	 */
 	protected static $codes;
