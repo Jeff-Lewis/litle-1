@@ -22,6 +22,11 @@ class UnknownResponseCodeException extends Exception {}
 class DuplicateTransactionException extends Exception {
 
 	/**
+	 * @var \TransactionResponse Contains the response that the duplicate transaction was detected.
+	 */
+	protected $response;
+
+	/**
 	 * @var Array The expected response data that was returned from transaction
 	 */
 	protected $response_data;
@@ -32,19 +37,30 @@ class DuplicateTransactionException extends Exception {
 	 * Creating this exception requires response data to be passed to it
 	 * as so the end-user can still recieve information about the
 	 * transaction.
-	 * 
-	 * @param [type] $response_data [description]
+	 *
+	 * @param \Petflow\Litle\Transaction\TransactionResponse
+	 * @param Array
 	 */
-	public function __construct($response_data) {
+	public function __construct(\Petflow\Litle\Transaction\TransactionResponse $response, $response_data) {
 		parent::__construct('Duplicate transaction detected, call get_response_data() for more information.');
 		
+		$this->response = $response;
 		$this->response_data = $response_data;
+	}
+
+	/**
+	 * Get Response
+	 * 
+	 * @return \Petflow\Litle\Transaction\TransactionResponse
+	 */
+	public function getResponse() {
+		return $this->response;
 	}
 
 	/**
 	 * Get Response Data
 	 * 
-	 * @return [type] [description]
+	 * @return Array
 	 */
 	public function getResponseData() {
 		return $this->response_data;

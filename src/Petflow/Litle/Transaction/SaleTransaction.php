@@ -1,10 +1,5 @@
 <?php namespace Petflow\Litle\Transaction;
 
-use Petflow\Litle\ResponseCode\TransactionResponseCode as TransactionResponseCode;
-
-use Petflow\Litle\Exception\DuplicateTransactionException as DuplicateTransactionException;
-use Petflow\Litle\Exception\UnknownResponseCodeException as UnknownResponseCodeException;
-
 /**
  * Perform a Sale Transaction
  *
@@ -52,36 +47,16 @@ class SaleTransaction extends Transaction {
 	 * @param  array $response An XML node containing the response.
 	 * @return array 		   An array of key/value pairs parsed from the XML response.
 	 */
-	public function respond($response) {
-		$parsed = [
-			'response' 				=> \XMLParser::getNode($response, 'response'),
-			'message' 				=> \XMLParser::getNode($response, 'message'),
-			'auth_code'				=> \XMLParser::getNode($response, 'authCode'),
-			'avs_result'			=> \XMLParser::getNode($response, 'avsResult'),
-			'cv_result'				=> \XMLParser::getNode($response, 'cardValidationResult'),
-			'auth_result'			=> \XMLParser::getNode($response, 'authenticationResult'),
-			'duplicate'             => \XMLParser::getAttribute($response, 'saleResponse', 'duplicate'),
-			'litle_transaction_id'  => \XMLParser::getNode($response, 'litleTxnId'),
-			'response_time'			=> 
-				(new \DateTime(\XMLParser::getNode($response, 'responseTime')))
-					->format('Y-m-d H:i:s'),
-		];
+	public function respond($raw_response) {
+		$response = new TransactionResponse($raw_response);
 
-		try {
-			$parsed['detailed_response'] = TransactionResponseCode::code($parsed['response']);
+		// additional data we might want to collect
+		$response->message  		= \XMLParser::getNode($raw_response, 'message');
+		$response->avs_result 		= \XMLParser::getNode($raw_response, 'avsResult');
+		$response->cv_result 		= \XMLParser::getNode($raw_response, 'cardValidationResult'); 
+		$response->auth_result 		= \XMLParser::getNode($raw_response, 'authenticationResult');
 
-		} catch (UnknownResponseCodeException $e) {
-			$parsed['detailed_response'] = $e->getMessage();
-		}
-		 
-
-		// @todo this could be in the parent class, since each transaction type
-		// can have this attribute.
-		if ($parsed['duplicate']) {
-			throw new DuplicateTransactionException($parsed);
-		}
-			
-		return $parsed;
+		return $response;
 	}
 
 }

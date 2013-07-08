@@ -12,12 +12,10 @@ class SaleTransactionTest extends FunctionalTestCase {
 
 		foreach ($expected_response as $clause) {
 
-			$this->assertArrayHasKey($clause[0], $response);
-
 			// so we only want to check for specific values when the 4th array element
 			// in the given clause is true AND the environment is for certification.
 			if (!isset($clause[3]) || ($clause[3] && static::$is_certification_environment)) {
-				$this->{'assert'.$clause[1]}($clause[2], $response[$clause[0]]);
+				$this->{'assert'.$clause[1]}($clause[2], $response->$clause[0]);
 			} 
 		}
 	}
@@ -68,7 +66,7 @@ class SaleTransactionTest extends FunctionalTestCase {
 					]
 				],
 				[
-					['response',  	'Equals', 	'000'],
+					['code',  		'Equals', 	'000'],
 					['message',	  	'Equals', 	'Approved'],
 					['auth_code',	'Equals',	'11111', 	true],
 					['avs_result',	'Equals',	'01', 		true],
@@ -101,7 +99,7 @@ class SaleTransactionTest extends FunctionalTestCase {
 					]
 				],
 				[
-					['response',  	'Equals', 	'000'],
+					['code',  		'Equals', 	'000'],
 					['message',	  	'Equals', 	'Approved'],
 					['auth_code',	'Equals',	'22222', 	true],
 					['avs_result',	'Equals',	'10', 		true],
@@ -133,7 +131,7 @@ class SaleTransactionTest extends FunctionalTestCase {
 					]
 				],
 				[
-					['response',  	'Equals', 	'000'],
+					['code',  		'Equals', 	'000'],
 					['message',	  	'Equals', 	'Approved'],
 					['auth_code',	'Equals',	'33333', 	true],
 					['avs_result',	'Equals',	'12', 		true],
@@ -163,7 +161,7 @@ class SaleTransactionTest extends FunctionalTestCase {
 					]
 				],
 				[
-					['response',  	'Equals', 	'000'],
+					['code',  		'Equals', 	'000'],
 					['message',	  	'Equals', 	'Approved'],
 					['auth_code',	'Equals',	'44444', 	true],
 					['avs_result',	'Equals',	'10', 		true],
@@ -187,7 +185,7 @@ class SaleTransactionTest extends FunctionalTestCase {
 					]
 				],
 				[
-					['response',  	'Equals', 	'000'],
+					['code',  		'Equals', 	'000'],
 					['message',	  	'Equals', 	'Approved'],
 					['auth_code',	'Equals',	'55555', 	true],
 					['avs_result',	'Equals',	'32', 		true],
@@ -218,7 +216,7 @@ class SaleTransactionTest extends FunctionalTestCase {
 					]
 				],
 				[
-					['response',  	'Equals', 	'110',					true],
+					['code',  		'Equals', 	'110',					true],
 					['message',	  	'Equals', 	'Insufficient Funds',	true],
 					['auth_code',	'Equals',	'', 					true],
 					['avs_result',	'Equals',	'34', 					true],
@@ -249,7 +247,7 @@ class SaleTransactionTest extends FunctionalTestCase {
 					]
 				],
 				[
-					['response',  	'Equals', 	'301',						true],
+					['code',  		'Equals', 	'301',						true],
 					['message',	  	'Equals', 	'Invalid Account Number', 	true],
 					['auth_code',	'Equals',	'', 						true],
 					['avs_result',	'Equals',	'34', 						true],
@@ -280,7 +278,7 @@ class SaleTransactionTest extends FunctionalTestCase {
 					]
 				],
 				[
-					['response',  	'Equals', 	'123',				true],
+					['code',  		'Equals', 	'123',				true],
 					['message',	  	'Equals', 	'Call Discover',	true],
 					['auth_code',	'Equals',	'', 				true],
 					['avs_result',	'Equals',	'34', 				true],
@@ -311,7 +309,7 @@ class SaleTransactionTest extends FunctionalTestCase {
 					]
 				],
 				[
-					['response',  	'Equals', 	'303',			true],
+					['code',  		'Equals', 	'303',			true],
 					['message',	  	'Equals', 	'Pick Up Card', true],
 					['auth_code',	'Equals',	'', 			true],
 					['avs_result',	'Equals',	'34', 			true],
