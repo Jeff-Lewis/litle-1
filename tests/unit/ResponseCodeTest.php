@@ -49,9 +49,9 @@ class ResponseCodeTest extends UnitTestCase {
 	/**
 	 * Test an Invalid Response code
 	 *
-	 * @expectedException Petflow\Litle\Exception\InvalidResponseCodeException
+	 * @expectedException Petflow\Litle\Exception\UnknownResponseCodeException
 	 */
-	public function testInvalidResponseCodeThrowsException() {
+	public function testUnknownResponseCodeThrowsException() {
 		$code = TransactionResponseCode::code('foo');
 	}
 } 

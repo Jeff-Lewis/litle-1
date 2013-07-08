@@ -1,5 +1,7 @@
 <?php namespace Petflow\Litle\Transaction;
 
+use Petflow\Litle\Exception\DuplicateTransactionException as DuplicateTransactionException;
+
 /**
  * Perform a Sale Transaction
  *
@@ -9,15 +11,24 @@
 class SaleTransaction extends Transaction {	
 
 	/**
+	 * @var [type] LitleOnlineRequest
+	 */
+	protected $transaction;
+
+	/**
 	 * [__construct description]
 	 * @param [type] $configuration [description]
 	 */
-	public function __construct($user, $password, $merchant, $overrides = []) {
-		$provided_cfg = [
-			'user' 					=> $user,
-			'password' 				=> $password,
-			'currency_merchant_map' => ['DEFAULT' => $merchant]
-		];
+	public function __construct($params = [], $overrides = [], $litle_online_request=null) {
+		$provided_cfg = [];
+		
+		if (isset($params['username']) && isset($params['password']) && isset($params['merchent'])) {
+			$provided_cfg = [
+				'user' 					=> $params['username'],
+				'password' 				=> $params['password'],
+				'currency_merchant_map' => ['DEFAULT' => $params['merchent']]
+			];
+		} 
 
 		// merge what was provided into the defaults, overrwriting what is
 		// necessary.
@@ -30,6 +41,13 @@ class SaleTransaction extends Transaction {
 			],
 			$provided_cfg
 		);
+
+		// litle dependency injection
+		if (is_null($litle_online_request)) {
+			$this->transaction = new \LitleOnlineRequest(static::$config);
+		} else {
+			$this->transaction = $litle_online_request;
+		}
 	}
 
 	/**
@@ -43,10 +61,8 @@ class SaleTransaction extends Transaction {
 	 * @return [type]         [description]
 	 */
 	public function make($params) {
-		$transaction = new \LitleOnlineRequest(static::$config);
-
 		return $this->respond(
-			$transaction->saleRequest($params)
+			$this->transaction->saleRequest($params)
 		);
 	}
 
@@ -64,12 +80,16 @@ class SaleTransaction extends Transaction {
 			'avs_result'			=> \XMLParser::getNode($response, 'avsResult'),
 			'cv_result'				=> \XMLParser::getNode($response, 'cardValidationResult'),
 			'auth_result'			=> \XMLParser::getNode($response, 'authenticationResult'),
-
+			'duplicate'             => \XMLParser::getAttribute($response, 'saleResponse', 'duplicate'),
 			'litle_transaction_id'  => \XMLParser::getNode($response, 'litleTxnId'),
-			'timestamp'				=> strtotime(
-				\XMLParser::getNode($response, 'responseTime')
-			)
+			'response_time'			=> 
+				(new \DateTime(\XMLParser::getNode($response, 'responseTime')))
+					->format('Y-m-d H:i:s'),
 		];
+
+		if ($parsed['duplicate']) {
+			throw new DuplicateTransactionException($parsed);
+		}
 			
 		return $parsed;
 	}

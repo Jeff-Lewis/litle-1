@@ -11,6 +11,19 @@ class FunctionalTestCase extends PHPUnit_Framework_TestCase {
 	protected static $is_certification_environment = false;
 
 	/**
+	 * Get Params for Transactions
+	 * 
+	 * @return [type] [description]
+	 */
+	protected function getParams() {
+		return [
+			'username' => 'PETFLOW',
+			'password' => '',
+			'merchent' => '120400'
+		];
+	}
+
+	/**
 	 * Get URL For Requests
 	 * 
 	 * @return [type] [description]

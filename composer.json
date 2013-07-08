@@ -16,6 +16,9 @@
     "require": {
         "nkrantz/litle-sdk-for-php" : "dev-master"
     },
+    "require-dev": {
+        "mockery/mockery": "dev-master@dev"
+    },
     "autoload": {
         "classmap": [
             "tests/UnitTestCase.php",

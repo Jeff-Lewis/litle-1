@@ -8,7 +8,7 @@ class SaleTransactionTest extends FunctionalTestCase {
 	 * @dataProvider transactionProvider
 	 */
 	public function testSaleTransaction($source, $expected_response) {
-		$response = (new SaleTransaction('PETFLOW', '', '120400', static::getCfg()))->make($source);
+		$response = (new SaleTransaction(static::getParams(), static::getCfg()))->make($source);
 
 		foreach ($expected_response as $clause) {
 

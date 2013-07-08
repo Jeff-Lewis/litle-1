@@ -1,6 +1,6 @@
 <?php namespace Petflow\Litle\ResponseCode;
 
-use Petflow\Litle\Exception;
+use Petflow\Litle\Exception\UnknownResponseCodeException as UnknownResponseCodeException;
 
 /**
  * Response Code
@@ -27,11 +27,13 @@ abstract class ResponseCode {
 	protected static $codes;
 
 	/**
-	 * Magic Get
+	 * Get a Code
 	 *
-	 * Anytime this class has an unidentified static method applied to
-	 * it we are going to assume that the caller is looking for a
-	 * response code.
+	 * When this function is called, it will look in the static $codes
+	 * array for the provided code. If it is found, it will be returned
+	 * and otherwise it will throw an exception.
+	 *
+	 * @throws UnknownResponseCode If the response code isn't found.
 	 * 
 	 * @param  integer $code The code being requested
 	 * @return array       	 An array containing details or an empty array if not found.
@@ -40,7 +42,7 @@ abstract class ResponseCode {
 		if (array_key_exists($code, static::$codes)) {
 			return static::$codes[$code];
 		} else {
-			throw new Exception\InvalidResponseCodeException('Unknown response code provided: '.$code);
+			throw new UnknownResponseCodeException('Unknown response code provided: '.$code);
 		}
 	}
 
