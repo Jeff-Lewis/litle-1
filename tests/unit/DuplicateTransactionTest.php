@@ -5,14 +5,7 @@ use Petflow\Litle\Transaction\SaleTransaction as SaleTransaction;
 /**
  * Test for Duplicate Transactions
  */
-class DuplicateTransactionTest extends FunctionalTestCase {
-
-	/**
-	 * Tear Down
-	 */
-	public function tearDown() {
-		Mockery::close();
-	}
+class DuplicateTransactionTest extends UnitTestCase {
 
 	/**
 	 * Testing for a Duplicate Sales Transaction

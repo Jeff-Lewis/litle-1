@@ -5,7 +5,7 @@ use Petflow\Litle\Transaction\SaleTransaction as SaleTransaction;
 /**
  * Test for Duplicate Transactions
  */
-class TransactionResponseTest extends FunctionalTestCase {
+class TransactionResponseTest extends UnitTestCase {
 
     /**
      * Testing for a Duplicate Sales Transaction
