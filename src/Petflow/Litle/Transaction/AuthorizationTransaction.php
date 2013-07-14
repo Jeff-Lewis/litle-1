@@ -1,24 +1,38 @@
 <?php namespace Petflow\Litle\Transaction;
 
+use Petflow\Litle\Exception;
 use Petflow\Litle\ResponseCode;
 
+/**
+ * Authoirzation Transaction
+ *
+ * @author Nate Krantz <nate@petflow.com>
+ * @copyright Petflow.com 2013
+ */
 class AuthorizationTransaction extends Transaction {
 
 	/**
 	 * Make an Authorization Transaction
 	 *
 	 * Perform an authorization request to litle to authorize the given
-	 * 
-	 * 
-	 * @param  [type] $params [description]
-	 * @return [type]         [description]
+	 * request. An authoirzation request will authorize the card and then
+	 * authorize the funds on the card being passed. It will NOT charge
+	 * the card and if anything goes awry the authorization transaction
+	 * must be reversed.
+	 *
+	 * Note: if you provide amount of '000' the reuest will be an 
+	 * AVS only request, only performing the AVS validation.
 	 */
 	public function make($params) {
 
-		// if (!isset($params['orderId'])) {
-		// 	throw new \Exception('Must')
-		// }
-		
+		// @todo add checks for customer info / card info
+
+		// making an authorization transaction requires an order id
+		// which is used to assoicate back to the merchants system
+		if (!isset($params['orderId'])) {
+			throw new Exception\MissingRequestParameterException('orderId');
+		}
+
 		return $this->respond(
 			$this->litle_sdk->authorizationRequest($params)
 		);
@@ -31,9 +45,6 @@ class AuthorizationTransaction extends Transaction {
 	 * response to be sent back to the client caller. The response is 
 	 * expected to have detailed information about the avs response, 
 	 * cv response, and transaction response when available.
-	 * 
-	 * @param  [type] $response [description]
-	 * @return [type]           [description]
 	 */
 	public function respond($response) {
 		$parsed = [
@@ -42,7 +53,6 @@ class AuthorizationTransaction extends Transaction {
 			'auth_code'				=> \XMLParser::getNode($response, 'authCode'),
 			'avs_result'			=> \XMLParser::getNode($response, 'avsResult'),
 			'cv_result'				=> \XMLParser::getNode($response, 'cardValidationResult'),
-
 			'litle_transaction_id'  => \XMLParser::getNode($response, 'litleTxnId'),
 			'response_time'			=> 
 				(new \DateTime(\XMLParser::getNode($response, 'responseTime')))

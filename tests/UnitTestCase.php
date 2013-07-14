@@ -15,21 +15,32 @@ class UnitTestCase extends PHPUnit_Framework_TestCase {
 	/**
 	 * Make Authoirzation XML Response
 	 */
-	public function makeAuthorizationXMLResponse($attributes, $nodes) {
-		return $this->makeXmlResponse(
-			'<authorizationResponse '.$this->buildXMLAttributes($attributes).' reportGroup="default">'.
-				$this->buildXMLNodes($nodes).
+	public static function makeAuthorizationXMLResponse($attributes, $nodes) {
+		return static::makeXmlResponse(
+			'<authorizationResponse '.static::buildXMLAttributes($attributes).' reportGroup="default">'.
+				static::buildXMLNodes($nodes).
 			'</authorizationResponse>'
+		);
+	}
+
+	/**
+	 * Make Auth Reversal Response
+	 */
+	public static function makeAuthReversalXMLResponse($attributes, $nodes) {
+		return static::makeXmlResponse(
+			'<authReversalResponse '.static::buildXMLAttributes($attributes).' reportGroup="default">'.
+				static::buildXMLNodes($nodes).
+			'</authReversalResponse>'
 		);
 	}
 
 	/**
 	 * Make Sale XML Response
 	 */
-	public function makeSaleXmlResponse($attributes, $nodes) {
-		return $this->makeXmlResponse(
-			'<saleResponse '.$this->buildXMLAttributes($attributes).' reportGroup="default">'.
-				$this->buildXMLNodes($nodes).
+	public static function makeSaleXmlResponse($attributes, $nodes) {
+		return static::makeXmlResponse(
+			'<saleResponse '.static::buildXMLAttributes($attributes).' reportGroup="default">'.
+				static::buildXMLNodes($nodes).
 			'</saleResponse>'
 		);
 	}
@@ -37,7 +48,7 @@ class UnitTestCase extends PHPUnit_Framework_TestCase {
 	/**
 	 * Make an XML Responses
 	 */
-	public function makeXmlResponse($content) {
+	public static function makeXmlResponse($content) {
 		$dom = new DOMDocument();
 		$dom->loadXML(
 			trim('
@@ -52,7 +63,7 @@ class UnitTestCase extends PHPUnit_Framework_TestCase {
 	/**
 	 * Build XML Attributes
 	 */
-	private function buildXMLAttributes($attributes) {
+	private static function buildXMLAttributes($attributes) {
 		$xml_attributes = '';
 
 		foreach ($attributes as $attribute => $value) {
@@ -65,7 +76,7 @@ class UnitTestCase extends PHPUnit_Framework_TestCase {
 	/**
 	 * Build XML Nodes
 	 */
-	private function buildXMLNodes($nodes) {
+	private static function buildXMLNodes($nodes) {
 		$xml_nodes = '';
 
 		foreach ($nodes as $node => $value) {

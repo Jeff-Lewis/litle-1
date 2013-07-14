@@ -11,11 +11,11 @@ class AuthTransactionTest extends UnitTestCase {
 	 * Make a Successful Auth Transaction
 	 */
 	public function testMakeSuccessfulAuthTransaction() {
-		$transaction = $this->authTransactions()['01-approved'];
+		$transaction = static::transactions()['01-approved'];
 		$litle = Mockery::mock('LitleOnlineRequest')
 			->shouldReceive('authorizationRequest')
 			->andReturn($transaction['response'])
-			->getMock();
+			->mock();
 
 		$response = (new AuthTransaction([], [], $litle))->make($transaction['request']);
 
@@ -27,7 +27,7 @@ class AuthTransactionTest extends UnitTestCase {
 	/**
 	 * Auth Transaction Data
 	 */
-	public function authTransactions() {
+	private static function transactions() {
 		return [
 			'01-approved' => [
 				'request'  => [
@@ -49,7 +49,7 @@ class AuthTransactionTest extends UnitTestCase {
 						'type' 					=> 'VI'
 					]
 				],
-				'response' => $this->makeAuthorizationXMLResponse(
+				'response' => static::makeAuthorizationXMLResponse(
 					[],
 					[
 						'response' => '000',
