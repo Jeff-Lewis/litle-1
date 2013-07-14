@@ -40,7 +40,7 @@ abstract class Transaction {
 	/**
 	 * @var \LitleOnlineRequest LitleOnlineRequest object for making transactions
 	 */
-	protected $transaction;
+	protected $litle;
 
 	/**
 	 * Construct
@@ -85,9 +85,9 @@ abstract class Transaction {
 
 		// litle dependency injection
 		if (is_null($litle_online_request)) {
-			$this->transaction = new \LitleOnlineRequest(static::$config);
+			$this->litle_sdk = new \LitleOnlineRequest(static::$config);
 		} else {
-			$this->transaction = $litle_online_request;
+			$this->litle_sdk = $litle_online_request;
 		}
 	}
 

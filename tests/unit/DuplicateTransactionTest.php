@@ -5,14 +5,7 @@ use Petflow\Litle\Transaction\SaleTransaction as SaleTransaction;
 /**
  * Test for Duplicate Transactions
  */
-class DuplicateTransactionTest extends FunctionalTestCase {
-
-	/**
-	 * Tear Down
-	 */
-	public function tearDown() {
-		Mockery::close();
-	}
+class DuplicateTransactionTest extends UnitTestCase {
 
 	/**
 	 * Testing for a Duplicate Sales Transaction
@@ -63,23 +56,20 @@ class DuplicateTransactionTest extends FunctionalTestCase {
 	 * XML Response for Duplicate Transaction
 	 */
 	private function duplicateResponseXML() {
-		$dom = new DOMDocument();
-		$dom->loadXML(
-			trim('
-				<litleOnlineResponse version="8.15" xmlns="http://www.litle.com/schema" response="0" message="Valid Format">
-					<saleResponse id="foo" duplicate="true" reportGroup="default">
-						<litleTxnId>foo</litleTxnId>
-						<orderId>foo</orderId>
-						<response>000</response>
-						<responseTime></responseTime>
-						<postDate></postDate>
-						<message></message>
-						<authCode></authCode>
-					</saleResponse>
-				</litleOnlineResponse>
-			')
+		return $this->makeSaleXMLResponse(
+			[
+				'duplicate' => 'true', 
+				'id' => 'foo'
+			],	
+			[
+				'litleTxnId' => 'foo',
+				'orderId' => 'foo',
+				'response' => '000',
+				'responseTime' => '',
+				'message' => '',
+				'authCode' => ''
+			]
 		);
-		return $dom;
 	}
 
 }
