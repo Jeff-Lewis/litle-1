@@ -9,7 +9,7 @@ use Petflow\Litle\ResponseCode;
  * @author Nate Krantz <nate@petflow.com>
  * @copyright Petflow.com 2013
  */
-class AuthReversalTransaction extends Transaction {
+class AuthReversalTransaction extends TransactionRequest {
 
 	/**
 	 * Make an Authoirzation Reversal Transaction

@@ -9,7 +9,7 @@ use Petflow\Litle\Exception;
  * @author Nate Krantz <nkrantz@petflow.com>
  * @copyright Petflow.com 2013
  */
-class CaptureTransaction extends Transaction {
+class CaptureTransaction extends TransactionRequest {
 
 	/**
 	 * Make a Capture Transaction

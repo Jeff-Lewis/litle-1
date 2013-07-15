@@ -9,7 +9,7 @@ use Petflow\Litle\ResponseCode;
  * @author Nate Krantz <nate@petflow.com>
  * @copyright Petflow.com 2013
  */
-class AuthorizationTransaction extends Transaction {
+class AuthorizationTransaction extends TransactionRequest {
 
 	/**
 	 * Make an Authorization Transaction

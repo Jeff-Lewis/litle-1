@@ -9,7 +9,7 @@
  * @author Nate Krantz <nkrantz@petflow.com>
  * @copyright Petflow 2013
  */
-abstract class Transaction {
+abstract class TransactionRequest {
 
 	/**
 	 * The URL is where the service makes the request, by default, we use the sandbox.

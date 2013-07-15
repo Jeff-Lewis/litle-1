@@ -19,7 +19,7 @@ use Petflow\Litle\Exception;
  * @author Nate Krantz <nate@petflow.com>
  * @copyright Petflow 2013
  */
-class SaleTransaction extends Transaction {	
+class SaleTransaction extends TransactionRequest {	
 
 	/**
 	 * Perform a Sale Transaction
