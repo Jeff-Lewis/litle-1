@@ -11,16 +11,32 @@ class FunctionalTestCase extends PHPUnit_Framework_TestCase {
 	protected static $is_certification_environment = false;
 
 	/**
+	 * @var Array The parameters for connecting to Litle.
+	 */
+	protected static $params;
+
+	/**
+	 * SetUp for Tests
+	 */
+	public function setUp() {
+		parent::setUp();
+
+
+		if (!file_exists(__DIR__.'/config.json')) {
+			die('Must provide config.json in the tests/ directory');
+		} else {
+			$file = file_get_contents(__DIR__.'/config.json');
+			static::$params = json_decode($file, true);
+		}
+	}
+
+	/**
 	 * Get Params for Transactions
 	 * 
 	 * @return [type] [description]
 	 */
 	protected static function getParams() {
-		return [
-			'username' => 'PETFLOW',
-			'password' => '',
-			'merchant' => '120400'
-		];
+		return static::$params;
 	}
 
 	/**
@@ -29,9 +45,9 @@ class FunctionalTestCase extends PHPUnit_Framework_TestCase {
 	 * @return [type] [description]
 	 */
 	protected static function getCfg() {
-		if (static::$is_certification_environment)  {
+		if (static::$is_certification_environment && isset($params['certification_url']))  {
 			return [
-				'url' => 'place certification url here'
+				'url' => $params['certification_url']
 			];
 		}
 

@@ -5,12 +5,13 @@
  */
 class UnitTestCase extends PHPUnit_Framework_TestCase {
 
-	/**
-	 * Tear Down
-	 */
-	public function tearDown() {
-		Mockery::close();
-	}
+    /**
+     * Tear Down
+     */
+    public function tearDown() {
+        parent::tearDown();
+        Mockery::close();
+    }
 
 	/**
 	 * Make Authoirzation Response
@@ -96,4 +97,5 @@ class UnitTestCase extends PHPUnit_Framework_TestCase {
 
 		return $xml_nodes;
 	}	
+	    
 }

@@ -8,22 +8,20 @@ use Petflow\Litle\Transaction\SaleTransaction as SaleTransaction;
 class DuplicateTransactionTest extends UnitTestCase {
 
 	/**
-	 * Testing for a Duplicate Sales Transaction
+	 * Testing for a Duplicate Sales Transaction (with try/catch)
 	 */
-	public function testDuplicateSalesTransaction() {
-		$litle = Mockery::mock('LitleOnlineRequest')
+	public function testDuplicateSalesTransactionFlags() {
+			$litle = Mockery::mock('LitleOnlineRequest')
 			->shouldReceive('saleRequest')
 			->andReturn($this->duplicateResponseXML())
 			->getMock();
 
 		try {
 			$response = (new SaleTransaction([], [], $litle))->make($this->duplicateTransactionRequest());
-
-		} catch (Petflow\Litle\Exception\DuplicateTransactionException $e) {
-			$response_data = $e->getResponseData();
-
-			$this->assertArrayHasKey('litle_transaction_id', $response_data);
-			$this->assertEquals('foo', $response_data['litle_transaction_id']);
+			
+		} catch (\Petflow\Litle\Exception\DuplicateTransactionException $e) {
+			$this->assertInstanceOf('Petflow\Litle\Transaction\TransactionResponse', $e->getResponse());
+			$this->assertTrue($e->getResponse()->isDuplicate());	
 		}
 	}
 

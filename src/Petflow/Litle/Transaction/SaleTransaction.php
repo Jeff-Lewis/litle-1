@@ -1,10 +1,5 @@
 <?php namespace Petflow\Litle\Transaction;
 
-use Petflow\Litle\ResponseCode\TransactionResponseCode as TransactionResponseCode;
-
-use Petflow\Litle\Exception\DuplicateTransactionException as DuplicateTransactionException;
-use Petflow\Litle\Exception\UnknownResponseCodeException as UnknownResponseCodeException;
-
 /**
  * Perform a Sale Transaction
  *
@@ -75,14 +70,6 @@ class SaleTransaction extends Transaction {
 		} catch (UnknownResponseCodeException $e) {
 			$parsed['detailed_response'] = $e->getMessage();
 		}
-
-		// @todo this could be in the parent class, since each transaction type
-		// can have this attribute.
-		if ($parsed['duplicate']) {
-			throw new DuplicateTransactionException($parsed);
-		}
-			
-		return $parsed;
 	}
 
 }
