@@ -13,7 +13,7 @@ class UnitTestCase extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Make Authoirzation XML Response
+	 * Make Authoirzation Response
 	 */
 	public static function makeAuthorizationXMLResponse($attributes, $nodes) {
 		return static::makeXmlResponse(
@@ -31,6 +31,17 @@ class UnitTestCase extends PHPUnit_Framework_TestCase {
 			'<authReversalResponse '.static::buildXMLAttributes($attributes).' reportGroup="default">'.
 				static::buildXMLNodes($nodes).
 			'</authReversalResponse>'
+		);
+	}
+
+	/**
+	 * Make Capture Response
+	 */
+	public static function makeCaptureXMLResponse($attributes, $nodes) {
+		return static::makeXmlResponse(
+			'<captureResponse '.static::buildXMLAttributes($attributes).' reportGroup="default">'.
+				static::buildXMLNodes($nodes).
+			'</captureResponse>'
 		);
 	}
 
