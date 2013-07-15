@@ -1,5 +1,8 @@
 <?php namespace Petflow\Litle\Transaction;
 
+use Petflow\Litle\ResponseCode;
+use Petflow\Litle\Exception;
+
 /**
  * Perform a Sale Transaction
  *
@@ -65,7 +68,7 @@ class SaleTransaction extends Transaction {
 		// make the detailed response pulling in additional information from
 		// the transaction respones code.
 		try {
-			$parsed['detailed_response'] = TransactionResponseCode::code($parsed['response']);
+			$parsed['detailed_response'] = ResponseCode\TransactionResponseCode::code($parsed['response']);
 
 		} catch (UnknownResponseCodeException $e) {
 			$parsed['detailed_response'] = $e->getMessage();
