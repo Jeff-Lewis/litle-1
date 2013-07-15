@@ -34,7 +34,10 @@ abstract class ResponseCode {
 	 */
 	public static function code($code) {
 		if (array_key_exists($code, static::$codes)) {
-			return static::$codes[$code];
+			return array_merge(
+				['code' => $code],
+				static::$codes[$code]
+			);
 		} else {
 			throw new UnknownResponseCodeException('Unknown response code provided: '.$code);
 		}

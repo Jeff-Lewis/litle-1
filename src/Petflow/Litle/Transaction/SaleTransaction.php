@@ -36,7 +36,7 @@ class SaleTransaction extends Transaction {
 	 */
 	public function make($params) {
 		return $this->respond(
-			$this->transaction->saleRequest($params)
+			$this->litle_sdk->saleRequest($params)
 		);
 	}
 
@@ -67,13 +67,14 @@ class SaleTransaction extends Transaction {
 					->format('Y-m-d H:i:s'),
 		];
 
+		// make the detailed response pulling in additional information from
+		// the transaction respones code.
 		try {
 			$parsed['detailed_response'] = TransactionResponseCode::code($parsed['response']);
 
 		} catch (UnknownResponseCodeException $e) {
 			$parsed['detailed_response'] = $e->getMessage();
 		}
-		 
 
 		// @todo this could be in the parent class, since each transaction type
 		// can have this attribute.
