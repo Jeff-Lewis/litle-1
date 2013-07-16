@@ -1,4 +1,4 @@
-<?php namespace Petflow\Litle\Transaction;
+<?php namespace Petflow\Litle\Transaction\Request;
 
 /**
  * Transaction Interface

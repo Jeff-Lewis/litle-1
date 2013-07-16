@@ -1,4 +1,4 @@
-<?php namespace Petflow\Litle\Transaction;
+<?php namespace Petflow\Litle\Transaction\Response;
 
 use Petflow\Litle\ResponseCode\TransactionResponseCode as TransactionResponseCode;
 use Petflow\Litle\Exception\DuplicateTransactionException as DuplicateTransactionException;
@@ -8,7 +8,7 @@ use Petflow\Litle\Exception\DuplicateTransactionException as DuplicateTransactio
  *
  * @author Nate Krantz <nate@petflow.com>
  */
-class TransactionResponse {
+abstract class TransactionResponse {
 
     protected $order_id;
     protected $code;
@@ -29,17 +29,9 @@ class TransactionResponse {
     public function __construct($raw_response_data) {
         $this->setCode(\XMLParser::getNode($raw_response_data, 'response'));
 
-        $this->order_id = \XMLParser::getNode($raw_response_data, 'orderId');
-        $this->time = (new \DateTime(\XMLParser::getNode($raw_response_data, 'responseTime')))->format('Y-m-d H:i:s');
-        $this->auth_code = \XMLParser::getNode($raw_response_data, 'authCode');
+        $this->order_id     = \XMLParser::getNode($raw_response_data, 'orderId');
         $this->litle_txn_id = \XMLParser::getNode($raw_response_data, 'litleTxnId');
-
-        $this->is_duplicate = (bool) \XMLParser::getAttribute($raw_response_data, 'saleResponse', 'duplicate');
-
-        // Duplicate response!
-        if ($this->is_duplicate) {
-            throw new DuplicateTransactionException($this, $raw_response_data);
-        }
+        $this->time         = (new \DateTime(\XMLParser::getNode($raw_response_data, 'responseTime')))->format('Y-m-d H:i:s');
     }
 
     /**
@@ -65,10 +57,6 @@ class TransactionResponse {
         return $this->code;
     }
 
-    public function getAuthCode() {
-        return $this->auth_code;
-    }
-
     public function getOrderId() {
         return $this->order_id;
     }
@@ -85,12 +73,8 @@ class TransactionResponse {
         return $this->litle_txn_id;
     }
 
-    public function isDuplicate() {
-        return $this->is_duplicate;
-    }
-
     public function isApproved() {
-        return $this->code === '000';
+        return $this->code === '000' && $this->details['type'] === 'approved';
     }
 
     /**
@@ -124,23 +108,5 @@ class TransactionResponse {
         }
 
         return $this->data[$key];
-    }
-
-    /**
-     * String Representation
-     */
-    public function __toString() {
-        $details = $this->getDetails();
-
-        if (isset($details['description'])) {
-            $details = $details['description'];
-        }
-
-        return 'Litle sale transaction information: Request ID is '
-            . $this->getOrderId() . ', PNREF is '
-            . $this->getLitleTxnId . ', Authorization code is  '
-            . $this->getAuthCode() . ', Result code is '
-            . $this->getCode() . ', Result Msg is "'
-            . $details.'"';
     }
 }

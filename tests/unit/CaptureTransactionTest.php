@@ -1,6 +1,6 @@
 <?php
 
-use Petflow\Litle\Transaction\CaptureTransaction as CaptureTransaction;
+use Petflow\Litle\Transaction\Request\CaptureRequest;
 
 /**
  * Test Capture Transaction
@@ -12,17 +12,25 @@ class CaptureTransactionTest extends UnitTestCase {
 	 */
 	public function testApprovedCaptureTransaction () {
 		$transaction = static::transactions()['01-approved'];
+		$litle       = static::mockLitleRequest('captureTransaction', $transaction['response']);
 
-		$litleOnlineRequest = Mockery::mock('litleOnlineRequest')
-			->shouldReceive('captureTransaction')
-			->once()
-			->andReturn($transaction['response'])
-			->mock();
+		$result = (new CaptureRequest([], [], $litle))->make($transaction['request']);
 
-		$result = (new CaptureTransaction([], [], $litleOnlineRequest))->make($transaction['request']);
+		$this->assertEquals('323462', $result->getLitleTxnId());
+		$this->assertTrue($result->isApproved());
+	}
 
-		$this->assertEquals('323462', $result['litle_transaction_id']);
-		$this->assertEquals('approved', $result['transaction_response']['type']);
+	/**
+	 * Failed Capture Transaction
+	 */
+	public function testFailedCaptureTransaction() {
+		$transaction = static::transactions()['02-failed'];
+		$litle       = static::mockLitleRequest('captureTransaction', $transaction['response']);
+
+		$result = (new CaptureRequest([], [], $litle))->make($transaction['request']);
+
+		$this->assertEquals('323462', $result->getLitleTxnId());
+		$this->assertFalse($result->isApproved());
 	}
 
 	/**
@@ -31,7 +39,10 @@ class CaptureTransactionTest extends UnitTestCase {
 	 * @expectedException Petflow\Litle\Exception\MissingRequestParameterException
 	 */
 	public function testFailedCaptureTransactionMissingTxnId() {
-		$result = (new CaptureTransaction([], [], Mockery::mock('litleOnlineRequest')))->make([]);
+		$transaction = static::transactions()['03-missing-txnid'];
+		$litle       = static::mockLitleRequest('captureTransaction', $transaction['response']);
+
+		$result = (new CaptureRequest([], [], $litle))->make($transaction['request']);
 	}
 
 	/**
@@ -49,6 +60,22 @@ class CaptureTransactionTest extends UnitTestCase {
 					'response' => '000',
 					'message' => 'Approved'
 				])
+			],
+			'02-failed' => [
+				'request'  => [
+					'litleTxnId' => '323462'
+				],
+				'response' => static::makeCaptureXMLResponse([], [
+					'litleTxnId'   => '323462',
+					'response'     => '305',
+					'message' 	   => 'Expired Card',
+					'responseTime' => '2013-07-01T11:37:04',
+					'postDate' 	   => null
+				])
+			],
+			'03-missing-txnid' => [
+				'request'  => [],
+				'response' => static::makeCaptureXMLResponse([], [])
 			]
 		];
 	}

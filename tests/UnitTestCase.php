@@ -13,10 +13,20 @@ class UnitTestCase extends PHPUnit_Framework_TestCase {
         Mockery::close();
     }
 
+    /**
+     * Mock a Transaction
+     */
+    protected static function mockLitleRequest($function, $response) {
+    	return Mockery::mock('LitleOnlineRequest')
+			->shouldReceive($function)
+			->andReturn($response)
+			->mock();
+    }
+
 	/**
 	 * Make Authoirzation Response
 	 */
-	public static function makeAuthorizationXMLResponse($attributes, $nodes) {
+	protected static function makeAuthorizationXMLResponse($attributes, $nodes) {
 		return static::makeXmlResponse(
 			'<authorizationResponse '.static::buildXMLAttributes($attributes).' reportGroup="default">'.
 				static::buildXMLNodes($nodes).
@@ -27,7 +37,7 @@ class UnitTestCase extends PHPUnit_Framework_TestCase {
 	/**
 	 * Make Auth Reversal Response
 	 */
-	public static function makeAuthReversalXMLResponse($attributes, $nodes) {
+	protected static function makeAuthReversalXMLResponse($attributes, $nodes) {
 		return static::makeXmlResponse(
 			'<authReversalResponse '.static::buildXMLAttributes($attributes).' reportGroup="default">'.
 				static::buildXMLNodes($nodes).
@@ -38,7 +48,7 @@ class UnitTestCase extends PHPUnit_Framework_TestCase {
 	/**
 	 * Make Capture Response
 	 */
-	public static function makeCaptureXMLResponse($attributes, $nodes) {
+	protected static function makeCaptureXMLResponse($attributes, $nodes) {
 		return static::makeXmlResponse(
 			'<captureResponse '.static::buildXMLAttributes($attributes).' reportGroup="default">'.
 				static::buildXMLNodes($nodes).
@@ -49,7 +59,7 @@ class UnitTestCase extends PHPUnit_Framework_TestCase {
 	/**
 	 * Make Sale XML Response
 	 */
-	public static function makeSaleXmlResponse($attributes, $nodes) {
+	protected static function makeSaleXmlResponse($attributes, $nodes) {
 		return static::makeXmlResponse(
 			'<saleResponse '.static::buildXMLAttributes($attributes).' reportGroup="default">'.
 				static::buildXMLNodes($nodes).
@@ -60,7 +70,7 @@ class UnitTestCase extends PHPUnit_Framework_TestCase {
 	/**
 	 * Make an XML Responses
 	 */
-	public static function makeXmlResponse($content) {
+	protected static function makeXmlResponse($content) {
 		$dom = new DOMDocument();
 		$dom->loadXML(
 			trim('

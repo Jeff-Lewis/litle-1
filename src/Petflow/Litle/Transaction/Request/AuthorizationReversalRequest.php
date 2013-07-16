@@ -1,7 +1,8 @@
-<?php namespace Petflow\Litle\Transaction;
+<?php namespace Petflow\Litle\Transaction\Request;
 
 use Petflow\Litle\Exception;
 use Petflow\Litle\ResponseCode;
+use Petflow\Litle\Transaction\Response;
 
 /**
  * Auth Reversal Transaction
@@ -9,7 +10,7 @@ use Petflow\Litle\ResponseCode;
  * @author Nate Krantz <nate@petflow.com>
  * @copyright Petflow.com 2013
  */
-class AuthReversalTransaction extends TransactionRequest {
+class AuthorizationReversalRequest extends TransactionRequest {
 
 	/**
 	 * Make an Authoirzation Reversal Transaction
@@ -60,27 +61,8 @@ class AuthReversalTransaction extends TransactionRequest {
 	 * by using the TransactionResponseCode with the provided
 	 * response.
 	 */
-	public function respond($response) {
-		$parsed = [
-			'response' 				=> \XMLParser::getNode($response, 'response'),
-			'message' 				=> \XMLParser::getNode($response, 'message'),
-			'litle_transaction_id'  => \XMLParser::getNode($response, 'litleTxnId'),
-			'order_id'				=> \XMLParser::getNode($response, 'orderId'),
-			'response_time'			=> 
-				(new \DateTime(\XMLParser::getNode($response, 'responseTime')))
-					->format('Y-m-d H:i:s'),
-		];
-
-		// make the detailed response pulling in additional information from
-		// the transaction respones code.
-		try {
-			$parsed['transaction_response'] = ResponseCode\TransactionResponseCode::code($parsed['response']);
-
-		} catch (UnknownResponseCodeException $e) {
-			$parsed['transaction_response'] = $e->getMessage();
-		}
-
-		return $parsed;
+	public function respond($raw_response) {
+		return new Response\AuthorizationReversalResponse($raw_response);
 	}
 
 }
