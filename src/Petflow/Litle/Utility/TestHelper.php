@@ -5,8 +5,8 @@ class TestHelper {
     /**
      * Mock a Transaction
      */
-    protected static function mockLitleRequest($function, $response) {
-        return Mockery::mock('LitleOnlineRequest')
+    public static function mockLitleRequest($function, $response) {
+        return \Mockery::mock('LitleOnlineRequest')
             ->shouldReceive($function)
             ->andReturn($response)
             ->mock();
@@ -15,7 +15,7 @@ class TestHelper {
     /**
      * Make Authoirzation Response
      */
-    protected static function makeAuthorizationXMLResponse($attributes, $nodes) {
+    public static function makeAuthorizationXMLResponse($attributes, $nodes) {
         return static::makeXmlResponse(
             '<authorizationResponse '.static::buildXMLAttributes($attributes).' reportGroup="default">'.
                 static::buildXMLNodes($nodes).
@@ -26,7 +26,7 @@ class TestHelper {
     /**
      * Make Auth Reversal Response
      */
-    protected static function makeAuthReversalXMLResponse($attributes, $nodes) {
+    public static function makeAuthReversalXMLResponse($attributes, $nodes) {
         return static::makeXmlResponse(
             '<authReversalResponse '.static::buildXMLAttributes($attributes).' reportGroup="default">'.
                 static::buildXMLNodes($nodes).
@@ -37,7 +37,7 @@ class TestHelper {
     /**
      * Make Capture Response
      */
-    protected static function makeCaptureXMLResponse($attributes, $nodes) {
+    public static function makeCaptureXMLResponse($attributes, $nodes) {
         return static::makeXmlResponse(
             '<captureResponse '.static::buildXMLAttributes($attributes).' reportGroup="default">'.
                 static::buildXMLNodes($nodes).
@@ -48,7 +48,7 @@ class TestHelper {
     /**
      * Make Sale XML Response
      */
-    protected static function makeSaleXmlResponse($attributes, $nodes) {
+    public static function makeSaleXmlResponse($attributes, $nodes) {
         return static::makeXmlResponse(
             '<saleResponse '.static::buildXMLAttributes($attributes).' reportGroup="default">'.
                 static::buildXMLNodes($nodes).
@@ -59,8 +59,8 @@ class TestHelper {
     /**
      * Make an XML Responses
      */
-    protected static function makeXmlResponse($content) {
-        $dom = new DOMDocument();
+    public static function makeXmlResponse($content) {
+        $dom = new \DOMDocument();
         $dom->loadXML(
             trim('
                 <litleOnlineResponse version="8.15" xmlns="http://www.litle.com/schema" response="0" message="Valid Format">

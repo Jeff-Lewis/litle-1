@@ -1,6 +1,7 @@
 <?php
 
 use Petflow\Litle\Transaction\Request\AuthorizationRequest;
+use Petflow\Litle\Utility\TestHelper;
 
 /**
  * Authorization Transaction Test
@@ -12,7 +13,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 	 */
 	public function testMakeApprovedAuthTransaction() {
 		$transaction = static::transactions()['01-approved'];
-		$litle 		 = static::mockLitleRequest('authorizationRequest', $transaction['response']);
+		$litle 		 = TestHelper::mockLitleRequest('authorizationRequest', $transaction['response']);
 
 		$response = (new AuthorizationRequest([], [], $litle))->make($transaction['request']);
 
@@ -26,7 +27,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 	 */
 	public function testMakeApprovedAuthTransactionAVSFailure() {
 		$transaction = static::transactions()['02-avs_failure'];
-		$litle 		 = static::mockLitleRequest('authorizationRequest', $transaction['response']);
+		$litle 		 = TestHelper::mockLitleRequest('authorizationRequest', $transaction['response']);
 
 		$response = (new AuthorizationRequest([], [], $litle))->make($transaction['request']);
 
@@ -40,7 +41,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 	 */
 	public function testMakeFailedAuthTransaction() {
 		$transaction = static::transactions()['03-failed'];
-		$litle 		 = static::mockLitleRequest('authorizationRequest', $transaction['response']);
+		$litle 		 = TestHelper::mockLitleRequest('authorizationRequest', $transaction['response']);
 
 		$response = (new AuthorizationRequest([], [], $litle))->make($transaction['request']);
 
@@ -54,7 +55,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 	 */
 	public function testFailedAuthTransactionMissingOrderId() {
 		$transaction = static::transactions()['04-missing-order-id'];
-		$litle 		 = static::mockLitleRequest('authorizationRequest', $transaction['response']);
+		$litle 		 = TestHelper::mockLitleRequest('authorizationRequest', $transaction['response']);
 
 		$response = (new AuthorizationRequest([], [], $litle))->make($transaction['request']);
 	}
@@ -66,7 +67,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 	 */
 	public function testFailedAuthTransactionMissingCardNumber() {
 		$transaction = static::transactions()['05-missing-card-number'];
-		$litle 		 = static::mockLitleRequest('authorizationRequest', $transaction['response']);
+		$litle 		 = TestHelper::mockLitleRequest('authorizationRequest', $transaction['response']);
 
 		$response = (new AuthorizationRequest([], [], $litle))->make($transaction['request']);
 	}
@@ -78,7 +79,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 	 */
 	public function testFailedAuthTransactionMissingZipCode() {
 		$transaction = static::transactions()['06-missing-address-zip'];
-		$litle 		 = static::mockLitleRequest('authorizationRequest', $transaction['response']);
+		$litle 		 = TestHelper::mockLitleRequest('authorizationRequest', $transaction['response']);
 
 		$response = (new AuthorizationRequest([], [], $litle))->make($transaction['request']);
 	}
@@ -108,7 +109,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 						'type' 					=> 'VI'
 					]
 				],
-				'response' => static::makeAuthorizationXMLResponse(
+				'response' => TestHelper::makeAuthorizationXMLResponse(
 					[],
 					[
 						'response' => '000',
@@ -139,7 +140,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 						'type' 					=> 'VI'
 					]
 				],
-				'response' => static::makeAuthorizationXMLResponse(
+				'response' => TestHelper::makeAuthorizationXMLResponse(
 					[],
 					[
 						'response' => '000',
@@ -170,7 +171,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 						'type' 					=> 'VI'
 					]
 				],
-				'response' => static::makeAuthorizationXMLResponse(
+				'response' => TestHelper::makeAuthorizationXMLResponse(
 					[],
 					[
 						'response' => '301',

@@ -1,6 +1,7 @@
 <?php
 
 use Petflow\Litle\Transaction\Request\CaptureRequest;
+use Petflow\Litle\Utility\TestHelper;
 
 /**
  * Test Capture Transaction
@@ -12,7 +13,7 @@ class CaptureTransactionTest extends UnitTestCase {
 	 */
 	public function testApprovedCaptureTransaction () {
 		$transaction = static::transactions()['01-approved'];
-		$litle       = static::mockLitleRequest('captureTransaction', $transaction['response']);
+		$litle       = TestHelper::mockLitleRequest('captureTransaction', $transaction['response']);
 
 		$result = (new CaptureRequest([], [], $litle))->make($transaction['request']);
 
@@ -25,7 +26,7 @@ class CaptureTransactionTest extends UnitTestCase {
 	 */
 	public function testFailedCaptureTransaction() {
 		$transaction = static::transactions()['02-failed'];
-		$litle       = static::mockLitleRequest('captureTransaction', $transaction['response']);
+		$litle       = TestHelper::mockLitleRequest('captureTransaction', $transaction['response']);
 
 		$result = (new CaptureRequest([], [], $litle))->make($transaction['request']);
 
@@ -40,7 +41,7 @@ class CaptureTransactionTest extends UnitTestCase {
 	 */
 	public function testFailedCaptureTransactionMissingTxnId() {
 		$transaction = static::transactions()['03-missing-txnid'];
-		$litle       = static::mockLitleRequest('captureTransaction', $transaction['response']);
+		$litle       = TestHelper::mockLitleRequest('captureTransaction', $transaction['response']);
 
 		$result = (new CaptureRequest([], [], $litle))->make($transaction['request']);
 	}
@@ -54,7 +55,7 @@ class CaptureTransactionTest extends UnitTestCase {
 				'request'  => [
 					'litleTxnId' => '323462'
 				],
-				'response' => static::makeCaptureXMLResponse([], [
+				'response' => TestHelper::makeCaptureXMLResponse([], [
 					'litleTxnId' => '323462',
 					'orderId' => '10110',
 					'response' => '000',
@@ -65,7 +66,7 @@ class CaptureTransactionTest extends UnitTestCase {
 				'request'  => [
 					'litleTxnId' => '323462'
 				],
-				'response' => static::makeCaptureXMLResponse([], [
+				'response' => TestHelper::makeCaptureXMLResponse([], [
 					'litleTxnId'   => '323462',
 					'response'     => '305',
 					'message' 	   => 'Expired Card',
@@ -75,7 +76,7 @@ class CaptureTransactionTest extends UnitTestCase {
 			],
 			'03-missing-txnid' => [
 				'request'  => [],
-				'response' => static::makeCaptureXMLResponse([], [])
+				'response' => TestHelper::makeCaptureXMLResponse([], [])
 			]
 		];
 	}

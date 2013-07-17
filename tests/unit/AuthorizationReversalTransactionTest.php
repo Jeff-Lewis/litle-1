@@ -2,6 +2,7 @@
 
 use Petflow\Litle\Transaction\Request\AuthorizationReversalRequest;
 use Petflow\Litle\Exception;
+use Petflow\Litle\Utility\TestHelper;
 
 /**
  * Testing Auth Reversal Transactions
@@ -13,7 +14,7 @@ class AuthorizationReversalTransactionTest extends UnitTestCase {
 	 */
 	public function testSuccessfulAuthReversal() {
 		$transaction = static::transactions()['01-approved'];
-		$litle       = static::mockLitleRequest('authReversalRequest', $transaction['response']);
+		$litle       = TestHelper::mockLitleRequest('authReversalRequest', $transaction['response']);
 
 		$result = (new AuthorizationReversalRequest([], [], $litle))->make($transaction['request']);
 
@@ -29,7 +30,7 @@ class AuthorizationReversalTransactionTest extends UnitTestCase {
 	 */
 	public function testFailedAuthReversalMissingTxnId() {
 		$transaction = static::transactions()['02-missing-txnid'];
-		$litle       = static::mockLitleRequest('authReversalRequest', $transaction['response']);
+		$litle       = TestHelper::mockLitleRequest('authReversalRequest', $transaction['response']);
 
 		$result = (new AuthorizationReversalRequest([], [], $litle))->make($transaction['request']);
 	}
@@ -41,7 +42,7 @@ class AuthorizationReversalTransactionTest extends UnitTestCase {
 	 */
 	public function testFailedAuthReversalMissingOrderId() {
 		$transaction = static::transactions()['03-missing-orderid'];
-		$litle       = static::mockLitleRequest('authReversalRequest', $transaction['response']);
+		$litle       = TestHelper::mockLitleRequest('authReversalRequest', $transaction['response']);
 
 		$result = (new AuthorizationReversalRequest([], [], $litle))->make($transaction['request']);
 	}
@@ -56,7 +57,7 @@ class AuthorizationReversalTransactionTest extends UnitTestCase {
 					'txnId' => 472743,
 					'orderId' => 10010
 				],
-				'response' => static::makeAuthReversalXMLResponse([], [
+				'response' => TestHelper::makeAuthReversalXMLResponse([], [
 					'litleTxnId' => '472743',
 					'orderId' => '10010',
 					'response' => '000',
