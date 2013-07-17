@@ -29,8 +29,8 @@ class AuthorizationReversalRequest extends TransactionRequest {
 
 		// there must be a transaction id provided in the request
 		// so that we can make the reversal
-		if (!isset($params['txnId'])) {
-			throw new Exception\MissingRequestParameterException('txnId');
+		if (!isset($params['litleTxnId'])) {
+			throw new Exception\MissingRequestParameterException('litleTxnId');
 		}
 
 		// there must be an order id, which we use to tie the

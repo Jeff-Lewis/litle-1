@@ -54,7 +54,7 @@ class AuthorizationReversalTransactionTest extends UnitTestCase {
 		return [
 			'01-approved' => [
 				'request' => [
-					'txnId' => 472743,
+					'litleTxnId' => 472743,
 					'orderId' => 10010
 				],
 				'response' => TestHelper::makeAuthReversalXMLResponse([], [
@@ -72,7 +72,7 @@ class AuthorizationReversalTransactionTest extends UnitTestCase {
  			],
  			'03-missing-orderid' => [
  				'request' => [
- 					'txnId' => 43532
+ 					'litleTxnId' => 43532
  				],
  				'response' => []
  			]
