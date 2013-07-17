@@ -1,7 +1,7 @@
 <?php namespace Petflow\Litle\Transaction\Response;
 
-use \Petflow\Litle\ResponseCode;
-use \Petflow\Litle\Exception;
+use Petflow\Litle\ResponseCode;
+use Petflow\Litle\Exception;
 
 /**
  * Authorization Response
