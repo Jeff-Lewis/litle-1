@@ -18,7 +18,8 @@ abstract class TransactionResponse {
     protected $is_duplicate = false;
 
     protected $data;
-    
+    protected $debug;
+
     /**
      * Create a Response
      *
@@ -32,6 +33,8 @@ abstract class TransactionResponse {
         $this->order_id     = \XMLParser::getNode($raw_response_data, 'orderId');
         $this->litle_txn_id = \XMLParser::getNode($raw_response_data, 'litleTxnId');
         $this->time         = (new \DateTime(\XMLParser::getNode($raw_response_data, 'responseTime')))->format('Y-m-d H:i:s');
+
+        $this->debug = $raw_response_data;
     }
 
     /**
@@ -70,6 +73,10 @@ abstract class TransactionResponse {
 
     public function isApproved() {
         return $this->code === '000' && $this->details['type'] === 'approved';
+    }
+
+    public function debug() {
+        return $this->debug;
     }
 
     /**
