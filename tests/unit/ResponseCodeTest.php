@@ -52,6 +52,6 @@ class ResponseCodeTest extends UnitTestCase {
 	public function testUnknownResponseCodeThrowsException() {
 		$code = TransactionResponseCode::code('foo');
 
-		$this->assertEquals('Unknown response code.', $code['description']);
+		$this->assertEquals('Unknown response code.', $code['message']);
 	}
 } 

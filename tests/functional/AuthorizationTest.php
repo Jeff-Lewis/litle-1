@@ -25,12 +25,13 @@ class AuthorizationTest extends FunctionalTestCase {
 	{
 		$trans = [
 			'approved' => [
-				'orderId' 	=> 1,
-				'amount' 	=> '3.33',
+				'orderId' 	=> 2684995,
+				'amount' 	=> '1000',
 				'card'   	=> [
 					'number' 	=> '374322062409525',
 					'type' 		=> 'AX',
-					'expDate' 	=> '0315'
+					'expDate' 	=> '0315',
+					'cardValidationNumber' => ''
 				],
 				'billToAddress' => [
 					'zip' => 12561

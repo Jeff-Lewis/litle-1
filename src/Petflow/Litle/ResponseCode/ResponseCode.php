@@ -40,7 +40,7 @@ abstract class ResponseCode {
 			);
 		} 
 
-		return ['code' => $code, 'description' => 'Unknown response code.'];
+		return ['code' => $code, 'description' => 'Encountered an unknown response code.', 'message' => 'Unknown response code.'];
 	}
 
 }
