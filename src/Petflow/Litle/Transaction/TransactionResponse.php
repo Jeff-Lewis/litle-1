@@ -45,12 +45,7 @@ abstract class TransactionResponse {
         $this->code = $code;
 
         // set the details for this response, generated from the response code
-        try {
-            $this->details = TransactionResponseCode::code($code);
-            
-        } catch (\Exception $e) {
-            $this->details = $e->getMessage();
-        } 
+        $this->details = TransactionResponseCode::code($code);
     }
 
     public function getCode() {

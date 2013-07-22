@@ -38,9 +38,9 @@ abstract class ResponseCode {
 				['code' => $code],
 				static::$codes[$code]
 			);
-		} else {
-			throw new UnknownResponseCodeException('Unknown response code provided: '.$code);
-		}
+		} 
+
+		return ['code' => $code, 'description' => 'Unknown response code.'];
 	}
 
 }
