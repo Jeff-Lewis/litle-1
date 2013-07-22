@@ -91,7 +91,7 @@ abstract class TransactionRequest {
 
 		// set the mode
 		if (isset($params['mode'])) {
-			$this->mode = $mode;
+			$this->mode = $params['mode'];
 			
 		} else {
 			$this->mode = 'sandbox';

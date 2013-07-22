@@ -13,7 +13,7 @@ class CaptureTransactionTest extends UnitTestCase {
 	 */
 	public function testApprovedCaptureTransaction () {
 		$transaction = static::transactions()['01-approved'];
-		$litle       = TestHelper::mockLitleRequest('captureTransaction', $transaction['response']);
+		$litle       = TestHelper::mockLitleRequest('captureRequest', $transaction['response']);
 
 		$result = (new CaptureRequest([], [], $litle))->make($transaction['request']);
 
@@ -26,7 +26,7 @@ class CaptureTransactionTest extends UnitTestCase {
 	 */
 	public function testFailedCaptureTransaction() {
 		$transaction = static::transactions()['02-failed'];
-		$litle       = TestHelper::mockLitleRequest('captureTransaction', $transaction['response']);
+		$litle       = TestHelper::mockLitleRequest('captureRequest', $transaction['response']);
 
 		$result = (new CaptureRequest([], [], $litle))->make($transaction['request']);
 
@@ -41,7 +41,7 @@ class CaptureTransactionTest extends UnitTestCase {
 	 */
 	public function testFailedCaptureTransactionMissingTxnId() {
 		$transaction = static::transactions()['03-missing-txnid'];
-		$litle       = TestHelper::mockLitleRequest('captureTransaction', $transaction['response']);
+		$litle       = TestHelper::mockLitleRequest('captureRequest', $transaction['response']);
 
 		$result = (new CaptureRequest([], [], $litle))->make($transaction['request']);
 	}

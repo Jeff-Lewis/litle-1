@@ -29,7 +29,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 		$transaction = static::transactions()['02-avs_failure'];
 		$litle 		 = TestHelper::mockLitleRequest('authorizationRequest', $transaction['response']);
 
-		$response = (new AuthorizationRequest([], [], $litle))->make($transaction['request']);
+		$response = (new AuthorizationRequest(['mode' => 'production'], [], $litle))->make($transaction['request']);
 
 		$this->assertEquals('9-Digit zip matches, address does not match', $response->getAVS()['description']);
 		$this->assertTrue($response->isApproved());		

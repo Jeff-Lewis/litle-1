@@ -45,7 +45,8 @@ class AuthorizationReversalRequest extends TransactionRequest {
 			unset($params['amount']);
 		}
 
-		if ($this->mode == 'APPROVED') {
+		// sandbox we append tthe 000 so that it works
+		if ($this->mode == 'sandbox') {
 			$params['litleTxnId'] = (string) $params['litleTxnId'].'000';
 		}
 

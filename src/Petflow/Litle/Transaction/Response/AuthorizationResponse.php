@@ -21,14 +21,20 @@ class AuthorizationResponse extends TransactionResponse {
     /**
      * Construction
      */
-    public function __construct($raw_response) {
-        parent::__construct($raw_response);
+    public function __construct($raw_response, $mode) {
+        parent::__construct($raw_response, $mode);
 
         $this->auth_code = \XMLParser::getNode($raw_response, 'authCode');
 
         // AVS results
         try {
-            $this->avs = ResponseCode\AVSResponseCode::code(\XMLParser::getNode($raw_response, 'avsResult'));
+
+            // sandbox mode we get approved
+            if ($mode === 'sandbox') {
+                $this->avs = ResponseCode\AVSResponseCode::code('01');
+            } else {
+                $this->avs = ResponseCode\AVSResponseCode::code(\XMLParser::getNode($raw_response, 'avsResult'));
+            }
 
         } catch (Exception\UnknownResponseCodeException $e) {
             $this->avs = null;

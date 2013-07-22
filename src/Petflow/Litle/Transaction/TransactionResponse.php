@@ -27,7 +27,7 @@ abstract class TransactionResponse {
      * for the appropriate fields in the raw response XML and then parse
      * them out into the corresponding members of this class.
      */
-    public function __construct($raw_response_data) {
+    public function __construct($raw_response_data, $mode='sandbox') {
         $this->setCode(\XMLParser::getNode($raw_response_data, 'response'));
 
         $this->order_id     = \XMLParser::getNode($raw_response_data, 'orderId');
@@ -35,6 +35,8 @@ abstract class TransactionResponse {
         $this->time         = (new \DateTime(\XMLParser::getNode($raw_response_data, 'responseTime')))->format('Y-m-d H:i:s');
 
         $this->debug = $raw_response_data;
+
+        $this->mode = $mode;
     }
 
     /**
