@@ -47,6 +47,10 @@ class AuthorizationRequest extends TransactionRequest {
 		// hard coded for now
 		$params['orderSource'] = self::DEFAULT_ORDER_SOURCE;
 
+		if ($this->mode == 'sandbox') {
+			$params['amount'] = (string) $params['amount'].'000';
+		}
+
 		return $this->respond($this->litle_sdk->authorizationRequest($params));
 	}
 

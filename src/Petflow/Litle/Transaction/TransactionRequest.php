@@ -43,6 +43,12 @@ abstract class TransactionRequest {
 	protected $litle;
 
 	/**
+	 * Current Mode for Litle
+	 * @var [type]
+	 */
+	protected $mode;
+
+	/**
 	 * Construct
 	 *
 	 * When constructing a sale transaction, each transaction must
@@ -82,6 +88,14 @@ abstract class TransactionRequest {
 			],
 			$provided_cfg
 		);
+
+		// set the mode
+		if (isset($params['mode'])) {
+			$this->mode = $mode;
+			
+		} else {
+			$this->mode = 'sandbox';
+		}
 
 		// litle dependency injection
 		if (is_null($litle_online_request)) {

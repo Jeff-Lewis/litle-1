@@ -32,6 +32,10 @@ class CaptureRequest extends TransactionRequest {
 		if (isset($params['amount'])) {
 			unset($params['amount']);
 		}
+		
+		if ($this->mode == 'sandbox') {
+			$params['litleTxnId'] = (string) $params['litleTxnId'].'000';
+		}
 
 		return $this->respond(
 			$this->litle_sdk->captureTransaction($params)

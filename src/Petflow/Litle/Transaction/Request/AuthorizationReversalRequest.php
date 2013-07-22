@@ -45,6 +45,10 @@ class AuthorizationReversalRequest extends TransactionRequest {
 			unset($params['amount']);
 		}
 
+		if ($this->mode == 'APPROVED') {
+			$params['litleTxnId'] = (string) $params['litleTxnId'].'000';
+		}
+
 		return $this->respond(
 			$this->litle_sdk->authReversalRequest($params)
 		);
