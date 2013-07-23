@@ -218,15 +218,15 @@ class ReversalTests extends CertificationTestCase {
 			],
 			'33' => null,
 			'34' => null,
-			// '35' => [
-			// 	[
-			// 		'amount' => 20020
-			// 	],
-			// 	[
-			// 		'response' => '000',
-			// 		'message' => 'Approved'
-			// 	]
-			// ]
+			'35' => [
+				[
+					'amount' => 20020
+				],
+				[
+					'response' => '000',
+					'message' => 'Approved'
+				]
+			]
 			// '36' => null
 		];
 	}
@@ -245,15 +245,10 @@ class ReversalTests extends CertificationTestCase {
 				'response' => '000',
 				'message' => 'Approved'
 			],
-			// '35' => [
-			// 	[
-			// 		'amount' => 20020
-			// 	],
-			// 	[
-			// 		'response' => '000',
-			// 		'message' => 'Approved'
-			// 	]
-			// ],
+			'35' => [
+				'response' => '000',
+				'message' => 'Approved'
+			],
 			// '36' => [
 			// 	[
 			// 		'amount' => 10000
