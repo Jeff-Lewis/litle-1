@@ -166,7 +166,7 @@ class AuthCaptureTest extends CertificationTestCase {
 					'response'   	=> 	'000',
 					'message'	   	=> 	'Approved',
 					'auth_code'  	=>	'33333',
-					'avs_result' 	=>	'12',
+					'avs_result' 	=>	'10',
 					'cv_result'  	=>	'M'
 				]
 			],
@@ -196,7 +196,7 @@ class AuthCaptureTest extends CertificationTestCase {
 					'response'   	=> 	'000',
 					'message'	   	=> 	'Approved',
 					'auth_code'  	=>	'44444',
-					'avs_result'  	=>	'10',
+					'avs_result'  	=>	'12',
 					'cv_result' 	=>	''
 				]
 			],

@@ -21,7 +21,7 @@ class ReversalTests extends CertificationTestCase {
 		$this->assertEquals($response->getAvs()['code'], $expectations['avs_result']);
 
 		// for orders 1 thru 5 we do capture!
-		$capture = static::captureTransactions()[$source['order_id']];
+		$capture = static::captureTransactions()[$source['orderId']];
 
 		if (!is_null($capture)) {
 			$capture_response = (new CaptureRequest(static::getParams()))->make([
@@ -132,7 +132,7 @@ class ReversalTests extends CertificationTestCase {
 					'response'   	=> 	'000',
 					'message'	   	=> 	'Approved',
 					'auth_code'  	=>	'33333',
-					'avs_result' 	=>	'12',
+					'avs_result' 	=>	'10',
 					'cv_result'  	=>	'M'
 				]
 			],
@@ -159,7 +159,7 @@ class ReversalTests extends CertificationTestCase {
 					'response'   	=> 	'000',
 					'message'	   	=> 	'Approved',
 					'auth_code'  	=>	'44444',
-					'avs_result'  	=>	'10',
+					'avs_result'  	=>	'12',
 					'cv_result' 	=>	''
 				]
 			]
