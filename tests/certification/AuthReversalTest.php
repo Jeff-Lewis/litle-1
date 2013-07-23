@@ -44,7 +44,7 @@ class ReversalTests extends CertificationTestCase {
 		]);
 
 		$this->assertEquals($reversal_transaction[1]['response'], $reversal_response->getCode());
-		$this->assertEquals($reversal_transaction[1]['message'], $reversal_response->getDetails()['message'], );
+		$this->assertEquals($reversal_transaction[1]['message'], $reversal_response->getDetails()['message']);
 	}
 
 	public static function authTransactions() {
