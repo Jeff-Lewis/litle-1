@@ -89,9 +89,6 @@ abstract class TransactionRequest {
 			$provided_cfg
 		);
 
-		print_r(static::$config);
-		die();
-
 		// set the mode
 		if (isset($params['mode'])) {
 			$this->mode = $params['mode'];

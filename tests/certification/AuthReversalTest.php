@@ -3,6 +3,4 @@
 /**
  * Authorization Reversal Certifications
  */
-class AuthReversalTest extends CertificationTestCase {
-	
-}
+class ReversalTests extends CertificationTestCase {}
