@@ -1,6 +1,7 @@
 <?php
 
 use Petflow\Litle\Transaction\Request\AuthorizationRequest;
+use Petflow\Litle\Transaction\Request\CaptureRequest;
 
 /**
  * Authorization and Capture Testing
@@ -11,17 +12,29 @@ class AuthCaptureTest extends CertificationTestCase {
 	 * @dataProvider authTransactions
 	 */
 	public function testAuthCapture($source, $expectations) {
-		$response = (new AuthorizationRequest(static::getParams(), []))->make($source);
+		$response = (new AuthorizationRequest(static::getParams()))->make($source);
 
 		$this->assertEquals($response->getCode(), $expectations['response']);
 		$this->assertEquals($response->getDetails()['message'], $expectations['message']);
 		$this->assertEquals($response->getAuthCode(), $expectations['auth_code']);
 		$this->assertEquals($response->getAvs()['code'], $expectations['avs_result']);
 
-		// ignore cv
+		// for orders 1 thru 5 we do capture!
+		if ($source['orderId'] >= 1 && $source['orderId'] <= 5)  {
+			$capture_response = (new CaptureRequest(static::getParams()))->make([
+				'orderId' 	 => $source['orderId'],
+				'litleTxnId' => $response->getLitleTxnId()
+			]);
+
+			$this->assertEquals($capture_response->getCode(), static::captureTransactions()[$source['orderId']]['response']);
+			$this->assertEquals($capture_response->getDetails()['message'], static::captureTransactions()[$source['orderId']]['message']);
+		}
 	}
 
 
+	/**
+	 * For Authorization
+	 */
 	public static function authTransactions() {
 		return [
 			//
@@ -31,19 +44,11 @@ class AuthCaptureTest extends CertificationTestCase {
 			// Each array index of the top-level array holds two arrays, the first
 			// for the source information and the second for the expected response
 			// information.
-			// 
-			// The expected response array is formatted as:
-			// 
-			// 	[response key, assertion, value, certification_model]
-			// 	
-			// When the certification_mode is set to true then the test will check
-			// for the given assertion. Otherwise it will just be checking for
-			// array key existence in the response.
 			//
 			// ----------------------------------------------------------------
 			// orderId = 1
 			// ----------------------------------------------------------------
-			'Approved VISA Transaction' => [	
+			'1' => [	
 				[
 					'amount' 		=> 10100,
 					'orderId' 		=> '1',
@@ -74,7 +79,7 @@ class AuthCaptureTest extends CertificationTestCase {
 			// ----------------------------------------------------------------
 			// orederId = 2
 			// ----------------------------------------------------------------
-			'Approved MasterCard Transaction' => [	
+			'2' => [	
 				[
 					'amount' 		=> 20200,
 					'orderId' 		=> '2',
@@ -108,7 +113,7 @@ class AuthCaptureTest extends CertificationTestCase {
 			// ----------------------------------------------------------------
 			// orederId = 3 
 			// ----------------------------------------------------------------
-			'Approved Discover Transaction' => [	
+			'3' => [	
 				[
 					'amount' 		=> 30300,
 					'orderId' 		=> '3',
@@ -139,7 +144,7 @@ class AuthCaptureTest extends CertificationTestCase {
 			// ----------------------------------------------------------------
 			// orederId = 4
 			// ----------------------------------------------------------------
-			'Approved American Express Transaction' => [	
+			'4' => [	
 				[
 					'amount' 		=> 40400,
 					'orderId' 		=> '4',
@@ -169,7 +174,7 @@ class AuthCaptureTest extends CertificationTestCase {
 			// ----------------------------------------------------------------
 			// orederId = 5
 			// ----------------------------------------------------------------
-			'Approved Visa w/ Auth Transaction' => [	
+			'5' => [	
 				[
 					'amount' 				=> 50500,
 					'orderId' 				=> '5',
@@ -180,7 +185,8 @@ class AuthCaptureTest extends CertificationTestCase {
 						'expDate'				=> '0514',
 						'cardValidationNum' 	=> '463',
 						'authenticationValue' 	=> 'BwABBJQ1AgAAAAAgJDUCAAAAAAA='
-					]
+					],
+					'requireAddress' => false
 				],
 				[
 					'response'   	=> 	'000',
@@ -193,7 +199,7 @@ class AuthCaptureTest extends CertificationTestCase {
 			// ----------------------------------------------------------------
 			// orederId = 6
 			// ----------------------------------------------------------------
-			'Insufficient Funds' => [	
+			'6' => [	
 				[
 					'amount' 				=> 60600,
 					'orderId' 				=> '6',
@@ -224,7 +230,7 @@ class AuthCaptureTest extends CertificationTestCase {
 			// ----------------------------------------------------------------
 			// orederId = 7
 			// ----------------------------------------------------------------
-			'Invalid Account Number' => [	
+			'7' => [	
 				[
 					'amount' 				=> 70700,
 					'orderId' 				=> '7',
@@ -255,7 +261,7 @@ class AuthCaptureTest extends CertificationTestCase {
 			// ----------------------------------------------------------------
 			// orederId = 8 
 			// ----------------------------------------------------------------
-			'Call Discover' => [	
+			'8' => [
 				[
 					'amount' 				=> 80800,
 					'orderId' 				=> '8',
@@ -286,7 +292,7 @@ class AuthCaptureTest extends CertificationTestCase {
 			// ----------------------------------------------------------------
 			// orederId = 9
 			// ----------------------------------------------------------------
-			'Pick Up Card' => [	
+			'9' => [
 				[
 					'amount' 				=> 90900,
 					'orderId' 				=> '9',
@@ -314,6 +320,44 @@ class AuthCaptureTest extends CertificationTestCase {
 					'cv_result'  	=>	''
 				]
 			]						
+		];
+	}
+
+	/**
+	 * For Capture
+	 */
+	public static function captureTransactions() {
+		return [	
+			'1' => [
+				[
+					'response' => '000',
+					'message' => 'Approved'
+				]
+			],
+			'2' => [
+				[
+					'response' => '000',
+					'message' => 'Approved'
+				]
+			],
+			'3' => [
+				[
+					'response' => '000',
+					'message' => 'Approved'
+				]
+			],
+			'4' => [
+				[
+					'response' => '000',
+					'message' => 'Approved'
+				]
+			],
+			'5' => [
+				[
+					'response' => '000',
+					'message' => 'Approved'
+				]
+			]
 		];
 	}
 }
