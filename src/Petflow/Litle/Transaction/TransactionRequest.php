@@ -73,7 +73,8 @@ abstract class TransactionRequest {
 			$provided_cfg = [
 				'user' 					=> $params['username'],
 				'password' 				=> $params['password'],
-				'currency_merchant_map' => ['DEFAULT' => $params['merchant']]
+				'currency_merchant_map' => ['DEFAULT' => $params['merchant']],
+				'url'                   => (isset($params['url'])) ? $params['url'] : self::DEFAULT_CFG_URL
 			];
 		} 
 
@@ -81,13 +82,15 @@ abstract class TransactionRequest {
 		// necessary.
 		static::$config = array_merge(
 			[
-				'url'			=> static::DEFAULT_CFG_URL,
 				'proxy' 		=> static::DEFAULT_CFG_PROXY,
 				'timeout' 		=> static::DEFAULT_CFG_TIMEOUT,
 				'reportGroup' 	=> static::DEFAULT_CFG_REPORT_GROUP
 			],
 			$provided_cfg
 		);
+
+		print_r(static::$config);
+		die();
 
 		// set the mode
 		if (isset($params['mode'])) {

@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Functional Test Case
+ * Certification Test Case
  */
-class FunctionalTestCase extends PHPUnit_Framework_TestCase {
-
+class CertificationTestCase extends PHPUnit_Framework_TestCase {
+	
 	/**
 	 * @var Array The parameters for connecting to Litle.
 	 */
@@ -17,8 +17,8 @@ class FunctionalTestCase extends PHPUnit_Framework_TestCase {
 		parent::setUp();
 
 		// provide config json for running the tests
-		if (!file_exists(__DIR__.'/config.json')) {
-			die('Must provide config.json in the tests/ directory');
+		if (!file_exists(__DIR__.'/cert_config.json')) {
+			die('Must provide cert_config.json in the tests/ directory');
 		} else {
 			$file = file_get_contents(__DIR__.'/config.json');
 			static::$params = json_decode($file, true);

@@ -28,7 +28,8 @@
     "autoload": {
         "classmap": [
             "tests/UnitTestCase.php",
-            "tests/FunctionalTestCase.php"
+            "tests/FunctionalTestCase.php",
+            "tests/CertificationTestCase.php"
         ],
         "psr-0": {
             "Petflow\\Litle" : "src/"
