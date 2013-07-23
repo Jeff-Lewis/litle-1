@@ -43,8 +43,7 @@ class ReversalTests extends CertificationTestCase {
 		$reversal_transaction = static::reversalTransactions()[$source['orderId']];
 
 		$reversal_response = (new AuthorizationReversalRequest(static::getParams()))->make([
-			'litleTxnId' 	=> $response->getLitleTxnId(),
-			'amount' 		=> $reversal_transaction[0]['amount']
+			'litleTxnId' 	=> $response->getLitleTxnId()
 		]);
 
 		$this->assertEquals($reversal_transaction[1]['response'], $reversal_response->getCode());
@@ -80,9 +79,7 @@ class ReversalTests extends CertificationTestCase {
 		$reversal_transaction = static::reversalTransactions()[$source['orderId']];
 
 		$reversal_response = (new AuthorizationReversalRequest(static::getParams()))->make([
-			'orderId' 	    => $source['orderId'],
 			'litleTxnId' 	=> $response->getLitleTxnId(),
-			'amount' 		=> $reversal_transaction[0]['amount']
 		]);
 
 		$this->assertEquals($reversal_transaction[1]['response'], $reversal_response->getCode());
@@ -212,7 +209,7 @@ class ReversalTests extends CertificationTestCase {
 		return [
 			'32' => [
 				[
-					'amount' => '5005'
+					'amount' => 5005
 				],
 				[
 					'response' => '000',
@@ -221,15 +218,15 @@ class ReversalTests extends CertificationTestCase {
 			],
 			'33' => null,
 			'34' => null,
-			'35' => [
-				[
-					'amount' => 20020
-				],
-				[
-					'response' => '000',
-					'message' => 'Approved'
-				]
-			]
+			// '35' => [
+			// 	[
+			// 		'amount' => 20020
+			// 	],
+			// 	[
+			// 		'response' => '000',
+			// 		'message' => 'Approved'
+			// 	]
+			// ]
 			// '36' => null
 		];
 	}
@@ -237,41 +234,26 @@ class ReversalTests extends CertificationTestCase {
 	public static function reversalTransactions() {
 		return [
 			'32' => [
-				[
-					'amount' => ''
-				],
-				[
-					'response' => '111',
-					'message' => 'Authorization amount has already been depleted.'
-				]
+				'response' => '111',
+				'message' => 'Authorization amount has already been depleted.'
 			],
 			'33' => [
-				[
-					'amount' => ''
-				],
-				[
-					'response' => '000',
-					'message' => 'Approved'
-				]
+				'response' => '000',
+				'message' => 'Approved'
 			],
 			'34' => [
-				[
-					'amount' => ''
-				],
-				[
-					'response' => '000',
-					'message' => 'Approved'
-				]
+				'response' => '000',
+				'message' => 'Approved'
 			],
-			'35' => [
-				[
-					'amount' => 20020
-				],
-				[
-					'response' => '000',
-					'message' => 'Approved'
-				]
-			],
+			// '35' => [
+			// 	[
+			// 		'amount' => 20020
+			// 	],
+			// 	[
+			// 		'response' => '000',
+			// 		'message' => 'Approved'
+			// 	]
+			// ],
 			// '36' => [
 			// 	[
 			// 		'amount' => 10000
