@@ -24,7 +24,7 @@ class AuthorizationResponse extends TransactionResponse {
     public function __construct($raw_response, $mode) {
         parent::__construct($raw_response, $mode);
 
-        $this->auth_code = \XMLParser::getNode($raw_response, 'authCode');
+        $this->auth_code = trim(\XMLParser::getNode($raw_response, 'authCode'));
 
         // AVS results
         try {
