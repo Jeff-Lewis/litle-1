@@ -19,10 +19,10 @@ class AuthCaptureTest extends CertificationTestCase {
 
 		$response = (new AuthorizationRequest(static::getParams()))->make($source);
 
-		$this->assertEquals($response->getCode(), $expectations['response']);
-		$this->assertEquals($response->getDetails()['message'], $expectations['message']);
-		$this->assertEquals($response->getAuthCode(), $expectations['auth_code']);
-		$this->assertEquals($response->getAvs()['code'], $expectations['avs_result']);
+		$this->assertEquals($expectations['response'], $response->getCode());
+		$this->assertEquals($expectations['message'], $response->getDetails()['message']);
+		$this->assertEquals($expectations['auth_code'], $response->getAuthCode());
+		$this->assertEquals($expectations['avs_result'], $response->getAvs()['code']);
 
 
 		// for orders 1 thru 5 we do capture!
@@ -32,8 +32,8 @@ class AuthCaptureTest extends CertificationTestCase {
 				'litleTxnId' => $response->getLitleTxnId()
 			]);
 
-			$this->assertEquals($capture_response->getCode(), static::captureTransactions()[$source['orderId']]['response']);
-			$this->assertEquals($capture_response->getDetails()['message'], static::captureTransactions()[$source['orderId']]['message']);
+			$this->assertEquals(static::captureTransactions()[$source['orderId']]['response'], $capture_response->getCode());
+			$this->assertEquals(static::captureTransactions()[$source['orderId']]['message'], $capture_response->getDetails()['message']);
 		}
 	}
 	
@@ -43,10 +43,10 @@ class AuthCaptureTest extends CertificationTestCase {
 	public function testAuthCapture($source, $expectations) {
 		$response = (new AuthorizationRequest(static::getParams()))->make($source);
 
-		$this->assertEquals($response->getCode(), $expectations['response']);
-		$this->assertEquals($response->getDetails()['message'], $expectations['message']);
-		$this->assertEquals($response->getAuthCode(), $expectations['auth_code']);
-		$this->assertEquals($response->getAvs()['code'], $expectations['avs_result']);
+		$this->assertEquals($expectations['response'], $response->getCode());
+		$this->assertEquals($expectations['message'], $response->getDetails()['message']);
+		$this->assertEquals($expectations['auth_code'], $response->getAuthCode());
+		$this->assertEquals($expectations['avs_result'], $response->getAvs()['code']);
 
 		// for orders 1 thru 5 we do capture!
 		if ($source['orderId'] >= 1 && $source['orderId'] <= 5)  {
@@ -55,8 +55,8 @@ class AuthCaptureTest extends CertificationTestCase {
 				'litleTxnId' => $response->getLitleTxnId()
 			]);
 
-			$this->assertEquals($capture_response->getCode(), static::captureTransactions()[$source['orderId']]['response']);
-			$this->assertEquals($capture_response->getDetails()['message'], static::captureTransactions()[$source['orderId']]['message']);
+			$this->assertEquals(static::captureTransactions()[$source['orderId']]['response'], $capture_response->getCode());
+			$this->assertEquals(static::captureTransactions()[$source['orderId']]['message'], $capture_response->getDetails()['message']);
 		}
 	}
 
