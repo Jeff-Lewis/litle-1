@@ -24,8 +24,8 @@ class CaptureTest extends FunctionalTestCase {
 	{
 		$trans = [
 			'approved' => [
-				'orderId' => 1,
-				'litleTxnId' => '230523523212341'
+				'orderId'    => '2687233',
+				'litleTxnId' => '898541439291894'
 			]
 		];
 

@@ -35,7 +35,7 @@ class CaptureRequest extends TransactionRequest {
 		
 		// sandbox we append the 000 so that it works
 		if ($this->mode == 'sandbox') {
-			$params['litleTxnId'] = (string) $params['litleTxnId'].'000';
+			$params['litleTxnId'] = substr_replace((string) $params['litleTxnId'], '000', -3);
 		}
 
 		return $this->respond(
