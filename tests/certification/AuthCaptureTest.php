@@ -358,34 +358,24 @@ class AuthCaptureTest extends CertificationTestCase {
 	public static function captureTransactions() {
 		return [	
 			'1' => [
-				[
-					'response' => '000',
-					'message' => 'Approved'
-				]
+				'response' => '000',
+				'message' => 'Approved'
 			],
 			'2' => [
-				[
-					'response' => '000',
-					'message' => 'Approved'
-				]
+				'response' => '000',
+				'message' => 'Approved'
 			],
 			'3' => [
-				[
-					'response' => '000',
-					'message' => 'Approved'
-				]
+				'response' => '000',
+				'message' => 'Approved'
 			],
 			'4' => [
-				[
-					'response' => '000',
-					'message' => 'Approved'
-				]
+				'response' => '000',
+				'message' => 'Approved'
 			],
 			'5' => [
-				[
-					'response' => '000',
-					'message' => 'Approved'
-				]
+				'response' => '000',
+				'message' => 'Approved'
 			]
 		];
 	}
