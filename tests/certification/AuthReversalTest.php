@@ -15,12 +15,12 @@ class ReversalTests extends CertificationTestCase {
 	public function testReversals($source, $expectations) {
 		$response = (new AuthorizationRequest(static::getParams()))->make($source);
 
-		$this->assertEquals($response->getCode(), $expectations['response']);
-		$this->assertEquals($response->getDetails()['message'], $expectations['message']);
-		$this->assertEquals($response->getAuthCode(), $expectations['auth_code']);
-		$this->assertEquals($response->getAvs()['code'], $expectations['avs_result']);
+		$this->assertEquals($expectations['response'], $response->getCode());
+		$this->assertEquals($expectations['message'], $response->getDetails()['message']);
+		$this->assertEquals($expectations['auth_code'], $response->getAuthCode());
+		$this->assertEquals($expectations['avs_result'], $response->getAvs()['code']);
 
-		// for orders 1 thru 5 we do capture!
+		// when available, do capture
 		$capture = static::captureTransactions()[$source['orderId']];
 
 		if (!is_null($capture)) {
@@ -30,21 +30,21 @@ class ReversalTests extends CertificationTestCase {
 				'amount'     => $capture[0]['amount']
 			]);
 
-			$this->assertEquals($capture_response->getCode(), $capture[1]['response']);
-			$this->assertEquals($capture_response->getDetails()['message'], $capture[1]['message']);
+			$this->assertEquals($capture[1]['response'], $capture_response->getCode());
+			$this->assertEquals($capture[1]['message'], $capture_response->getDetails()['message']);
 		}
 
-		// perform reversa
+		// perform reversal
 		$reversal_transaction = static::reversalTransactions()[$source['orderId']];
 
 		$reversal_response = (new AuthorizationReversalRequest(static::getParams()))->make([
-			'orderId' => $source['orderId'],
-			'litleTxnId' => $response->getLitleTxnId(),
-			'amount' => $reversal_transaction[0]['amount']
+			'orderId' 	    => $source['orderId'],
+			'litleTxnId' 	=> $response->getLitleTxnId(),
+			'amount' 		=> $reversal_transaction[0]['amount']
 		]);
 
-		$this->assertEquals($reversal_response->getCode(), $reversal_transaction[1]['response']);
-		$this->assertEquals($reversal_response->getDetails()['message'], $capture[1]['message']);
+		$this->assertEquals($reversal_transaction[1]['response'], $reversal_response->getCode());
+		$this->assertEquals($reversal_transaction[1]['message'], $reversal_response->getDetails()['message'], );
 	}
 
 	public static function authTransactions() {
