@@ -30,7 +30,7 @@ class CaptureRequest extends TransactionRequest {
 		// we can change this if client system adapts for partial
 		// capture
 		if (isset($params['amount'])) {
-			unset($params['amount']);
+			// unset($params['amount']);
 		}
 		
 		// sandbox we append the 000 so that it works

@@ -42,7 +42,7 @@ class AuthorizationReversalRequest extends TransactionRequest {
 		// stop any amounts, so that we can prevent partial
 		// reversal until client system supports it
 		if (isset($params['amount']))  {
-			unset($params['amount']);
+			// unset($params['amount']);
 		}
 
 		// sandbox we append tthe 000 so that it works

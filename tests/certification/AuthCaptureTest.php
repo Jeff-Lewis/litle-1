@@ -7,6 +7,35 @@ use Petflow\Litle\Transaction\Request\CaptureRequest;
  * Authorization and Capture Testing
  */
 class AuthCaptureTest extends CertificationTestCase {
+
+	/**
+	 * Test Connection using first Transaction
+	 */
+	public function testConnection() {
+		$auth = static::authTransactions()['1'];
+
+		$source = $auth[0];
+		$expectations = $auth[1];
+
+		$response = (new AuthorizationRequest(static::getParams()))->make($source);
+
+		$this->assertEquals($response->getCode(), $expectations['response']);
+		$this->assertEquals($response->getDetails()['message'], $expectations['message']);
+		$this->assertEquals($response->getAuthCode(), $expectations['auth_code']);
+		$this->assertEquals($response->getAvs()['code'], $expectations['avs_result']);
+
+
+		// for orders 1 thru 5 we do capture!
+		if ($source['orderId'] >= 1 && $source['orderId'] <= 5)  {
+			$capture_response = (new CaptureRequest(static::getParams()))->make([
+				'orderId' 	 => $source['orderId'],
+				'litleTxnId' => $response->getLitleTxnId()
+			]);
+
+			$this->assertEquals($capture_response->getCode(), static::captureTransactions()[$source['orderId']]['response']);
+			$this->assertEquals($capture_response->getDetails()['message'], static::captureTransactions()[$source['orderId']]['message']);
+		}
+	}
 	
 	/**
 	 * @dataProvider authTransactions

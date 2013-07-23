@@ -43,17 +43,7 @@ class AuthorizationRequest extends TransactionRequest {
 		// the bill to address must be present so that AVS validation will
 		// occur. we can override this behavior using the requireAddress = false
 		// parameter
-		if (isset($params['requireAddress'])) {
-
-			if ($params['requireAddress']) {
-				$this->checkForBillToAddress($params);
-			}
-
-			unset($params['requireAddress']);
-			
-		} else {
-			$this->checkForBillToAddress($params);
-		}
+		$this->checkForBillToAddress($params);
 
 		// hard coded for now
 		$params['orderSource'] = self::DEFAULT_ORDER_SOURCE;
@@ -121,12 +111,16 @@ class AuthorizationRequest extends TransactionRequest {
 	 * @return [type]         [description]
 	 */
 	private function checkForBillToAddress($params) {
-		if (!isset($params['billToAddress'])) {
-			throw new Exception\MissingRequestParameterException('billToAddress');
 
-		} else {
-			if (!isset($params['billToAddress']['zip'])) {
-				throw new Exception\MissingRequestParameterException('billToAddress[zip]');
+		// we want to require address if
+		if (!isset($params['requireAddress']) || $params['requireAddress']) {
+			if (!isset($params['billToAddress'])) {
+				throw new Exception\MissingRequestParameterException('billToAddress');
+
+			} else {
+				if (!isset($params['billToAddress']['zip'])) {
+					throw new Exception\MissingRequestParameterException('billToAddress[zip]');
+				}
 			}
 		}
 	}

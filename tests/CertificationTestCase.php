@@ -20,7 +20,7 @@ class CertificationTestCase extends PHPUnit_Framework_TestCase {
 		if (!file_exists(__DIR__.'/cert_config.json')) {
 			die('Must provide cert_config.json in the tests/ directory');
 		} else {
-			$file = file_get_contents(__DIR__.'/config.json');
+			$file = file_get_contents(__DIR__.'/cert_config.json');
 			static::$params = json_decode($file, true);
 		}
 	}
