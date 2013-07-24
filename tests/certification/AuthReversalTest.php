@@ -198,7 +198,7 @@ class ReversalTests extends CertificationTestCase {
 					'response'   	=> 	'000',
 					'message'	   	=> 	'Approved',
 					'auth_code'  	=>	'44444',
-					'avs_result'  	=>	'12',
+					'avs_result'  	=>	'13',
 					'cv_result' 	=>	''
 				]
 			]
@@ -234,8 +234,8 @@ class ReversalTests extends CertificationTestCase {
 	public static function reversalTransactions() {
 		return [
 			'32' => [
-				'response' => '111',
-				'message' => 'Authorization amount has already been depleted.'
+				'response' => '000',
+				'message' => 'Approved'
 			],
 			'33' => [
 				'response' => '000',
