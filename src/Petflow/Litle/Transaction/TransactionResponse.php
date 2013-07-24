@@ -30,12 +30,10 @@ abstract class TransactionResponse {
     public function __construct($raw_response_data, $mode='sandbox') {
         $this->setCode(\XMLParser::getNode($raw_response_data, 'response'));
 
-        $this->order_id     = \XMLParser::getNode($raw_response_data, 'orderId');
         $this->litle_txn_id = \XMLParser::getNode($raw_response_data, 'litleTxnId');
         $this->time         = (new \DateTime(\XMLParser::getNode($raw_response_data, 'responseTime')))->format('Y-m-d H:i:s');
 
         $this->debug = $raw_response_data;
-
         $this->mode = $mode;
     }
 
@@ -55,10 +53,6 @@ abstract class TransactionResponse {
 
     public function getCode() {
         return $this->code;
-    }
-
-    public function getOrderId() {
-        return $this->order_id;
     }
 
     public function getDetails() {
