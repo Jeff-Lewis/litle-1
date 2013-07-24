@@ -13,7 +13,7 @@ class ReversalTests extends CertificationTestCase {
 	 * Test one for Connection
 	 */
 	public function testConnection() {
-		$transaction = static::reversalTransactions()['32'];
+		$transaction = static::authTransactions()['32'];
 
 		$source 	  = $transaction[0];
 		$expectations = $transaction[1];
@@ -46,8 +46,8 @@ class ReversalTests extends CertificationTestCase {
 			'litleTxnId' 	=> $response->getLitleTxnId()
 		]);
 
-		$this->assertEquals($reversal_transaction[1]['response'], $reversal_response->getCode());
-		$this->assertEquals($reversal_transaction[1]['message'], $reversal_response->getDetails()['message']);
+		$this->assertEquals($reversal_transaction['response'], $reversal_response->getCode());
+		$this->assertEquals($reversal_transaction['message'], $reversal_response->getDetails()['message']);
 	}
 
 	/**
@@ -82,8 +82,8 @@ class ReversalTests extends CertificationTestCase {
 			'litleTxnId' 	=> $response->getLitleTxnId(),
 		]);
 
-		$this->assertEquals($reversal_transaction[1]['response'], $reversal_response->getCode());
-		$this->assertEquals($reversal_transaction[1]['message'], $reversal_response->getDetails()['message']);
+		$this->assertEquals($reversal_transaction['response'], $reversal_response->getCode());
+		$this->assertEquals($reversal_transaction['message'], $reversal_response->getDetails()['message']);
 	}
 
 	public static function authTransactions() {
