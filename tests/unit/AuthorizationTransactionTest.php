@@ -17,6 +17,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 
 		$response = (new AuthorizationRequest([], [], $litle))->make($transaction['request']);
 
+		$this->assertEquals('1', $response->getOrderId());
 		$this->assertEquals('9-Digit zip and address match', $response->getAVS()['description']);
 		$this->assertTrue($response->isApproved());
 		$this->assertTrue($response->isAVSApproved());
@@ -31,6 +32,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 
 		$response = (new AuthorizationRequest(['mode' => 'production'], [], $litle))->make($transaction['request']);
 
+		$this->assertEquals('2', $response->getOrderId());
 		$this->assertEquals('9-Digit zip matches, address does not match', $response->getAVS()['description']);
 		$this->assertTrue($response->isApproved());		
 		$this->assertFalse($response->isAVSApproved());
@@ -45,43 +47,24 @@ class AuthorizationTransactionTest extends UnitTestCase {
 
 		$response = (new AuthorizationRequest([], [], $litle))->make($transaction['request']);
 
+		$this->assertEquals('3', $response->getOrderId());
 		$this->assertFalse($response->isApproved());		
 	}
 
 	/**
-	 * Missing Order id failed
-	 *
 	 * @expectedException Petflow\Litle\Exception\MissingRequestParameterException
+	 * @dataProvider missingParameterTransactions
 	 */
-	public function testFailedAuthTransactionMissingOrderId() {
-		$transaction = static::transactions()['04-missing-order-id'];
-		$litle 		 = TestHelper::mockLitleRequest('authorizationRequest', $transaction['response']);
-
-		$response = (new AuthorizationRequest([], [], $litle))->make($transaction['request']);
+	public function testFailedAuthTransactionMissingParameter($request, $response) {
+		$litle = TestHelper::mockLitleRequest('authorizationRequest', $request);
+		$response = (new AuthorizationRequest([], [], $litle))->make($response);
 	}
 
 	/**
-	 * Missing Card Number failed
-	 *
-	 * @expectedException Petflow\Litle\Exception\MissingRequestParameterException
+	 * Missing PArameter Transactions
 	 */
-	public function testFailedAuthTransactionMissingCardNumber() {
-		$transaction = static::transactions()['05-missing-card-number'];
-		$litle 		 = TestHelper::mockLitleRequest('authorizationRequest', $transaction['response']);
-
-		$response = (new AuthorizationRequest([], [], $litle))->make($transaction['request']);
-	}
-
-	/**
-	 * Missing Zip code failed
-	 *
-	 * @expectedException Petflow\Litle\Exception\MissingRequestParameterException
-	 */
-	public function testFailedAuthTransactionMissingZipCode() {
-		$transaction = static::transactions()['06-missing-address-zip'];
-		$litle 		 = TestHelper::mockLitleRequest('authorizationRequest', $transaction['response']);
-
-		$response = (new AuthorizationRequest([], [], $litle))->make($transaction['request']);
+	public static function missingParameterTransactions() {
+		return array_slice(static::transactions(), 3);
 	}
 
 	/**
@@ -91,9 +74,8 @@ class AuthorizationTransactionTest extends UnitTestCase {
 		return [
 			'01-approved' => [
 				'request'  => [
-					'amount' 		=> 10100,
-					'orderId' 		=> '1',
-					'orderSource'	=> 'ecommerce',
+					'amount' 		=> 101.00,
+					'id' 			=> '1',
 					'billToAddress' => [
 						'name' 			=> 'John Smith',
 						'addressLine1' 	=> '1 Main St.',
@@ -110,7 +92,9 @@ class AuthorizationTransactionTest extends UnitTestCase {
 					]
 				],
 				'response' => TestHelper::makeAuthorizationXMLResponse(
-					[],
+					[
+						'id' => 1
+					],
 					[
 						'response' => '000',
 						'message' => 'Approved',
@@ -122,9 +106,8 @@ class AuthorizationTransactionTest extends UnitTestCase {
 			],
 			'02-avs_failure' => [
 				'request'  => [
-					'amount' 		=> 10100,
-					'orderId' 		=> '1',
-					'orderSource'	=> 'ecommerce',
+					'amount' 		=> '101.00',
+					'id' 			=> '2',
 					'billToAddress' => [
 						'name' 			=> 'John Smith',
 						'addressLine1' 	=> '1 Main St.',
@@ -141,7 +124,9 @@ class AuthorizationTransactionTest extends UnitTestCase {
 					]
 				],
 				'response' => TestHelper::makeAuthorizationXMLResponse(
-					[],
+					[
+						'id' => '2'
+					],
 					[
 						'response' => '000',
 						'message' => 'Approved',
@@ -153,8 +138,8 @@ class AuthorizationTransactionTest extends UnitTestCase {
 			],
 			'03-failed' => [
 				'request'  => [
-					'amount' 		=> 10100,
-					'orderId' 		=> '1',
+					'amount' 		=> '10100',
+					'id' 			=> '3',
 					'orderSource'	=> 'ecommerce',
 					'billToAddress' => [
 						'name' 			=> 'John Smith',
@@ -172,7 +157,9 @@ class AuthorizationTransactionTest extends UnitTestCase {
 					]
 				],
 				'response' => TestHelper::makeAuthorizationXMLResponse(
-					[],
+					[
+						'id' => '3'
+					],
 					[
 						'response' => '301',
 						'message' => 'Invalid Account Number',
@@ -184,6 +171,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 			],
 			'04-missing-order-id' => [
 				'request' => [
+					'amount' => 10100,
 					'card' => [
 						'expDate' 				=> '0114',
 						'cardValidationNum'		=> '349',
@@ -195,7 +183,8 @@ class AuthorizationTransactionTest extends UnitTestCase {
 			],
 			'05-missing-card-number' => [
 				'request' => [
-					'orderId' => 235212,
+					'id'   => '6',
+					'amount' => 10050,
 					'card' => [
 						'expDate' 				=> '0114',
 						'cardValidationNum'		=> '349',
@@ -207,7 +196,8 @@ class AuthorizationTransactionTest extends UnitTestCase {
 			],
 			'06-missing-address-zip' => [
 				'request' => [
-					'orderId' => 235212,
+					'id'   => '6',
+					'amount' => 10050,
 					'card' => [
 						'number' 				=> '4457010000000009',
 						'expDate' 				=> '0114',

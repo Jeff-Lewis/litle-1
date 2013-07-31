@@ -9,6 +9,6 @@ class AuthorizationReversalResponse extends TransactionResponse {
      * Constructor Overrides
      */
     public function __construct($raw_response) {
-        parent::__construct($raw_response);
+        parent::__construct($raw_response, 'authReversalResponse');
     }
 }

@@ -30,11 +30,23 @@ class AuthorizationRequest extends TransactionRequest {
 	 */
 	public function make($params) {
 
-		// making an authorization transaction requires an order id
-		// which is used to assoicate back to the merchants system
+		// we need an order id and an amount
+		if (!isset($params['id'])) {
+			throw new Exception\MissingRequestParameterException('id');
+		}
 		if (!isset($params['orderId'])) {
 			throw new Exception\MissingRequestParameterException('orderId');
 		}
+		if (!isset($params['amount'])) {
+			throw new Exception\MissingRequestParameterException('amount');
+		}
+		
+		// @todo better handling of different response codes on functional
+		if ($this->mode == 'sandbox') { $params['amount'] = '1000'; } 
+
+		// remove the comma!
+		$params['amount'] = str_replace('.', '', (string) $params['amount']);
+		$params['orderSource'] = self::DEFAULT_ORDER_SOURCE;
 
 		// a card must be present to make an authorization request, unless
 		// if in the future we want to do an AVS only authorization.
@@ -44,13 +56,6 @@ class AuthorizationRequest extends TransactionRequest {
 		// occur. we can override this behavior using the requireAddress = false
 		// parameter
 		$this->checkForBillToAddress($params);
-
-		// hard coded for now
-		$params['orderSource'] = self::DEFAULT_ORDER_SOURCE;
-
-		if ($this->mode == 'sandbox') {
-			$params['amount'] = '1000';
-		}
 
 		return $this->respond($this->litle_sdk->authorizationRequest($params));
 	}

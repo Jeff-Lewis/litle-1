@@ -22,7 +22,7 @@ class AuthorizationResponse extends TransactionResponse {
      * Construction
      */
     public function __construct($raw_response, $mode) {
-        parent::__construct($raw_response, $mode);
+        parent::__construct($raw_response, 'authorizationResponse', $mode);
 
         $this->auth_code = trim(\XMLParser::getNode($raw_response, 'authCode'));
 
@@ -38,6 +38,7 @@ class AuthorizationResponse extends TransactionResponse {
 
         } catch (Exception\UnknownResponseCodeException $e) {
             $this->avs = null;
+
         }
     }
 

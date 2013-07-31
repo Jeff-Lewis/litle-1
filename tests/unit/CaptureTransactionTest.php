@@ -17,6 +17,7 @@ class CaptureTransactionTest extends UnitTestCase {
 
 		$result = (new CaptureRequest([], [], $litle))->make($transaction['request']);
 
+		$this->assertEquals('1', $result->getOrderId());
 		$this->assertEquals('323462', $result->getLitleTxnId());
 		$this->assertTrue($result->isApproved());
 	}
@@ -30,6 +31,7 @@ class CaptureTransactionTest extends UnitTestCase {
 
 		$result = (new CaptureRequest([], [], $litle))->make($transaction['request']);
 
+		$this->assertEquals('2', $result->getOrderId());
 		$this->assertEquals('323462', $result->getLitleTxnId());
 		$this->assertFalse($result->isApproved());
 	}
@@ -38,12 +40,18 @@ class CaptureTransactionTest extends UnitTestCase {
 	 * Failed Capture Transaction missing TXN id
 	 *
 	 * @expectedException Petflow\Litle\Exception\MissingRequestParameterException
+	 * @dataProvider missingParametersProvider
 	 */
-	public function testFailedCaptureTransactionMissingTxnId() {
-		$transaction = static::transactions()['03-missing-txnid'];
-		$litle       = TestHelper::mockLitleRequest('captureRequest', $transaction['response']);
+	public function testFailedCaptureTransactionMissingTxnId($request, $response) {
+		$litle = TestHelper::mockLitleRequest('captureRequest', $response);
+		$result = (new CaptureRequest([], [], $litle))->make($request);
+	}
 
-		$result = (new CaptureRequest([], [], $litle))->make($transaction['request']);
+	/**
+	 * Missing Parameter Tests
+	 */
+	public static function missingParametersProvider() {
+		return array_slice(static::transactions(), 2);
 	}
 
 	/**
@@ -53,20 +61,24 @@ class CaptureTransactionTest extends UnitTestCase {
 		return [
 			'01-approved' => [
 				'request'  => [
-					'litleTxnId' => '323462'
-				],
-				'response' => TestHelper::makeCaptureXMLResponse([], [
+					'id'         => '1',
 					'litleTxnId' => '323462',
-					'orderId' => '10110',
-					'response' => '000',
-					'message' => 'Approved'
+					'amount'     => '10100'
+				],
+				'response' => TestHelper::makeCaptureXMLResponse(['id' => '1'], [
+					'litleTxnId' => '323462',
+					'response' 	 => '000',
+					'message'    => 'Approved',
+					'responseTime' => '2013-07-01T11:37:04'
 				])
 			],
 			'02-failed' => [
 				'request'  => [
-					'litleTxnId' => '323462'
+					'id'         => '2',
+					'litleTxnId' => '323462',
+					'amount'     => '101.00'
 				],
-				'response' => TestHelper::makeCaptureXMLResponse([], [
+				'response' => TestHelper::makeCaptureXMLResponse(['id' => '2'], [
 					'litleTxnId'   => '323462',
 					'response'     => '305',
 					'message' 	   => 'Expired Card',
@@ -74,10 +86,27 @@ class CaptureTransactionTest extends UnitTestCase {
 					'postDate' 	   => null
 				])
 			],
-			'03-missing-txnid' => [
-				'request'  => [],
+			'03-missing-order-id' => [
+				'request'  => [
+					'litleTxnId' => '1000000000000253',
+					'amount'     => '250.00'
+				],
 				'response' => TestHelper::makeCaptureXMLResponse([], [])
-			]
+			],
+			'04-missing-txnid' => [
+				'request'  => [
+					'id' 		=> '4',
+					'amount'    => '250.00'
+				],
+				'response' => TestHelper::makeCaptureXMLResponse([], [])
+			],
+			'05-missing-amount' => [
+				'request'  => [
+					'id' 		 => '5',
+					'litleTxnId' => '1000000000000253'
+				],
+				'response' => TestHelper::makeCaptureXMLResponse([], [])
+			],
 		];
 	}
 }

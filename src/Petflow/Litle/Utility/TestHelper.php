@@ -57,6 +57,17 @@ class TestHelper {
     }
 
     /**
+     * Make Credit Response
+     */
+    public static function makeCreditXMLResponse($attributes, $nodes) {
+        return static::makeXmlResponse(
+            '<creditResponse '.static::buildXMLAttributes($attributes).' reportGroup="default">'.
+                static::buildXMLNodes($nodes).
+            '</creditResponse>'
+        );
+    }
+
+    /**
      * Make an XML Responses
      */
     public static function makeXmlResponse($content) {
@@ -78,7 +89,7 @@ class TestHelper {
         $xml_attributes = '';
 
         foreach ($attributes as $attribute => $value) {
-            $xml_attributes .= " $attribute='$value' ";
+            $xml_attributes .= " $attribute=\"$value\" ";
         }
 
         return $xml_attributes;

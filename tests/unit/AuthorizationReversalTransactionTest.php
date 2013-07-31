@@ -18,6 +18,7 @@ class AuthorizationReversalTransactionTest extends UnitTestCase {
 
 		$result = (new AuthorizationReversalRequest([], [], $litle))->make($transaction['request']);
 
+		$this->assertEquals('1', $result->getOrderId());
 		$this->assertEquals('472743', $result->getLitleTxnId());
 		$this->assertTrue($result->isApproved());
 	}
@@ -41,9 +42,10 @@ class AuthorizationReversalTransactionTest extends UnitTestCase {
 		return [
 			'01-approved' => [
 				'request' => [
+					'id' => 1,
 					'litleTxnId' => 472743
 				],
-				'response' => TestHelper::makeAuthReversalXMLResponse([], [
+				'response' => TestHelper::makeAuthReversalXMLResponse(['id' => 1], [
 					'litleTxnId' => '472743',
 					'response' => '000',
 					'message' => 'Approved'

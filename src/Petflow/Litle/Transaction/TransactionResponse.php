@@ -20,6 +20,8 @@ abstract class TransactionResponse {
     protected $data;
     protected $debug;
 
+    protected $xml_node_name;
+
     /**
      * Create a Response
      *
@@ -27,9 +29,12 @@ abstract class TransactionResponse {
      * for the appropriate fields in the raw response XML and then parse
      * them out into the corresponding members of this class.
      */
-    public function __construct($raw_response_data, $mode='sandbox') {
-        $this->setCode(\XMLParser::getNode($raw_response_data, 'response'));
+    public function __construct($raw_response_data, $node_name, $mode='sandbox') {
+        $this->xml_node_name = $node_name;
 
+        $this->setCode(\XMLParser::getNode($raw_response_data, 'response'));
+        
+        $this->order_id     = \XMLParser::getAttribute($raw_response_data, $this->xml_node_name, 'id');
         $this->litle_txn_id = \XMLParser::getNode($raw_response_data, 'litleTxnId');
         $this->time         = (new \DateTime(\XMLParser::getNode($raw_response_data, 'responseTime')))->format('Y-m-d H:i:s');
 
@@ -49,6 +54,10 @@ abstract class TransactionResponse {
 
         // set the details for this response, generated from the response code
         $this->details = TransactionResponseCode::code($code);
+    }
+
+    public function getOrderId() {
+        return $this->order_id;
     }
 
     public function getCode() {

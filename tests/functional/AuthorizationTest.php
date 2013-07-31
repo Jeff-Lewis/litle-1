@@ -14,6 +14,7 @@ class AuthorizationTest extends FunctionalTestCase {
 	{
 		$authorization = (new AuthorizationRequest(static::getParams(), []))->make(static::transactions('approved'));
 		
+		$this->assertEquals('1', $authorization->getOrderId());
 		$this->assertEquals('01', $authorization->getAVS()['code']);
 		$this->assertEquals('000', $authorization->getCode());
 	}
@@ -24,8 +25,9 @@ class AuthorizationTest extends FunctionalTestCase {
 	public static function transactions($key)
 	{
 		$trans = [
-			'approved' => [
-				'orderId' 	=> 2684995,
+			'approved' => [	
+				'id' => 1,
+				'orderId' 	=> 1,
 				'amount' 	=> '1000',
 				'card'   	=> [
 					'number' 	=> '374322062409525',

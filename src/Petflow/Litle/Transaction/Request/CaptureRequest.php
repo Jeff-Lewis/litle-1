@@ -18,19 +18,14 @@ class CaptureRequest extends TransactionRequest {
 	 * @todo documentation here
 	 */
 	public function make($params) {
-
-		// a capture transaction must have a txnid provided
-		// or else we can't capture
+		if (!isset($params['id'])) {
+			throw new Exception\MissingRequestParameterException('id (alias for orderId)');
+		}
 		if (!isset($params['litleTxnId'])) {
 			throw new Exception\MissingRequestParameterException('litleTxnId');
 		}
-
-		// do not allow an amount for now, when an amount is not
-		// present in the request it will capture the full amount
-		// we can change this if client system adapts for partial
-		// capture
-		if (isset($params['amount'])) {
-			// unset($params['amount']);
+		if (!isset($params['amount'])) {
+			throw new Exception\MissingRequestParameterException('amount');
 		}
 		
 		// sandbox we append the 000 so that it works

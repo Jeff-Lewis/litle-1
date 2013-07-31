@@ -2,11 +2,12 @@
 
 use Petflow\Litle\Transaction\Request\AuthorizationRequest;
 use Petflow\Litle\Transaction\Request\CaptureRequest;
+use Petflow\Litle\Transaction\Request\CreditRequest;
 
 /**
  * Authorization and Capture Testing
  */
-class AuthCaptureTest extends CertificationTestCase {
+class AuthCaptureCreditTest extends CertificationTestCase {
 
 	/**
 	 * Test Connection using first Transaction
@@ -14,7 +15,7 @@ class AuthCaptureTest extends CertificationTestCase {
 	public function testConnection() {
 		$auth = static::authTransactions()['1'];
 
-		$source = $auth[0];
+		$source 	  = $auth[0];
 		$expectations = $auth[1];
 
 		$response = (new AuthorizationRequest(static::getParams()))->make($source);
@@ -25,15 +26,28 @@ class AuthCaptureTest extends CertificationTestCase {
 		$this->assertEquals($expectations['avs_result'], $response->getAvs()['code']);
 
 
-		// for orders 1 thru 5 we do capture!
+		// for orders 1 thru 5 we do capture and then credit
 		if ($source['orderId'] >= 1 && $source['orderId'] <= 5)  {
+
+			// capture
 			$capture_response = (new CaptureRequest(static::getParams()))->make([
+				'id' 		 => $source['id'],
 				'orderId' 	 => $source['orderId'],
 				'litleTxnId' => $response->getLitleTxnId()
 			]);
 
 			$this->assertEquals(static::captureTransactions()[$source['orderId']]['response'], $capture_response->getCode());
 			$this->assertEquals(static::captureTransactions()[$source['orderId']]['message'], $capture_response->getDetails()['message']);
+		
+			// credit
+			$credit_response = (new CreditRequest(static::getParams()))->make([
+				'id' 		 => $source['id'],
+				'orderId'    => $source['orderId'],
+				'litleTxnId' => $capture_response->getLitleTxnId()
+			]);
+
+			$this->assertEquals(static::creditTransactions()[$source['orderId']]['response'], $credit_response->getCode());
+			$this->assertEquals(static::creditTransactions()[$source['orderId']]['message'], $credit_response->getDetails()['message']);
 		}
 	}
 	
@@ -48,18 +62,30 @@ class AuthCaptureTest extends CertificationTestCase {
 		$this->assertEquals($expectations['auth_code'], $response->getAuthCode());
 		$this->assertEquals($expectations['avs_result'], $response->getAvs()['code']);
 
-		// for orders 1 thru 5 we do capture!
+		// for orders 1 thru 5 we do capture and then credit
 		if ($source['orderId'] >= 1 && $source['orderId'] <= 5)  {
+
+			// capture
 			$capture_response = (new CaptureRequest(static::getParams()))->make([
+				'id' 		 => $source['id'],
 				'orderId' 	 => $source['orderId'],
 				'litleTxnId' => $response->getLitleTxnId()
 			]);
 
 			$this->assertEquals(static::captureTransactions()[$source['orderId']]['response'], $capture_response->getCode());
 			$this->assertEquals(static::captureTransactions()[$source['orderId']]['message'], $capture_response->getDetails()['message']);
+		
+			// credit
+			$credit_response = (new CreditRequest(static::getParams()))->make([
+				'id' 		 => $source['id'],
+				'orderId'    => $source['orderId'],
+				'litleTxnId' => $capture_response->getLitleTxnId()
+			]);
+
+			$this->assertEquals(static::creditTransactions()[$source['orderId']]['response'], $credit_response->getCode());
+			$this->assertEquals(static::creditTransactions()[$source['orderId']]['message'], $credit_response->getDetails()['message']);
 		}
 	}
-
 
 	/**
 	 * For Authorization
@@ -80,6 +106,7 @@ class AuthCaptureTest extends CertificationTestCase {
 			'1' => [	
 				[
 					'amount' 		=> 10100,
+					'id'		    => '1',
 					'orderId' 		=> '1',
 					'orderSource'	=> 'ecommerce',
 					'billToAddress' => [
@@ -111,6 +138,7 @@ class AuthCaptureTest extends CertificationTestCase {
 			'2' => [	
 				[
 					'amount' 		=> 20200,
+					'id'		    => '1',
 					'orderId' 		=> '2',
 					'orderSource'	=> 'ecommerce',
 					'billToAddress' => [
@@ -145,6 +173,7 @@ class AuthCaptureTest extends CertificationTestCase {
 			'3' => [	
 				[
 					'amount' 		=> 30300,
+					'id'		    => '3',
 					'orderId' 		=> '3',
 					'orderSource'	=> 'ecommerce',
 					'billToAddress' => [
@@ -176,6 +205,7 @@ class AuthCaptureTest extends CertificationTestCase {
 			'4' => [	
 				[
 					'amount' 		=> 40400,
+					'id'		    => '4',
 					'orderId' 		=> '4',
 					'orderSource'	=> 'ecommerce',
 					'billToAddress' => [
@@ -206,6 +236,7 @@ class AuthCaptureTest extends CertificationTestCase {
 			'5' => [	
 				[
 					'amount' 				=> 50500,
+					'id'		    		=> '5',
 					'orderId' 				=> '5',
 					'orderSource'			=> 'ecommerce',
 					'card'					=> [
@@ -231,6 +262,7 @@ class AuthCaptureTest extends CertificationTestCase {
 			'6' => [	
 				[
 					'amount' 				=> 60600,
+					'id'		    		=> '6',
 					'orderId' 				=> '6',
 					'orderSource'			=> 'ecommerce',
 					'billToAddress' => [
@@ -262,6 +294,7 @@ class AuthCaptureTest extends CertificationTestCase {
 			'7' => [	
 				[
 					'amount' 				=> 70700,
+					'id'		   			=> '7',
 					'orderId' 				=> '7',
 					'orderSource'			=> 'ecommerce',
 					'billToAddress' => [
@@ -293,6 +326,7 @@ class AuthCaptureTest extends CertificationTestCase {
 			'8' => [
 				[
 					'amount' 				=> 80800,
+					'id'		    		=> '8',
 					'orderId' 				=> '8',
 					'orderSource'			=> 'ecommerce',
 					'billToAddress' => [
@@ -324,6 +358,7 @@ class AuthCaptureTest extends CertificationTestCase {
 			'9' => [
 				[
 					'amount' 				=> 90900,
+					'id'		   		    => '9',
 					'orderId' 				=> '9',
 					'orderSource'			=> 'ecommerce',
 					'billToAddress' => [
@@ -356,6 +391,34 @@ class AuthCaptureTest extends CertificationTestCase {
 	 * For Capture
 	 */
 	public static function captureTransactions() {
+		return [	
+			'1' => [
+				'response' => '000',
+				'message' => 'Approved'
+			],
+			'2' => [
+				'response' => '000',
+				'message' => 'Approved'
+			],
+			'3' => [
+				'response' => '000',
+				'message' => 'Approved'
+			],
+			'4' => [
+				'response' => '000',
+				'message' => 'Approved'
+			],
+			'5' => [
+				'response' => '000',
+				'message' => 'Approved'
+			]
+		];
+	}
+
+	/**
+	 * For Credit
+	 */
+	public static function creditTransactions() {
 		return [	
 			'1' => [
 				'response' => '000',

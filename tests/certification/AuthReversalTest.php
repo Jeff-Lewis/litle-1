@@ -30,6 +30,7 @@ class ReversalTests extends CertificationTestCase {
 
 		if (!is_null($capture)) {
 			$capture_response = (new CaptureRequest(static::getParams()))->make([
+				'id' 		 => $source['id'],
 				'orderId' 	 => $source['orderId'],
 				'litleTxnId' => $response->getLitleTxnId(),
 				'amount'     => $capture[0]['amount']
@@ -43,7 +44,9 @@ class ReversalTests extends CertificationTestCase {
 		$reversal_transaction = static::reversalTransactions()[$source['orderId']];
 
 		$reversal_response = (new AuthorizationReversalRequest(static::getParams()))->make([
-			'litleTxnId' 	=> $response->getLitleTxnId()
+			'id'			=> $source['id'],
+			'litleTxnId' 	=> $response->getLitleTxnId(),
+			'amount'        => $capture[0]['amount']
 		]);
 
 		$this->assertEquals($reversal_transaction['response'], $reversal_response->getCode());
@@ -66,6 +69,7 @@ class ReversalTests extends CertificationTestCase {
 
 		if (!is_null($capture)) {
 			$capture_response = (new CaptureRequest(static::getParams()))->make([
+				'id'			=> $source['id'],
 				'orderId' 	 => $source['orderId'],
 				'litleTxnId' => $response->getLitleTxnId(),
 				'amount'     => $capture[0]['amount']
@@ -79,18 +83,24 @@ class ReversalTests extends CertificationTestCase {
 		$reversal_transaction = static::reversalTransactions()[$source['orderId']];
 
 		$reversal_response = (new AuthorizationReversalRequest(static::getParams()))->make([
+			'id'			=> $source['id'],
 			'litleTxnId' 	=> $response->getLitleTxnId(),
+			'amount'        => $capture[0]['amount']
 		]);
 
 		$this->assertEquals($reversal_transaction['response'], $reversal_response->getCode());
 		$this->assertEquals($reversal_transaction['message'], $reversal_response->getDetails()['message']);
 	}
 
+	/**
+	 * For Authorization
+	 */
 	public static function authTransactions() {
 		return [
 			'32' => [	
 				[
 					'amount' 		=> 10100,
+					'id'			=> '32',
 					'orderId' 		=> '32',
 					'orderSource'	=> 'ecommerce',
 					'billToAddress' => [
@@ -119,6 +129,7 @@ class ReversalTests extends CertificationTestCase {
 			'33' => [
 				[
 					'amount' 		=> 20200,
+					'id'			=> '33',
 					'orderId' 		=> '33',
 					'orderSource'	=> 'ecommerce',
 					'billToAddress' => [
@@ -150,6 +161,7 @@ class ReversalTests extends CertificationTestCase {
 			'34' => [	
 				[
 					'amount' 		=> 30300,
+					'id'			=> '34',
 					'orderId' 		=> '34',
 					'orderSource'	=> 'ecommerce',
 					'billToAddress' => [
@@ -178,6 +190,7 @@ class ReversalTests extends CertificationTestCase {
 			'35' => [
 				[
 					'amount' 		=> 40400,
+					'id'			=> '35',
 					'orderId' 		=> '35',
 					'orderSource'	=> 'ecommerce',
 					'billToAddress' => [
@@ -205,6 +218,9 @@ class ReversalTests extends CertificationTestCase {
 		];
 	}
 
+	/**
+	 * For Capture
+	 */
 	public static function captureTransactions() {
 		return [
 			'32' => [
@@ -231,6 +247,9 @@ class ReversalTests extends CertificationTestCase {
 		];
 	}
 
+	/**
+	 * Dat Reversal
+	 */
 	public static function reversalTransactions() {
 		return [
 			'32' => [
