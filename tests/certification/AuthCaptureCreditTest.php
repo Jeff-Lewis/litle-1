@@ -33,7 +33,8 @@ class AuthCaptureCreditTest extends CertificationTestCase {
 			$capture_response = (new CaptureRequest(static::getParams()))->make([
 				'id' 		 => $source['id'],
 				'orderId' 	 => $source['orderId'],
-				'litleTxnId' => $response->getLitleTxnId()
+				'litleTxnId' => $response->getLitleTxnId(),
+				'amount'     => $source['amount']
 			]);
 
 			$this->assertEquals(static::captureTransactions()[$source['orderId']]['response'], $capture_response->getCode());
@@ -43,7 +44,8 @@ class AuthCaptureCreditTest extends CertificationTestCase {
 			$credit_response = (new CreditRequest(static::getParams()))->make([
 				'id' 		 => $source['id'],
 				'orderId'    => $source['orderId'],
-				'litleTxnId' => $capture_response->getLitleTxnId()
+				'litleTxnId' => $capture_response->getLitleTxnId(),
+				'amount'     => $source['amount']
 			]);
 
 			$this->assertEquals(static::creditTransactions()[$source['orderId']]['response'], $credit_response->getCode());
@@ -69,7 +71,8 @@ class AuthCaptureCreditTest extends CertificationTestCase {
 			$capture_response = (new CaptureRequest(static::getParams()))->make([
 				'id' 		 => $source['id'],
 				'orderId' 	 => $source['orderId'],
-				'litleTxnId' => $response->getLitleTxnId()
+				'litleTxnId' => $response->getLitleTxnId(),
+				'amount'     => $source['amount']
 			]);
 
 			$this->assertEquals(static::captureTransactions()[$source['orderId']]['response'], $capture_response->getCode());
@@ -79,7 +82,8 @@ class AuthCaptureCreditTest extends CertificationTestCase {
 			$credit_response = (new CreditRequest(static::getParams()))->make([
 				'id' 		 => $source['id'],
 				'orderId'    => $source['orderId'],
-				'litleTxnId' => $capture_response->getLitleTxnId()
+				'litleTxnId' => $capture_response->getLitleTxnId(),
+				'amount'     => $source['amount']
 			]);
 
 			$this->assertEquals(static::creditTransactions()[$source['orderId']]['response'], $credit_response->getCode());
