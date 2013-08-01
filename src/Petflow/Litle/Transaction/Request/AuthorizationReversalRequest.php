@@ -32,12 +32,11 @@ class AuthorizationReversalRequest extends TransactionRequest {
 		if (!isset($params['litleTxnId'])) {
 			throw new Exception\MissingRequestParameterException('litleTxnId');
 		}
-
-		// stop any amounts, so that we can prevent partial
-		// reversal until client system supports it
-		if (isset($params['amount']))  {
-			unset($params['amount']);
+		if (!isset($params['amount'])) {
+			throw new Exception\MissingRequestParameterException('amount');
 		}
+		
+		$params['amount'] = str_replace('.', '', (string) $params['amount']);
 
 		// sandbox we append tthe 000 so that it works
 		if ($this->mode == 'sandbox') {

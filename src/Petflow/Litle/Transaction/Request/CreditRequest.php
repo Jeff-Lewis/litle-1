@@ -39,6 +39,8 @@ class CreditRequest extends TransactionRequest {
 			throw new Exception\MissingRequestParameterException('amount');
 		}
 
+		$params['amount'] = str_replace('.', '', (string) $params['amount']);
+
 		// sandbox mode we will append the 000 to the txn id so that we will
 		// recieve an approved response.
 		// 

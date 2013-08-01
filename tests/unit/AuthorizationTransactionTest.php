@@ -76,6 +76,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 				'request'  => [
 					'amount' 		=> 101.00,
 					'id' 			=> '1',
+					'orderId'       => '1',
 					'billToAddress' => [
 						'name' 			=> 'John Smith',
 						'addressLine1' 	=> '1 Main St.',
@@ -108,6 +109,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 				'request'  => [
 					'amount' 		=> '101.00',
 					'id' 			=> '2',
+					'orderId'		=> '2',
 					'billToAddress' => [
 						'name' 			=> 'John Smith',
 						'addressLine1' 	=> '1 Main St.',
@@ -140,6 +142,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 				'request'  => [
 					'amount' 		=> '10100',
 					'id' 			=> '3',
+					'orderId' 		=> '3',
 					'orderSource'	=> 'ecommerce',
 					'billToAddress' => [
 						'name' 			=> 'John Smith',

@@ -43,7 +43,8 @@ class AuthorizationReversalTransactionTest extends UnitTestCase {
 			'01-approved' => [
 				'request' => [
 					'id' => 1,
-					'litleTxnId' => 472743
+					'litleTxnId' => 472743,
+					'amount' => 500
 				],
 				'response' => TestHelper::makeAuthReversalXMLResponse(['id' => 1], [
 					'litleTxnId' => '472743',

@@ -27,6 +27,8 @@ class CaptureRequest extends TransactionRequest {
 		if (!isset($params['amount'])) {
 			throw new Exception\MissingRequestParameterException('amount');
 		}
+
+		$params['amount'] = str_replace('.', '', (string) $params['amount']);
 		
 		// sandbox we append the 000 so that it works
 		if ($this->mode == 'sandbox') {
