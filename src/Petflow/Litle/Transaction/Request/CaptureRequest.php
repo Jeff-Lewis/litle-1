@@ -44,7 +44,7 @@ class CaptureRequest extends TransactionRequest {
 	 * @todo documentation here
 	 */
 	public function respond($raw_response) {
-		return new Response\CaptureResponse($raw_response);
+		return new Response\CaptureResponse($raw_response, $this->mode);
 	}
 
 }

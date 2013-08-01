@@ -58,7 +58,7 @@ class CreditRequest extends TransactionRequest {
 	 * @todo documentation here
 	 */
 	public function respond($raw_response) {
-		return new Response\CreditResponse($raw_response);
+		return new Response\CreditResponse($raw_response, $this->mode);
 	}
 
 }

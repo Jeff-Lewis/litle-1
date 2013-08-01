@@ -61,7 +61,7 @@ class AuthorizationReversalRequest extends TransactionRequest {
 	 * response.
 	 */
 	public function respond($raw_response) {
-		return new Response\AuthorizationReversalResponse($raw_response);
+		return new Response\AuthorizationReversalResponse($raw_response, $this->mode);
 	}
 
 }

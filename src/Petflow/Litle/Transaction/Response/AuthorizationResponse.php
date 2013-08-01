@@ -21,7 +21,7 @@ class AuthorizationResponse extends TransactionResponse {
     /**
      * Construction
      */
-    public function __construct($raw_response, $mode) {
+    public function __construct($raw_response, $mode='sandbox') {
         parent::__construct($raw_response, 'authorizationResponse', $mode);
 
         $this->auth_code = trim(\XMLParser::getNode($raw_response, 'authCode'));
