@@ -74,6 +74,7 @@ class AuthCaptureCreditTest extends CertificationTestCase {
 				'amount'     => $source['amount']
 			]);
 
+
 			$this->assertEquals(static::captureTransactions()[$source['orderId']]['response'], $capture_response->getCode());
 			$this->assertEquals(static::captureTransactions()[$source['orderId']]['message'], $capture_response->getDetails()['message']);
 		
@@ -84,6 +85,7 @@ class AuthCaptureCreditTest extends CertificationTestCase {
 				'amount'     => $source['amount']
 			]);
 
+			$this->assertEquals(static::creditTransactions()[$source['orderId']]['id'], $credit_response->getOrderId());
 			$this->assertEquals(static::creditTransactions()[$source['orderId']]['response'], $credit_response->getCode());
 			$this->assertEquals(static::creditTransactions()[$source['orderId']]['message'], $credit_response->getDetails()['message']);
 		}
@@ -395,22 +397,27 @@ class AuthCaptureCreditTest extends CertificationTestCase {
 	public static function captureTransactions() {
 		return [	
 			'1' => [
+				'id' => '1',
 				'response' => '000',
 				'message' => 'Approved'
 			],
 			'2' => [
+				'id' => '2',
 				'response' => '000',
 				'message' => 'Approved'
 			],
 			'3' => [
+				'id' => '3',
 				'response' => '000',
 				'message' => 'Approved'
 			],
 			'4' => [
+				'id' => '4',
 				'response' => '000',
 				'message' => 'Approved'
 			],
 			'5' => [
+				'id' => '5',
 				'response' => '000',
 				'message' => 'Approved'
 			]
@@ -423,22 +430,27 @@ class AuthCaptureCreditTest extends CertificationTestCase {
 	public static function creditTransactions() {
 		return [	
 			'1' => [
+				'id' => '1',
 				'response' => '000',
 				'message' => 'Approved'
 			],
 			'2' => [
+				'id' => '2',
 				'response' => '000',
 				'message' => 'Approved'
 			],
 			'3' => [
+				'id' => '3',
 				'response' => '000',
 				'message' => 'Approved'
 			],
 			'4' => [
+				'id' => '4',
 				'response' => '000',
 				'message' => 'Approved'
 			],
 			'5' => [
+				'id' => '5',
 				'response' => '000',
 				'message' => 'Approved'
 			]
