@@ -14,7 +14,7 @@ class AuthReversalTest extends FunctionalTestCase {
 	{
 		$reversal = (new AuthorizationReversalRequest(static::getParams(), []))->make(static::transactions('approved'));
 
-		$this->assertEquals('1', $reversal->getOrderId());
+		$this->assertEquals('11', $reversal->getOrderId());
 		$this->assertEquals('000', $reversal->getCode());
 	}
 
@@ -25,8 +25,9 @@ class AuthReversalTest extends FunctionalTestCase {
 	{
 		$trans = [
 			'approved' => [
-				'id' => 1,
-				'amount' => 10100,
+				'id' 	     => '11',
+				'orderId' 	 => '11',
+				'amount' 	 => '10100',
 				'litleTxnId' => '230523523212341'
 			]
 		];

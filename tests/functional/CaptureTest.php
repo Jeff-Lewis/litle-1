@@ -14,7 +14,7 @@ class CaptureTest extends FunctionalTestCase {
 	{
 		$capture = (new CaptureRequest(static::getParams(), []))->make(static::transactions('approved'));
 
-		$this->assertEquals('1', $capture->getOrderId());
+		$this->assertEquals('44', $capture->getOrderId());
 		$this->assertEquals('000', $capture->getCode());
 	}
 
@@ -25,7 +25,8 @@ class CaptureTest extends FunctionalTestCase {
 	{
 		$trans = [
 			'approved' => [
-				'id'    	 => '1',
+				'id'    	 => '44',
+				'orderId'    => '44',
 				'amount' 	 => '140.00',
 				'litleTxnId' => '898541439291894'
 			]

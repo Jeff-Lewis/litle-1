@@ -12,44 +12,45 @@ class AuthCaptureCreditTest extends CertificationTestCase {
 	/**
 	 * Test Connection using first Transaction
 	 */
-	public function testConnection() {
-		$auth = static::authTransactions()['1'];
+	// public function testConnection() {
+	// 	$auth = static::authTransactions()['1'];
 
-		$source 	  = $auth[0];
-		$expectations = $auth[1];
+	// 	$source 	  = $auth[0];
+	// 	$expectations = $auth[1];
 
-		$response = (new AuthorizationRequest(static::getParams()))->make($source);
+	// 	$response = (new AuthorizationRequest(static::getParams()))->make($source);
 
-		$this->assertEquals($expectations['response'], $response->getCode());
-		$this->assertEquals($expectations['message'], $response->getDetails()['message']);
-		$this->assertEquals($expectations['auth_code'], $response->getAuthCode());
-		$this->assertEquals($expectations['avs_result'], $response->getAvs()['code']);
+	// 	$this->assertEquals($expectations['response'], $response->getCode());
+	// 	$this->assertEquals($expectations['message'], $response->getDetails()['message']);
+	// 	$this->assertEquals($expectations['auth_code'], $response->getAuthCode());
+	// 	$this->assertEquals($expectations['avs_result'], $response->getAvs()['code']);
 
 
-		// for orders 1 thru 5 we do capture and then credit
-		if ($source['orderId'] >= 1 && $source['orderId'] <= 5)  {
+	// 	// for orders 1 thru 5 we do capture and then credit
+	// 	if ($source['orderId'] >= 1 && $source['orderId'] <= 5)  {
 
-			// capture
-			$capture_response = (new CaptureRequest(static::getParams()))->make([
-				'id' 		 => $source['id'],
-				'litleTxnId' => $response->getLitleTxnId(),
-				'amount'     => $source['amount']
-			]);
+	// 		// capture
+	// 		$capture_response = (new CaptureRequest(static::getParams()))->make([
+	// 			'id' 		 => $source['id'],
+	// 			'orderId'    => $source['orderId'],
+	// 			'litleTxnId' => $response->getLitleTxnId(),
+	// 			'amount'     => $source['amount']
+	// 		]);
 
-			$this->assertEquals(static::captureTransactions()[$source['orderId']]['response'], $capture_response->getCode());
-			$this->assertEquals(static::captureTransactions()[$source['orderId']]['message'], $capture_response->getDetails()['message']);
+	// 		$this->assertEquals(static::captureTransactions()[$source['orderId']]['response'], $capture_response->getCode());
+	// 		$this->assertEquals(static::captureTransactions()[$source['orderId']]['message'], $capture_response->getDetails()['message']);
 			
-			// credit
-			$credit_response = (new CreditRequest(static::getParams()))->make([
-				'id' 		 => $source['id'],
-				'litleTxnId' => $capture_response->getLitleTxnId(),
-				'amount'     => $source['amount']
-			]);
+	// 		// credit
+	// 		$credit_response = (new CreditRequest(static::getParams()))->make([
+	// 			'id' 		 => $source['id'],
+	// 			'litleTxnId' => $capture_response->getLitleTxnId(),
+	// 			'amount'     => $source['amount']
+	// 		]);
 
-			$this->assertEquals(static::creditTransactions()[$source['orderId']]['response'], $credit_response->getCode());
-			$this->assertEquals(static::creditTransactions()[$source['orderId']]['message'], $credit_response->getDetails()['message']);
-		}
-	}
+	// 		$this->assertEquals(static::creditTransactions()[$source['orderId']]['response'], $credit_response->getCode());
+	// 		$this->assertEquals(static::creditTransactions()[$source['orderId']]['message'], $credit_response->getDetails()['message']);
+	// 	}
+	// }
 	
 	/**
 	 * @dataProvider authTransactions
@@ -68,6 +69,7 @@ class AuthCaptureCreditTest extends CertificationTestCase {
 			// capture
 			$capture_response = (new CaptureRequest(static::getParams()))->make([
 				'id' 		 => $source['id'],
+				'orderId'    => $source['orderId'],
 				'litleTxnId' => $response->getLitleTxnId(),
 				'amount'     => $source['amount']
 			]);
@@ -138,7 +140,7 @@ class AuthCaptureCreditTest extends CertificationTestCase {
 			'2' => [	
 				[
 					'amount' 		=> 20200,
-					'id'		    => '1',
+					'id'		    => '2',
 					'orderId' 		=> '2',
 					'orderSource'	=> 'ecommerce',
 					'billToAddress' => [

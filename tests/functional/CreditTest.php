@@ -14,7 +14,7 @@ class CreditTest extends FunctionalTestCase {
 	{
 		$credit = (new CreditRequest(static::getParams(), []))->make(static::transactions('approved'));
 
-		$this->assertEquals('1', $credit->getOrderId());
+		$this->assertEquals('33', $credit->getOrderId());
 		$this->assertEquals('000', $credit->getCode());
 	}
 
@@ -25,9 +25,9 @@ class CreditTest extends FunctionalTestCase {
 	{
 		$trans = [
 			'approved' => [
-				'id'         => '1',
+				'id'         => '33',
 				'amount'     => '2000',
-				'litleTxnId' => '100000000000000002'
+				'litleTxnId' => '898541439291894'
 			]
 		];
 
