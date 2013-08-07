@@ -68,6 +68,17 @@ class TestHelper {
     }
 
     /**
+     * Make Register Token Response
+     */
+    public static function makeRegisterTokenResponse($attributes, $nodes) {
+        return static::makeXmlResponse(
+            '<registerTokenResponse '.static::buildXMLAttributes($attributes).' reportGroup="default">'.
+                static::buildXMLNodes($nodes).
+            '</registerTokenResponse>'
+        );
+    }
+
+    /**
      * Make an XML Responses
      */
     public static function makeXmlResponse($content) {
