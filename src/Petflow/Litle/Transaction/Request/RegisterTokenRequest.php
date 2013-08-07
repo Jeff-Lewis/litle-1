@@ -17,10 +17,7 @@ class RegisterTokenRequest extends TransactionRequest {
 	 */
 	public function make($params) {
 
-		// must pass a txnid, order id, and an amount for the transaciton to
-		// be allowed.
-		if (!isset($params['accountNumber']) || empty($params['accountNumber']) && 
-			!isset($params['paypageRegistrationId']) || empty($params['paypageRegistrationId'])) {
+		if (!isset($params['accountNumber']) && !isset($params['paypageRegistrationId'])) {
 			throw new Exception\MissingRequestParameterException('accountNumber OR paypageRegistrationId');
 		}
 		if (!isset($params['orderId']) || empty($params['orderId'])) {
