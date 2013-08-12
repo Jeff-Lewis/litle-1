@@ -116,4 +116,11 @@ abstract class TransactionResponse {
 
         return $this->data[$key];
     }
+
+    /**
+     * Get Response String
+     */
+    public function getResponseString() {} {
+        return $this->getCode() . ' :: '.$this->details;
+    }
 }
