@@ -120,7 +120,7 @@ abstract class TransactionResponse {
     /**
      * Get Response String
      */
-    public function getResponseString() {} {
+    public function getResponseString() {
         return $this->getCode() . ' :: '.$this->details;
     }
 }
