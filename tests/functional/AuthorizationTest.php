@@ -36,6 +36,7 @@ class AuthorizationTest extends FunctionalTestCase {
 					'cardValidationNumber' => ''
 				],
 				'billToAddress' => [
+					'name' => 'Johnny Sucks',
 					'zip' => 12561
 				]
 			]
