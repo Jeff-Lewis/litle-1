@@ -85,11 +85,9 @@ class AuthorizationTransactionTest extends UnitTestCase {
 						'zip' 			=> '01803-3747',
 						'country' 		=> 'US'
 					],
-					'card' => [
-						'number' 				=> '4457010000000009',
-						'expDate' 				=> '0114',
-						'cardValidationNum'		=> '349',
-						'type' 					=> 'VI'
+					'token' => [
+						'litleToken' 			=> '1111000101039449',
+						'expDate' 				=> '0114'
 					]
 				],
 				'response' => TestHelper::makeAuthorizationXMLResponse(

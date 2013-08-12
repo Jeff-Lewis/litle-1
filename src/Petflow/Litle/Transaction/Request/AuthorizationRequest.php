@@ -88,10 +88,10 @@ class AuthorizationRequest extends TransactionRequest {
 	 * @return [type]         [description]
 	 */
 	private function checkForCardRequirements($params) {
-		if (!isset($params['card'])) {
+		if (!isset($params['card']) && !isset($params['token'])) {
 			throw new Exception\MissingRequestParameterException('card');
 
-		} else {
+		} else if (isset($params['card'])) {
 			if (!isset($params['card']['number'])) {
 				throw new Exception\MissingRequestParameterException('card[number]');
 			}
@@ -100,6 +100,13 @@ class AuthorizationRequest extends TransactionRequest {
 			}
 			if (!isset($params['card']['type'])) {
 				throw new Exception\MissingRequestParameterException('card[type]');
+			}
+		} else if (isset($params['token'])) {
+			if (!isset($params['token']['litleToken'])) {
+				throw new Exception\MissingRequestParameterException('token[litleToken]');
+			}
+			if (!isset($params['token']['expDate'])) {
+				throw new Exception\MissingRequestParameterException('token[expDate]');
 			}
 		}
 	}
@@ -123,6 +130,9 @@ class AuthorizationRequest extends TransactionRequest {
 				throw new Exception\MissingRequestParameterException('billToAddress');
 
 			} else {
+				if (!isset($params['billToAddress']['name'])) {
+					throw new Exception\MissingRequestParameterException('billToAddress[name]');
+				}
 				if (!isset($params['billToAddress']['zip'])) {
 					throw new Exception\MissingRequestParameterException('billToAddress[zip]');
 				}

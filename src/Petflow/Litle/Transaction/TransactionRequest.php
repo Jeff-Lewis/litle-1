@@ -97,9 +97,6 @@ abstract class TransactionRequest {
 			$this->mode = 'sandbox';
 		}
 
-		// var_export(static::$config);
-		// die();
-
 		// litle dependency injection
 		if (is_null($litle_online_request)) {
 			$this->litle_sdk = new \LitleOnlineRequest(static::$config);
