@@ -28,7 +28,7 @@ class AuthReversalTest extends FunctionalTestCase {
 				'id' 	     => '11',
 				'orderId' 	 => '11',
 				'amount' 	 => '10100',
-				'litleTxnId' => '230523523212341'
+				'litleTxnId' => '123456789123456000'
 			]
 		];
 

@@ -42,7 +42,7 @@ class AuthorizationRequest extends TransactionRequest {
 		}
 		
 		// @todo better handling of different response codes on functional
-		if ($this->mode == 'sandbox') { $params['amount'] = '1000'; } 
+		// if ($this->mode == 'sandbox') { $params['amount'] = '1000'; } 
 
 		// remove the comma!
 		$params['amount'] = str_replace('.', '', (string) $params['amount']);
