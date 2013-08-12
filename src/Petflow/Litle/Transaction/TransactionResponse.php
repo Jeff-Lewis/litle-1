@@ -121,6 +121,6 @@ abstract class TransactionResponse {
      * Get Response String
      */
     public function getResponseString() {
-        return $this->getCode() . ' :: '.$this->details;
+        return $this->getCode().' :: '.$this->details['message'].' :: '.$this->details['description'];
     }
 }
