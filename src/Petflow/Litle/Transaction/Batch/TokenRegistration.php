@@ -66,30 +66,28 @@ class TokenRegistration {
 	private static function litle_request($content) {
 		$xml = new \SimpleXMLElement($content);
 
-		$file = fopen('/tmp/tokens.xml', 'w');
-		fwrite($file, $xml->asXML());
-		rewind($file);
-
 		$ch = curl_init();
 
-		// curl_setopt($ch, CURLOPT_PROXY, $config['proxy']);
-		// curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: text/xml'));
-		curl_setopt($ch, CURLOPT_URL, self::$sandbox_url);
-		// curl_setopt($ch, CURLOPT_POSTFIELDS, $xml->asXML());
+		curl_setopt($ch, CURLOPT_URL, self::$url);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $xml->asXML());
 		curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, true);
-		// curl_setopt($ch,CURLOPT_TIMEOUT, $config['timeout']);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,2);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_SSLVERSION, 3);
-		curl_setopt($ch, CURLOPT_INFILE, $file);
-		curl_setopt($ch, CURLOPT_UPLOAD, 1);
 
 		$output       = curl_exec($ch);
 		$responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-		fclose($file);
+		if (! $output){
+			throw new Exception (curl_error($ch));
+		}
+		else {
+			curl_close($ch);
+			return $output;
+		}
 	}
 
 	/**
