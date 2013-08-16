@@ -84,10 +84,10 @@ class ReversalTests extends CertificationTestCase {
 		$reversal_transaction = static::reversalTransactions()[$source['orderId']];
 
 		$reversal_response = (new AuthorizationReversalRequest(static::getParams()))->make([
-			'id'			=> $source['id'],
+			'id'		=> $source['id'],
 			'orderId'       => $source['orderId'],
 			'litleTxnId' 	=> $response->getLitleTxnId(),
-			'amount'        => $capture[0]['amount']
+			'amount'        => $source['amount']
 		]);
 
 		$this->assertEquals($reversal_transaction['response'], $reversal_response->getCode());
