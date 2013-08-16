@@ -45,9 +45,9 @@ class CreditRequest extends TransactionRequest {
 		// recieve an approved response.
 		// 
 		// @todo better method for testing more response codes!
-		if ($this->mode == 'sandbox') {
-			$params['litleTxnId'] = substr_replace((string) $params['litleTxnId'], '000', -3);
-		}
+		// if ($this->mode == 'sandbox') {
+		// 	$params['litleTxnId'] = substr_replace((string) $params['litleTxnId'], '000', -3);
+		// }
 
 		return $this->respond(
 			$this->litle_sdk->creditRequest($params)

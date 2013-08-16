@@ -28,7 +28,7 @@ class CaptureTest extends FunctionalTestCase {
 				'id'    	 => '44',
 				'orderId'    => '44',
 				'amount' 	 => '140.00',
-				'litleTxnId' => '898541439291894'
+				'litleTxnId' => '123456789123456000'
 			]
 		];
 

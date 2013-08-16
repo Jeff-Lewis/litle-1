@@ -27,7 +27,7 @@ class CreditTest extends FunctionalTestCase {
 			'approved' => [
 				'id'         => '33',
 				'amount'     => '2000',
-				'litleTxnId' => '898541439291894'
+				'litleTxnId' => '123456789123456000'
 			]
 		];
 

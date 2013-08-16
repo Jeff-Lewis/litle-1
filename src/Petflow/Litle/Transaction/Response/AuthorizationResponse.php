@@ -66,4 +66,18 @@ class AuthorizationResponse extends TransactionResponse {
 
         return $this->avs['code'] === '01' || $this->avs['code'] === '02';
     }
+
+    /**
+     * AVS Response String
+     */
+    public function getAvsResponseString() {
+        return $this->avs;
+    }
+
+    /**
+     * Response String Override
+     */
+    public function getResponseString() {
+        return $this->getAuthCode().parent::getResponseString();
+    }
 }

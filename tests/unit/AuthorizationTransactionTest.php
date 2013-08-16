@@ -85,11 +85,9 @@ class AuthorizationTransactionTest extends UnitTestCase {
 						'zip' 			=> '01803-3747',
 						'country' 		=> 'US'
 					],
-					'card' => [
-						'number' 				=> '4457010000000009',
-						'expDate' 				=> '0114',
-						'cardValidationNum'		=> '349',
-						'type' 					=> 'VI'
+					'token' => [
+						'litleToken' 			=> '1111000101039449',
+						'expDate' 				=> '0114'
 					]
 				],
 				'response' => TestHelper::makeAuthorizationXMLResponse(
@@ -118,11 +116,9 @@ class AuthorizationTransactionTest extends UnitTestCase {
 						'zip' 			=> '01803-3747',
 						'country' 		=> 'US'
 					],
-					'card' => [
-						'number' 				=> '4457010000000009',
-						'expDate' 				=> '0114',
-						'cardValidationNum'		=> '349',
-						'type' 					=> 'VI'
+					'token' => [
+						'litleToken' 			=> '1111000101039449',
+						'expDate' 				=> '0114'
 					]
 				],
 				'response' => TestHelper::makeAuthorizationXMLResponse(
@@ -152,11 +148,9 @@ class AuthorizationTransactionTest extends UnitTestCase {
 						'zip' 			=> '01803-3747',
 						'country' 		=> 'US'
 					],
-					'card' => [
-						'number' 				=> '4457010000000009',
-						'expDate' 				=> '0114',
-						'cardValidationNum'		=> '349',
-						'type' 					=> 'VI'
+					'token' => [
+						'litleToken' 			=> '1111000101039449',
+						'expDate' 				=> '0114'
 					]
 				],
 				'response' => TestHelper::makeAuthorizationXMLResponse(
@@ -175,10 +169,9 @@ class AuthorizationTransactionTest extends UnitTestCase {
 			'04-missing-order-id' => [
 				'request' => [
 					'amount' => 10100,
-					'card' => [
-						'expDate' 				=> '0114',
-						'cardValidationNum'		=> '349',
-						'type' 					=> 'VI'
+					'token' => [
+						'litleToken' 			=> '1111000101039449',
+						'expDate' 				=> '0114'
 					],
 					'billToAddress' => []
 				],
@@ -188,10 +181,8 @@ class AuthorizationTransactionTest extends UnitTestCase {
 				'request' => [
 					'id'   => '6',
 					'amount' => 10050,
-					'card' => [
-						'expDate' 				=> '0114',
-						'cardValidationNum'		=> '349',
-						'type' 					=> 'VI'
+					'token' => [
+						'expDate' 				=> '0114'
 					],
 					'billToAddress' => []
 				],
@@ -201,11 +192,9 @@ class AuthorizationTransactionTest extends UnitTestCase {
 				'request' => [
 					'id'   => '6',
 					'amount' => 10050,
-					'card' => [
-						'number' 				=> '4457010000000009',
-						'expDate' 				=> '0114',
-						'cardValidationNum'		=> '349',
-						'type' 					=> 'VI'
+					'token' => [
+						'litleToken' 			=> '1111000101039449',
+						'expDate' 				=> '0114'
 					],
 					'billToAddress' => []
 				],

@@ -30,10 +30,10 @@ class CaptureRequest extends TransactionRequest {
 
 		$params['amount'] = str_replace('.', '', (string) $params['amount']);
 		
-		// sandbox we append the 000 so that it works
-		if ($this->mode == 'sandbox') {
-			$params['litleTxnId'] = substr_replace((string) $params['litleTxnId'], '000', -3);
-		}
+		// // sandbox we append the 000 so that it works
+		// if ($this->mode == 'sandbox') {
+		// 	$params['litleTxnId'] = substr_replace((string) $params['litleTxnId'], '000', -3);
+		// }
 
 		return $this->respond(
 			$this->litle_sdk->captureRequest($params)
