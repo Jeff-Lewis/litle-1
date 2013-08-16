@@ -187,7 +187,7 @@ class TransactionResponseCode extends ResponseCode {
 				'description'	=> 'This transaction is being declined due the operation of the Litle Auth Fraud Advice Filtering Service.'
 			],
 		'320' => [
-				'message'		=> 'Invalid Expiration Date ',
+				'message'		=> 'Invalid Expiration Date',
 				'type'			=> 'hard_decline',
 				'description'	=> 'The expiration date is invalid.'
 			],
