@@ -93,6 +93,14 @@ class TestHelper {
         return $dom;
     }
 
+    public static function batchResponse($responses) {
+        '<litleResponse version="8.15" xmlns="http://www.litle.com/schema" id="123" response="0" message="Valid Format" litleSessionId="987654321">
+           <batchResponse id="01234567" litleBatchId="4455667788" merchantId="100">
+              '.$responses.'
+           </batchResponse>
+        </litleResponse>'
+    }
+
     /**
      * Build XML Attributes
      */
