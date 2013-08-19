@@ -34,11 +34,21 @@ class TokenRegistration {
 	/**
 	 * Construction
 	 */
-	public function __construct($config) {
-		self::$url      = $config['url'];
-		self::$user     = $config['username'];
-		self::$pass     = $config['password'];
-		self::$merchant = $config['merchant'];
+	public function __construct($config = false) {
+		if ($config) {
+			self::$url      = $config['url'];
+			self::$user     = $config['username'];
+			self::$pass     = $config['password'];
+			self::$merchant = $config['merchant'];
+		} else {
+			$cfg = LitlePaymentAdapter::get_config();
+
+			self::$url      = $cfg['url'];
+			self::$user     = $cfg['username'];
+			self::$pass     = $cfg['password'];
+			self::$merchant = $cfg['merchant'];
+		}
+
 	}
 
 	/**

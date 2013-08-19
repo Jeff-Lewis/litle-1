@@ -78,6 +78,6 @@ class AuthorizationResponse extends TransactionResponse {
      * Response String Override
      */
     public function getResponseString() {
-        return $this->getAuthCode().parent::getResponseString();
+        return parent::getResponseString().' with authcode of '.$this->getAuthCode();
     }
 }
