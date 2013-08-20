@@ -75,7 +75,7 @@ class TokenRegistration {
 		foreach ($response->batchResponse->registerTokenResponse as $token_response) {
 			$response_code = (string) $token_response->response;
 
-			if ($response_code === '801' || $response_code === '803') {
+			if ($response_code === '801' || $response_code === '802') {
 				$ret[] = [
 					'payment_option_id' => (string) $token_response->orderId,
 					'token' 	        => (string) $token_response->litleToken,
@@ -108,7 +108,7 @@ class TokenRegistration {
 
 		$output       = curl_exec($ch);
 		$responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		
+	var_export($output);	
                 if (! $output){
 			throw new Exception (curl_error($ch));
 		}

@@ -77,7 +77,7 @@ abstract class TransactionResponse {
     }
 
     public function isApproved() {
-        return $this->code === '000' && $this->details['type'] === 'approved';
+        return $this->code === '000' || $this->details['type'] === 'approved';
     }
 
     public function debug() {
