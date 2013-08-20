@@ -15,7 +15,7 @@ class TokenRegistrationTest extends CertificationTestCase {
 	 */
 	public function testSuccessfulTokenRegistrationNewlyRegistered() {
 		$response = (new Request\RegisterTokenRequest(static::getParams()))->make([
-			'orderId' => '1',
+			'orderId' 		=> '1',
 			'accountNumber' => '4457119922390123'
 		]);
 
@@ -44,7 +44,7 @@ class TokenRegistrationTest extends CertificationTestCase {
 	 */
 	public function testSuccessfulTokenRegistrationAlreadyRegistered() {
 		$response = (new Request\RegisterTokenRequest(static::getParams()))->make([
-			'orderId' => '1',
+			'orderId' 		=> '3',
 			'accountNumber' => '4457119922390123'
 		]);
 
@@ -52,6 +52,32 @@ class TokenRegistrationTest extends CertificationTestCase {
 		$this->assertEquals('0123', substr($response->getLitleToken(), -4));
 		$this->assertEquals('VI', $response->getCardType());
 		$this->assertEquals('445711', $response->getCardBin());
+	}
+
+	/**
+	 * Invalid Paypage registration
+	 */
+	public function testFailedPaypageRegistrationInvalid() {
+		$response = (new Request\RegisterTokenRequest(static::getParams()))->make([
+			'orderId' 				=> '4',
+			'paypageRegistrationId' => 'RGFQNCt6U1d1M21SeVByVTM4dHlHb1FsVkUrSm pnWXhNY0o5UkMzRlZFanZiUHVnYjN1enJXbG1WS DF4aXlNcA=='
+		]);
+
+		$this->assertFalse($response->isApproved());
+		$this->assertEquals('877', $response->getCode());
+	}
+
+	/**
+	 * Expired Payapage Registration
+	 */
+	public function testFailedPaypageRegistrationExpired() {
+		$response = (new Request\RegisterTokenRequest(static::getParams()))->make([
+			'orderId' 				=> '5',
+			'paypageRegistrationId' => 'cDZJcmd1VjNlYXNaSlRMTGpocVZQY1NWVXE4ZW 5UTko4NU9KK3p1L1p1Vzg4YzVPQVlSUHNITG1JN 2I0NzlyTg=='
+		]);
+
+		$this->assertFalse($response->isApproved());
+		$this->assertEquals('878', $response->getCode());
 	}
 
 }
