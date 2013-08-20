@@ -38,4 +38,5 @@ class RegisterTokenRequest extends TransactionRequest {
 	public function respond($raw_response) {
 		return new Response\RegisterTokenResponse($raw_response);
 	}
+
 }

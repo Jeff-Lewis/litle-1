@@ -10,51 +10,6 @@ use Petflow\Litle\Transaction\Request\AuthorizationReversalRequest;
 class ReversalTests extends CertificationTestCase {
 
 	/**
-	 * Test one for Connection
-	 */
-	// public function testConnection() {
-	// 	$transaction = static::authTransactions()['32'];
-
-	// 	$source 	  = $transaction[0];
-	// 	$expectations = $transaction[1];
-
-	// 	$response = (new AuthorizationRequest(static::getParams()))->make($source);
-
-	// 	$this->assertEquals($expectations['response'], $response->getCode());
-	// 	$this->assertEquals($expectations['message'], $response->getDetails()['message']);
-	// 	$this->assertEquals($expectations['auth_code'], $response->getAuthCode());
-	// 	$this->assertEquals($expectations['avs_result'], $response->getAvs()['code']);
-
-	// 	// when available, do capture
-	// 	$capture = static::captureTransactions()[$source['orderId']];
-
-	// 	if (!is_null($capture)) {
-	// 		$capture_response = (new CaptureRequest(static::getParams()))->make([
-	// 			'id' 		 => $source['id'],
-	// 			'orderId' 	 => $source['orderId'],
-	// 			'litleTxnId' => $response->getLitleTxnId(),
-	// 			'amount'     => $capture[0]['amount']
-	// 		]);
-
-	// 		$this->assertEquals($capture[1]['response'], $capture_response->getCode());
-	// 		$this->assertEquals($capture[1]['message'], $capture_response->getDetails()['message']);
-	// 	}
-
-	// 	// perform reversal
-	// 	$reversal_transaction = static::reversalTransactions()[$source['orderId']];
-
-	// 	$reversal_response = (new AuthorizationReversalRequest(static::getParams()))->make([
-	// 		'id'			=> $source['id'],
-	// 		'orderId'       => $source['orderId'],
-	// 		'litleTxnId' 	=> $response->getLitleTxnId(),
-	// 		'amount'        => $capture[0]['amount']
-	// 	]);
-
-	// 	$this->assertEquals($reversal_transaction['response'], $reversal_response->getCode());
-	// 	$this->assertEquals($reversal_transaction['message'], $reversal_response->getDetails()['message']);
-	// }
-
-	/**
 	 * @dataProvider authTransactions
 	 */
 	public function testReversals($source, $expectations) {

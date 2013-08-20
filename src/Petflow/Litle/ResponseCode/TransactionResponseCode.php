@@ -256,10 +256,74 @@ class TransactionResponseCode extends ResponseCode {
 				'type'			=> 'hard_decline',
 				'description'	=> 'The billing descriptor is not valid because you are not authorized to send transactions with custom billing fields.'
 			],
-		'316' => [
-				'message'		=> '',
-				'type'			=> '',
-				'description'	=> ''
-			],
+
+		/**
+		 * Token Specific
+		 */
+		'801' => [
+				'message'		=> 'Account number was successfully registered',
+				'type'			=> 'approved',
+				'description'	=> 'The card number was successfully registered and a token number was returned.'
+		],
+
+		'802' => [
+				'message'		=> 'Account number was previously registered',
+				'type'			=> 'approved',
+				'description'	=> 'The card number was previously registered for tokenization.'
+		],
+
+		'805' => [
+				'message'		=> 'Card Validation Number Updated',
+				'type'			=> 'approved',
+				'description'	=> 'The stored value for CVV2/CVC2/CID has been successfully updated.'
+		],
+
+		'820' => [
+				'message'		=> 'Credit card number was invalid',
+				'type'			=> 'hard_decline',
+				'description'	=> 'The card number submitted for tokenization is invalid.'
+		],
+
+		'821' => [
+				'message'		=> 'Merchant is not authorized for tokens',
+				'type'			=> 'hard_decline',
+				'description'	=> 'Your organization is not authorized to use tokens.'
+		],
+
+		'822' => [
+				'message'		=> 'Token was not found',
+				'type'			=> 'hard_decline',
+				'description'	=> 'The token number submitted with this transaction was not found.'
+		],
+
+		'877' => [
+				'message'		=> 'Invalid Pay Page Registration Id',
+				'type'			=> 'hard_decline',
+				'description'	=> 'A Pay Page response indicating that the Pay Page Registration ID submitted is invalid.'
+		],
+
+		'878' => [
+				'message'		=> 'Expired Pay Page Registration Id',
+				'type'			=> 'hard_decline',
+				'description'	=> 'A Pay Page response indicating that the Pay Page Registration ID has expired (Pay Page Registration IDs expire 24 hours after being issued).'
+		],
+
+		'879' => [
+				'message'		=> 'Merchant is not authorized for Pay Page',
+				'type'			=> 'hard_decline',
+				'description'	=> 'Your organization is not authorized to use the Pay Page.'
+		],
+
+		'898' => [
+				'message'		=> 'Generic token registration error',
+				'type'			=> 'soft_decline',
+				'description'	=> 'There is an unspecified token registration error; contact Litle & Co.'
+		],
+
+		'899' => [
+				'message'		=> 'Generic token use error',
+				'type'			=> 'soft_decline',
+				'description'	=> 'There is an unspecified token use error; contact Litle & Co.'
+		]
 	];
 }
