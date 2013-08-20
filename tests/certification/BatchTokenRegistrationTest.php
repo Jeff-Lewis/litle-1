@@ -22,19 +22,19 @@ class BatchTokenRegistrationTest extends CertificationTestCase {
 		return [
 			[	
 				'payment_option_id' => '123456',
-				'card' => '10000000001041'
+				'card' => '4457119922390123'
 			],
 			[			
 				'payment_option_id' => '123457',
-				'card' => '10000000001042'
+				'card' => '4457119999999999'
 			],
 			[	
 				'payment_option_id' => '123458',
-				'card' => '10000000001043'
+				'card' => '4457119922390123'
 			],
 			[	
 				'payment_option_id' => '123459',
-				'card' => '10000000001044'
+				'card' => '5435101234510196'
 			]
 		];
 	}
