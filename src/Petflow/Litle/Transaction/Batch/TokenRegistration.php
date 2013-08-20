@@ -36,7 +36,7 @@ class TokenRegistration {
 	 */
 	public function __construct($config = false) {
 		if ($config) {
-			self::$url      = $config['url'];
+			self::$url      = $config['batch_url'];
 			self::$user     = $config['username'];
 			self::$pass     = $config['password'];
 			self::$merchant = $config['merchant'];
@@ -65,10 +65,28 @@ class TokenRegistration {
 		$batch    = self::register_token_batch_xml_wrapper($batch_id, $requests);
 		$response = self::litle_request($batch);
 
-		$xml = simplexml_load_string($response);
+		$response = simplexml_load_string($response);
+		$ret      = [];
 
-		return $xml;
-	}
+		if (!isset($response->batchResponse->registerTokenResponse)) {
+			throw new \Exception('Invalid response: no registerTokenResponse(s) found.');
+		}
+
+		foreach ($response->batchResponse->registerTokenResponse as $token_response) {
+			$response_code = (string) $token_response->response;
+
+			if ($response_code === '801' || $response_code === '803') {
+				$ret[] = [
+					'payment_option_id' => (string) $token_response->orderId,
+					'token' 	        => (string) $token_response->litleToken,
+					'card_bin' 			=> (string) $token_response->bin,
+					'card_type'			=> (string) $token_response->type
+				];
+			}
+		}
+
+		return $ret;
+        }
 
 	/**
 	 * Litle Request
@@ -77,8 +95,8 @@ class TokenRegistration {
 		$xml = new \SimpleXMLElement($content);
 
 		$ch = curl_init();
-
-		curl_setopt($ch, CURLOPT_POST, true);
+		
+                curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: text/xml'));
 		curl_setopt($ch, CURLOPT_URL, self::$url);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $xml->asXML());
@@ -90,8 +108,8 @@ class TokenRegistration {
 
 		$output       = curl_exec($ch);
 		$responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-		if (! $output){
+		
+                if (! $output){
 			throw new Exception (curl_error($ch));
 		}
 		else {
@@ -121,7 +139,7 @@ class TokenRegistration {
 		        '      <user>'.self::$user.'</user>'."\n".
 		        '      <password>'.self::$pass.'</password>'."\n".
 		        '   </authentication>'."\n".
-		        '   <batchRequest id="'.$batch_id.'" numTokenRegistrations="'.count($registrations).'">'."\n"
+		        '   <batchRequest id="'.$batch_id.'" merchantId="'.self::$merchant.'" numTokenRegistrations="'.count($registrations).'">'."\n"
 		           		.implode("", $registrations).
 		        '   </batchRequest>'."\n".
 		        '</litleRequest>';

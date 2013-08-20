@@ -11,7 +11,7 @@ class BatchTokenRegistrationTest extends CertificationTestCase {
 	public function testCreateBatchOfTokensReturnsArray() {
 		$reg    = new Batch\TokenRegistration(static::getParams());
 		$result = $reg->send(static::cards());
-
+var_export($result);
 		$this->assertInternalType('array', $result);
 	}
 
