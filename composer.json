@@ -1,6 +1,6 @@
 {
     "name": "petflow/litle",
-    "description": "An object oriented wrapper for the litle-sdk-for-php.",
+    "description": "An object oriented wrapper for the official PHP SDK for Litle.",
     "authors": [
         {
             "name": "Nate Krantz",
