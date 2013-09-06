@@ -109,8 +109,8 @@ class TokenRegistration {
 		$output       = curl_exec($ch);
 		$responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        if (! $output){
-			throw new Exception (curl_error($ch));
+        if (!$output){
+			throw new \Exception (curl_error($ch));
 		}
 		else {
 			curl_close($ch);
