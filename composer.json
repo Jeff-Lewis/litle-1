@@ -1,24 +1,14 @@
 {
     "name": "petflow/litle",
-    "description": "Litle integration for Petflow.com",
+    "description": "An object oriented wrapper for the official PHP SDK for Litle.",
     "authors": [
         {
             "name": "Nate Krantz",
             "email": "nate@petflow.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/nkrantz23/litle-sdk-for-php"
-        }
-    ],
-    "version": "dev-master",
-    "source": {
-        "url": "git://github.com/petflow/litle",
-        "type": "git",
-        "reference": "master"
-    },
+    "license": "MIT",
+    "minimum-stability": "dev",
     "require": {
         "nkrantz/litle-sdk-for-php" : "dev-master"
     },

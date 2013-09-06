@@ -86,7 +86,7 @@ class TokenRegistration {
 		}
 
 		return $ret;
-        }
+    }
 
 	/**
 	 * Litle Request
@@ -96,7 +96,7 @@ class TokenRegistration {
 
 		$ch = curl_init();
 		
-                curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: text/xml'));
 		curl_setopt($ch, CURLOPT_URL, self::$url);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $xml->asXML());
@@ -108,8 +108,8 @@ class TokenRegistration {
 
 		$output       = curl_exec($ch);
 		$responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-	var_export($output);	
-                if (! $output){
+
+        if (! $output){
 			throw new Exception (curl_error($ch));
 		}
 		else {
