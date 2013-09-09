@@ -32,6 +32,12 @@ class TokenRegistration {
 	protected static $merchant;
 
 	/**
+	 * Last Output
+	 * @var [type]
+	 */
+	protected static $last_output;
+
+	/**
 	 * Construction
 	 */
 	public function __construct($config = false) {
@@ -77,6 +83,7 @@ class TokenRegistration {
 
 			if ($response_code === '801' || $response_code === '802') {
 				$ret[] = [
+					'code'				=> $response_code,
 					'payment_option_id' => (string) $token_response->orderId,
 					'token' 	        => (string) $token_response->litleToken,
 					'card_bin' 			=> (string) $token_response->bin,
@@ -113,6 +120,12 @@ class TokenRegistration {
 			throw new \Exception (curl_error($ch));
 		}
 		else {
+			self::$last_request = $output;
+
+			$p = fopen('/data/litle/'.date('Y-m-d\.H:i:s'), 'w+');
+			fwrite($p, $output);
+			fclose($p);
+
 			curl_close($ch);
 			return $output;
 		}
