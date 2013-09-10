@@ -32,12 +32,6 @@ class TokenRegistration {
 	protected static $merchant;
 
 	/**
-	 * Last Output
-	 * @var [type]
-	 */
-	protected static $last_output;
-
-	/**
 	 * Construction
 	 */
 	public function __construct($config = false) {
@@ -120,8 +114,6 @@ class TokenRegistration {
 			throw new \Exception (curl_error($ch));
 		}
 		else {
-			self::$last_request = $output;
-
 			$p = fopen('/data/litle/'.date('Y-m-d\.H:i:s'), 'w+');
 			fwrite($p, $output);
 			fclose($p);
