@@ -30,8 +30,12 @@ class RegisterTokenResponse extends TransactionResponse {
         parent::__construct($raw_response, 'registerTokenResponse', $mode);
 
         $this->litleToken = trim(\XMLParser::getNode($raw_response, 'litleToken'));
-        $this->bin = trim(\XMLParser::getNode($raw_response, 'bin'));
-        $this->type = trim(\XMLParser::getNode($raw_response, 'type'));
+        $this->bin        = trim(\XMLParser::getNode($raw_response, 'bin'));
+        $this->type       = trim(\XMLParser::getNode($raw_response, 'type'));
+
+        // ugh, because sometimes order_id is mirroed in the id attribute, but
+        // othertimes its not.
+        $this->order_id   = trim(\XMLParser::getNode($raw_response, 'orderId'));
     }
 
     /**
