@@ -10,6 +10,7 @@ php:
 before_script:
   - composer install
   - composer dump-autoload -o
+  - cp config.travis.json config.json
 
 # tests  
 script: phpunit
