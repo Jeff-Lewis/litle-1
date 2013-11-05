@@ -1,6 +1,5 @@
 <?php namespace Petflow\Litle\Transaction\Request;
 
-use Petflow\Litle\Exception;
 use Petflow\Litle\ResponseCode;
 use Petflow\Litle\Transaction\Response;
 
@@ -18,10 +17,10 @@ class RegisterTokenRequest extends TransactionRequest {
 	public function make($params) {
 
 		if (!isset($params['accountNumber']) && !isset($params['paypageRegistrationId'])) {
-			throw new Exception\MissingRequestParameterException('accountNumber OR paypageRegistrationId');
+			throw new \MissingRequestParameterException('accountNumber OR paypageRegistrationId');
 		}
 		if (!isset($params['orderId']) || empty($params['orderId'])) {
-			throw new Exception\MissingRequestParameterException('orderId');
+			throw new \MissingRequestParameterException('orderId');
 		}
 		if (isset($params['accountNumber']) && isset($params['paypageRegistrationId'])) {
 			throw new \Exception('Both accountNumber and paypageRegistrationId detected! Please provide only one.');

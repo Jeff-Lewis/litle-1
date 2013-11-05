@@ -1,6 +1,5 @@
 <?php namespace Petflow\Litle\Transaction\Request;
 
-use Petflow\Litle\Exception;
 use Petflow\Litle\ResponseCode;
 use Petflow\Litle\Transaction\Response;
 
@@ -32,13 +31,13 @@ class AuthorizationRequest extends TransactionRequest {
 
 		// we need an order id and an amount
 		if (!isset($params['id'])) {
-			throw new Exception\MissingRequestParameterException('id');
+			throw new \MissingRequestParameterException('id');
 		}
 		if (!isset($params['orderId'])) {
-			throw new Exception\MissingRequestParameterException('orderId');
+			throw new \MissingRequestParameterException('orderId');
 		}
 		if (!isset($params['amount'])) {
-			throw new Exception\MissingRequestParameterException('amount');
+			throw new \MissingRequestParameterException('amount');
 		}
 		
 		// @todo better handling of different response codes on functional
@@ -89,24 +88,24 @@ class AuthorizationRequest extends TransactionRequest {
 	 */
 	private function checkForCardRequirements($params) {
 		if (!isset($params['card']) && !isset($params['token'])) {
-			throw new Exception\MissingRequestParameterException('card');
+			throw new \MissingRequestParameterException('card');
 
 		} else if (isset($params['card'])) {
 			if (!isset($params['card']['number'])) {
-				throw new Exception\MissingRequestParameterException('card[number]');
+				throw new \MissingRequestParameterException('card[number]');
 			}
 			if (!isset($params['card']['expDate'])) {
-				throw new Exception\MissingRequestParameterException('card[expDate]');
+				throw new \MissingRequestParameterException('card[expDate]');
 			}
 			if (!isset($params['card']['type'])) {
-				throw new Exception\MissingRequestParameterException('card[type]');
+				throw new \MissingRequestParameterException('card[type]');
 			}
 		} else if (isset($params['token'])) {
 			if (!isset($params['token']['litleToken'])) {
-				throw new Exception\MissingRequestParameterException('token[litleToken]');
+				throw new \MissingRequestParameterException('token[litleToken]');
 			}
 			if (!isset($params['token']['expDate'])) {
-				throw new Exception\MissingRequestParameterException('token[expDate]');
+				throw new \MissingRequestParameterException('token[expDate]');
 			}
 		}
 	}
@@ -127,14 +126,14 @@ class AuthorizationRequest extends TransactionRequest {
 		// we want to require address if
 		if (!isset($params['requireAddress']) || $params['requireAddress']) {
 			if (!isset($params['billToAddress'])) {
-				throw new Exception\MissingRequestParameterException('billToAddress');
+				throw new \MissingRequestParameterException('billToAddress');
 
 			} else {
 				if (!isset($params['billToAddress']['name'])) {
-					throw new Exception\MissingRequestParameterException('billToAddress[name]');
+					throw new \MissingRequestParameterException('billToAddress[name]');
 				}
 				if (!isset($params['billToAddress']['zip'])) {
-					throw new Exception\MissingRequestParameterException('billToAddress[zip]');
+					throw new \MissingRequestParameterException('billToAddress[zip]');
 				}
 			}
 		}

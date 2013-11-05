@@ -23,7 +23,7 @@ class CreditTransactionTest extends UnitTestCase {
 
 	/**
 	 * @dataProvider missingParameterProvider
-	 * @expectedException Petflow\Litle\Exception\MissingRequestParameterException
+	 * @expectedException MissingRequestParameterException
 	 */
 	public function testFailedCreditTRansactionMissingParameter($request, $response) {
 		$litle  = TestHelper::mockLitleRequest('creditRequest', $response);

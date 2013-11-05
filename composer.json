@@ -20,10 +20,17 @@
         "classmap": [
             "tests/UnitTestCase.php",
             "tests/FunctionalTestCase.php",
-            "tests/CertificationTestCase.php"
+            "tests/CertificationTestCase.php",
+            "src/Petflow/Litle/Exception/Exception.php"
         ],
         "psr-0": {
             "Petflow\\Litle" : "src/"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/nkrantz23/litle-sdk-for-php"
+        }
+    ]
 }

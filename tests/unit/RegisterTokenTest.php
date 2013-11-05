@@ -55,7 +55,7 @@ class RegisterTokenTest extends UnitTestCase {
 	 * Missing Parameter Failures
 	 *
 	 * @dataProvider missingParameterProvider
-	 * @expectedException Petflow\Litle\Exception\MissingRequestParameterException
+	 * @expectedException MissingRequestParameterException
 	 */
 	public function testMissingParameterFailures($request, $response) {
 		$litle  = TestHelper::mockLitleRequest('registerTokenRequest', $response);

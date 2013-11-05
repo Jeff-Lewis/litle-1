@@ -36,7 +36,7 @@ class AuthorizationResponse extends TransactionResponse {
                 $this->avs = ResponseCode\AVSResponseCode::code(\XMLParser::getNode($raw_response, 'avsResult'));
             }
 
-        } catch (Exception\UnknownResponseCodeException $e) {
+        } catch (UnknownResponseCodeException $e) {
             $this->avs = null;
 
         }
