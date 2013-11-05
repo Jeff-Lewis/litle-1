@@ -62,7 +62,7 @@ class TokenRegistrationTest extends CertificationTestCase {
 			'orderId' 				=> '4',
 			'paypageRegistrationId' => 'RGFQNCt6U1d1M21SeVByVTM4dHlHb1FsVkUrSm pnWXhNY0o5UkMzRlZFanZiUHVnYjN1enJXbG1WS DF4aXlNcA=='
 		]);
-var_export($response);
+
 		$this->assertFalse($response->isApproved());
 		$this->assertEquals('877', $response->getCode());
 	}
@@ -75,7 +75,7 @@ var_export($response);
 			'orderId' 				=> '5',
 			'paypageRegistrationId' => 'cDZJcmd1VjNlYXNaSlRMTGpocVZQY1NWVXE4ZW 5UTko4NU9KK3p1L1p1Vzg4YzVPQVlSUHNITG1JN 2I0NzlyTg=='
 		]);
-var_export($response);
+		
 		$this->assertFalse($response->isApproved());
 		$this->assertEquals('878', $response->getCode());
 	}
