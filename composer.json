@@ -26,5 +26,11 @@
         "psr-0": {
             "Petflow\\Litle" : "src/"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/nkrantz23/litle-sdk-for-php"
+        }
+    ]
 }
