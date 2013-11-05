@@ -39,7 +39,7 @@ class CaptureTransactionTest extends UnitTestCase {
 	/**
 	 * Failed Capture Transaction missing TXN id
 	 *
-	 * @expectedException Petflow\Litle\Exception\MissingRequestParameterException
+	 * @expectedException MissingRequestParameterException
 	 * @dataProvider missingParametersProvider
 	 */
 	public function testFailedCaptureTransactionMissingTxnId($request, $response) {

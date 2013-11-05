@@ -52,7 +52,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 	}
 
 	/**
-	 * @expectedException Petflow\Litle\Exception\MissingRequestParameterException
+	 * @expectedException MissingRequestParameterException
 	 * @dataProvider missingParameterTransactions
 	 */
 	public function testFailedAuthTransactionMissingParameter($request, $response) {

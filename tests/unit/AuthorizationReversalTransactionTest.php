@@ -26,7 +26,7 @@ class AuthorizationReversalTransactionTest extends UnitTestCase {
 	/**
 	 * Failed auth reversal due to missing txn id
 	 *
-	 * @expectedException Petflow\Litle\Exception\MissingRequestParameterException
+	 * @expectedException MissingRequestParameterException
 	 */
 	public function testFailedAuthReversalMissingTxnId() {
 		$transaction = static::transactions()['02-missing-txnid'];

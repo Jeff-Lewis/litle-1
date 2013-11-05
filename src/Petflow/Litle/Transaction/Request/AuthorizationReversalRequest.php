@@ -1,6 +1,5 @@
 <?php namespace Petflow\Litle\Transaction\Request;
 
-use Petflow\Litle\Exception;
 use Petflow\Litle\ResponseCode;
 use Petflow\Litle\Transaction\Response;
 
@@ -30,10 +29,10 @@ class AuthorizationReversalRequest extends TransactionRequest {
 		// there must be a transaction id provided in the request
 		// so that we can make the reversal
 		if (!isset($params['litleTxnId'])) {
-			throw new Exception\MissingRequestParameterException('litleTxnId');
+			throw new \MissingRequestParameterException('litleTxnId');
 		}
 		if (!isset($params['amount'])) {
-			throw new Exception\MissingRequestParameterException('amount');
+			throw new \MissingRequestParameterException('amount');
 		}
 		
 		$params['amount'] = str_replace('.', '', (string) $params['amount']);

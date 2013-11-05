@@ -1,7 +1,6 @@
 <?php namespace Petflow\Litle\Transaction\Request;
 	
 use Petflow\Litle\ResponseCode;
-use Petflow\Litle\Exception;
 use Petflow\Litle\Transaction\Response;
 
 /**
@@ -30,13 +29,13 @@ class CreditRequest extends TransactionRequest {
 		// must pass a txnid, order id, and an amount for the transaciton to
 		// be allowed.
 		if (!isset($params['litleTxnId']) || empty($params['litleTxnId'])) {
-			throw new Exception\MissingRequestParameterException('litleTxnId');
+			throw new \MissingRequestParameterException('litleTxnId');
 		}
 		if (!isset($params['id']) || empty($params['id'])) {
-			throw new Exception\MissingRequestParameterException('id (alias for: orderId]');
+			throw new \MissingRequestParameterException('id (alias for: orderId]');
 		}
 		if (!isset($params['amount']) || empty($params['amount'])) {
-			throw new Exception\MissingRequestParameterException('amount');
+			throw new \MissingRequestParameterException('amount');
 		}
 
 		$params['amount'] = str_replace('.', '', (string) $params['amount']);

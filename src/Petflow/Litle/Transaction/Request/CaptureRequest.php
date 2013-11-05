@@ -1,7 +1,6 @@
 <?php namespace Petflow\Litle\Transaction\Request;
 	
 use Petflow\Litle\ResponseCode;
-use Petflow\Litle\Exception;
 use Petflow\Litle\Transaction\Response;
 
 /**
@@ -19,13 +18,13 @@ class CaptureRequest extends TransactionRequest {
 	 */
 	public function make($params) {
 		if (!isset($params['id'])) {
-			throw new Exception\MissingRequestParameterException('id (alias for orderId)');
+			throw new \MissingRequestParameterException('id (alias for orderId)');
 		}
 		if (!isset($params['litleTxnId'])) {
-			throw new Exception\MissingRequestParameterException('litleTxnId');
+			throw new \MissingRequestParameterException('litleTxnId');
 		}
 		if (!isset($params['amount'])) {
-			throw new Exception\MissingRequestParameterException('amount');
+			throw new \MissingRequestParameterException('amount');
 		}
 
 		$params['amount'] = str_replace('.', '', (string) $params['amount']);

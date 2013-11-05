@@ -1,4 +1,4 @@
-<?php namespace Petflow\Litle\Exception;
+<?php
 
 use \Exception as Exception;
 	
@@ -39,8 +39,7 @@ class MissingRequestParameterException extends Exception {
  * encounterd. The message should contain the reason why and
  * the code encountered.
  */
-class UnknownResponseCodeException extends Exception {
-} 
+class UnknownResponseCodeException extends Exception {} 
 
 /**
  * Duplicate Transaction Detected
