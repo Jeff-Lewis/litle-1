@@ -34,6 +34,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 
 		$this->assertEquals('2', $response->getOrderId());
 		$this->assertEquals('9-Digit zip matches, address does not match', $response->getAVS()['description']);
+		$this->assertEquals('X', $response->getAVS()['actual_code']);
 		$this->assertTrue($response->isApproved());		
 		$this->assertFalse($response->isAVSApproved());
 	}

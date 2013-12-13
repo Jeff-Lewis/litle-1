@@ -39,7 +39,7 @@ abstract class TransactionResponse {
         $this->time         = (new \DateTime(\XMLParser::getNode($raw_response_data, 'responseTime')))->format('Y-m-d H:i:s');
 
         $this->debug = $raw_response_data;
-        $this->mode = $mode;
+        $this->mode  = $mode;
     }
 
     /**
