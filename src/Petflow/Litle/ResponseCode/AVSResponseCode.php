@@ -33,7 +33,7 @@ class AVSResponseCode extends ResponseCode {
 				'actual_code' => 'A'
 			],
 		'13' => [
-				'description' => 'Postal code does not match, address matches'
+				'description' => 'Postal code does not match, address matches',
 				'actual_code' => 'A'
 			],
 		'14' => [
