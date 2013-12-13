@@ -15,10 +15,10 @@ class AuthorizationTransactionTest extends UnitTestCase {
 		$transaction = static::transactions()['01-approved'];
 		$litle 		 = TestHelper::mockLitleRequest('authorizationRequest', $transaction['response']);
 
-		$response = (new AuthorizationRequest([], [], $litle))->make($transaction['request']);
+		$response = (new AuthorizationRequest(['mode' => 'production'], [], $litle))->make($transaction['request']);
 
 		$this->assertEquals('1', $response->getOrderId());
-		$this->assertEquals('9-Digit zip and address match', $response->getAVS()['description']);
+		$this->assertEquals('Y', $response->getAVS()['actual_code']);
 		$this->assertTrue($response->isApproved());
 		$this->assertTrue($response->isAVSApproved());
 	}
@@ -33,8 +33,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 		$response = (new AuthorizationRequest(['mode' => 'production'], [], $litle))->make($transaction['request']);
 
 		$this->assertEquals('2', $response->getOrderId());
-		$this->assertEquals('9-Digit zip matches, address does not match', $response->getAVS()['description']);
-		$this->assertEquals('X', $response->getAVS()['actual_code']);
+		$this->assertEquals('N', $response->getAVS()['actual_code']);
 		$this->assertTrue($response->isApproved());		
 		$this->assertFalse($response->isAVSApproved());
 	}
@@ -99,7 +98,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 						'response' => '000',
 						'message' => 'Approved',
 						'authCode' => '11111',
-						'avsResult' => '01',
+						'avsResult' => '02',
 						'cardValidationResult' => 'M'
 					]
 				)
@@ -130,7 +129,7 @@ class AuthorizationTransactionTest extends UnitTestCase {
 						'response' => '000',
 						'message' => 'Approved',
 						'authCode' => '22222',
-						'avsResult' => '11',
+						'avsResult' => '20',
 						'cardValidationResult' => 'M'
 					]
 				)
