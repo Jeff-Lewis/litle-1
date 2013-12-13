@@ -32,13 +32,13 @@ class AuthorizationResponse extends TransactionResponse {
             // sandbox mode we get approved
             if ($mode === 'sandbox') {
                 $this->avs = ResponseCode\AVSResponseCode::code('01');
+
             } else {
                 $this->avs = ResponseCode\AVSResponseCode::code(\XMLParser::getNode($raw_response, 'avsResult'));
             }
 
         } catch (UnknownResponseCodeException $e) {
             $this->avs = null;
-
         }
     }
 
@@ -64,7 +64,7 @@ class AuthorizationResponse extends TransactionResponse {
             return false;
         }
 
-        return $this->avs['code'] === '01' || $this->avs['code'] === '02';
+        return in_array($this->avs['actual_code'], ['X', 'Y', 'A', 'W', 'Z']);
     }
 
     /**
