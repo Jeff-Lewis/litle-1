@@ -126,7 +126,18 @@ class TestHelper {
         $xml_nodes = '';
 
         foreach ($nodes as $node => $value) {
-            $xml_nodes .= "<$node>$value</$node>\n";
+            if (is_array($value)) {
+                $node_value = '';
+
+                foreach ($value as $inner_node => $inner_value) {
+                    $node_value .= "<$inner_node>$inner_value</$inner_node>\n";
+                }
+                
+            } else {
+                $node_value = $value;
+            }
+
+            $xml_nodes .= "<$node>$node_value</$node>\n";
         }
 
         return $xml_nodes;

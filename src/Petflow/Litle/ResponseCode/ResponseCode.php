@@ -42,6 +42,7 @@ abstract class ResponseCode {
 
 		return [
 			'code' 		  => $code, 
+			'actual_code' => 'R',
 			'description' => 'Encountered an unknown response code.', 
 			'type' 		  => 'unknown', 
 			'message' 	  => 'Unknown response code.'
