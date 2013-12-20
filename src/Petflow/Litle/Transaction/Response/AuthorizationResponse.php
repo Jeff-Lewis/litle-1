@@ -25,36 +25,7 @@ class AuthorizationResponse extends TransactionResponse {
         parent::__construct($raw_response, 'authorizationResponse', $mode);
 
         $this->auth_code = trim(\XMLParser::getNode($raw_response, 'authCode'));
-
-        // AVS results
-        try {
-            $fraud_nodes = $raw_response->getElementsByTagName('avsResult');
-
-            if ($fraud_nodes->length > 0) {
-                foreach ($fraud_nodes as $node) {  
-                    if ($node->nodeName == 'avsResult') {
-                        $this->avs = ResponseCode\AVSResponseCode::code(
-                            $node->nodeValue
-                        );
-                    }
-                }
-
-                if (!$this->avs) {
-                    $this->avs = ResponseCode\AVSResponseCode::code('34');
-                }
-
-            } else {
-                if ($mode === 'sandbox') {
-                    $this->avs = ResponseCode\AVSResponseCode::code('01');
-
-                } else {
-                    $this->avs = ResponseCode\AVSResponseCode::code('34');
-                }
-            }
-
-        } catch (UnknownResponseCodeException $e) {
-            $this->avs = ResponseCode\AVSResponseCode::code('34');
-        }
+        $this->avs       = $this->processAvsResult($raw_response, $mode);
     }
 
     /**
@@ -94,5 +65,42 @@ class AuthorizationResponse extends TransactionResponse {
      */
     public function getResponseString() {
         return parent::getResponseString().' with authcode of '.$this->getAuthCode();
+    }
+
+    /**
+     * Process the avs response.
+     * 
+     * @param  DOMDocument $raw_response
+     * @return null
+     */
+    protected function processAvsResult(\DOMDocument $raw_response, $mode = 'sandbox') {
+        try {
+            $fraud_nodes = $raw_response->getElementsByTagName('avsResult');
+
+            if ($fraud_nodes->length > 0) {
+                foreach ($fraud_nodes as $node) {  
+                    if ($node->nodeName == 'avsResult') {
+                        return ResponseCode\AVSResponseCode::code(
+                            $node->nodeValue
+                        );
+                    }
+                }
+
+                if (!$this->avs) {
+                    return ResponseCode\AVSResponseCode::code('34');
+                }
+
+            } else {
+                if ($mode === 'sandbox') {
+                    return ResponseCode\AVSResponseCode::code('01');
+
+                } else {
+                    return ResponseCode\AVSResponseCode::code('34');
+                }
+            }
+
+        } catch (UnknownResponseCodeException $e) {
+            return ResponseCode\AVSResponseCode::code('34');
+        }
     }
 }
