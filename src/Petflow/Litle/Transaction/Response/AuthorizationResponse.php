@@ -28,17 +28,32 @@ class AuthorizationResponse extends TransactionResponse {
 
         // AVS results
         try {
+            $fraud_nodes = $raw_response->getElementsByTagName('avsResult');
 
-            // sandbox mode we get approved
-            if ($mode === 'sandbox') {
-                $this->avs = ResponseCode\AVSResponseCode::code('01');
+            if ($fraud_nodes->length > 0) {
+                foreach ($fraud_nodes as $node) {  
+                    if ($node->nodeName == 'avsResult') {
+                        $this->avs = ResponseCode\AVSResponseCode::code(
+                            $node->nodeValue
+                        );
+                    }
+                }
+
+                if (!$this->avs) {
+                    $this->avs = ResponseCode\AVSResponseCode::code('34');
+                }
 
             } else {
-                $this->avs = ResponseCode\AVSResponseCode::code(\XMLParser::getNode($raw_response, 'avsResult'));
+                if ($mode === 'sandbox') {
+                    $this->avs = ResponseCode\AVSResponseCode::code('01');
+
+                } else {
+                    $this->avs = ResponseCode\AVSResponseCode::code('34');
+                }
             }
 
         } catch (UnknownResponseCodeException $e) {
-            $this->avs = null;
+            $this->avs = ResponseCode\AVSResponseCode::code('34');
         }
     }
 

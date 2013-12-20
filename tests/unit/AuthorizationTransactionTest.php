@@ -98,7 +98,9 @@ class AuthorizationTransactionTest extends UnitTestCase {
 						'response' => '000',
 						'message' => 'Approved',
 						'authCode' => '11111',
-						'avsResult' => '02',
+						'fraudResult' => array(
+							'avsResult' => '02'
+						),
 						'cardValidationResult' => 'M'
 					]
 				)
@@ -129,7 +131,9 @@ class AuthorizationTransactionTest extends UnitTestCase {
 						'response' => '000',
 						'message' => 'Approved',
 						'authCode' => '22222',
-						'avsResult' => '20',
+						'fraudResult' => array(
+							'avsResult' => '20'
+						),
 						'cardValidationResult' => 'M'
 					]
 				)
@@ -161,7 +165,9 @@ class AuthorizationTransactionTest extends UnitTestCase {
 						'response' => '301',
 						'message' => 'Invalid Account Number',
 						'authCode' => '000000',
-						'avsResult' => '10',
+						'fraudResult' => array(
+							'avsResult' => '10'
+						),
 						'cardValidationResult' => 'M'
 					]
 				)
