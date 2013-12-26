@@ -12,6 +12,10 @@ class AVSResponseCode extends ResponseCode {
 	 * Possible AVS Response Codes. 
 	 */
 	protected static $codes = [
+		'00' => [
+				'description' => '5-Digit zip and address match',
+				'actual_code' => 'Y'
+			],
 		'01' => [
 				'description' => '9-Digit zip and address match',
 				'actual_code' => 'X'
