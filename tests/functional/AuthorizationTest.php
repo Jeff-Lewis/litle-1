@@ -13,10 +13,24 @@ class AuthorizationTest extends FunctionalTestCase {
 	public function testApprovedAuthorization() 
 	{
 		$authorization = (new AuthorizationRequest(static::getParams(), []))->make(static::transactions('approved'));
-		
+
 		$this->assertEquals('22', $authorization->getOrderId());
 		$this->assertEquals('01', $authorization->getAVS()['code']);
 		$this->assertEquals('000', $authorization->getCode());
+	}
+
+	/**
+	 * Test the account updater element
+	 */
+	public function testAccountUpdater() {
+		$authorization = (new AuthorizationRequest(static::getParams(), []))->make(static::transactions('account_updater'));
+		$this->assertArrayHasKey('original', $authorization->getUpdaterElement());
+		$this->assertArrayHasKey('corrected', $authorization->getUpdaterElement());
+
+		$this->assertNotEmpty($authorization->getUpdaterElement()['original']);
+		$this->assertNotEmpty($authorization->getUpdaterElement()['corrected']);
+
+		$this->assertTrue($authorization->cardRequiresUpdate());
 	}
 
 	/**
@@ -31,6 +45,22 @@ class AuthorizationTest extends FunctionalTestCase {
 				'amount' 	=> '1000',
 				'card'   	=> [
 					'number' 	=> '374322062409525',
+					'type' 		=> 'AX',
+					'expDate' 	=> '0315',
+					'cardValidationNumber' => ''
+				],
+				'billToAddress' => [
+					'name' => 'Johnny Sucks',
+					'zip' => 12561
+				]
+			],
+
+			'account_updater' => [
+				'id' 		=> '22',
+				'orderId' 	=> '22',
+				'amount' 	=> '1000',
+				'card'   	=> [
+					'number' 	=> '4100117890123000',
 					'type' 		=> 'AX',
 					'expDate' 	=> '0315',
 					'cardValidationNumber' => ''
