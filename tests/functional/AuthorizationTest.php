@@ -24,11 +24,11 @@ class AuthorizationTest extends FunctionalTestCase {
      */
     public function testAccountUpdater() {
         $authorization = (new AuthorizationRequest(static::getParams(), []))->make(static::transactions('account_updater'));
-        $this->assertArrayHasKey('original', $authorization->getUpdaterElement());
-        $this->assertArrayHasKey('corrected', $authorization->getUpdaterElement());
+        $this->assertArrayHasKey('original', $authorization->getUpdatedCardInformation());
+        $this->assertArrayHasKey('corrected', $authorization->getUpdatedCardInformation());
 
-        $this->assertNotEmpty($authorization->getUpdaterElement()['original']);
-        $this->assertNotEmpty($authorization->getUpdaterElement()['corrected']);
+        $this->assertNotEmpty($authorization->getUpdatedCardInformation()['original']);
+        $this->assertNotEmpty($authorization->getUpdatedCardInformation()['corrected']);
 
         $this->assertTrue($authorization->cardRequiresUpdate());
     }

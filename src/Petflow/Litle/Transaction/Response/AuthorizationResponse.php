@@ -55,7 +55,7 @@ class AuthorizationResponse extends TransactionResponse {
     /**
      * Get Updater Element
      */
-    public function getUpdaterElement() {
+    public function getUpdatedCardInformation() {
         return $this->updater_element;
     }
 
@@ -90,7 +90,7 @@ class AuthorizationResponse extends TransactionResponse {
      * @return boolean
      */
     public function cardRequiresUpdate() {
-        if (!empty($this->getUpdaterElement()['original'])) {
+        if (!empty($this->getUpdatedCardInformation()['original'])) {
             return true;
         }
 
