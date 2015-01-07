@@ -25,7 +25,7 @@ class AuthorizationResponse extends TransactionResponse {
      *
      * Contains information needed to update the user's card
      */
-    protected $updater_element;
+    public $updater_element;
 
     /**
      * Construction
