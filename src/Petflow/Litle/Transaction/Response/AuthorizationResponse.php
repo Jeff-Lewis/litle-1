@@ -152,14 +152,14 @@ class AuthorizationResponse extends TransactionResponse {
 
         return [
             'original'  => [
-                'type'    => $updater_element['originalCardInfo']['type'],
-                'number'  => $updater_element['originalCardInfo']['number'],
-                'expDate' => $updater_element['originalCardInfo']['expDate']
+                'type'       => $updater_element['originalCardTokenInfo']['type'],
+                'litleToken' => $updater_element['originalCardTokenInfo']['litleToken'],
+                'expDate'    => $updater_element['originalCardTokenInfo']['expDate']
             ],
             'corrected' => [
-                'type'    => $updater_element['newCardInfo']['type'],
-                'number'  => $updater_element['newCardInfo']['number'],
-                'expDate' => $updater_element['newCardInfo']['expDate']
+                'type'       => $updater_element['newCardTokenInfo']['type'],
+                'litleToken' => $updater_element['newCardTokenInfo']['litleToken'],
+                'expDate'    => $updater_element['newCardTokenInfo']['expDate']
             ]
         ];
     }
