@@ -28,10 +28,10 @@ class RefundRequest extends TransactionRequest {
         $this->checkForCardRequirements($params);
 
         // remove the comma!
-        $params['amount'] = str_replace('.', '', (string) $params['amount']);
+        $params['amount']      = str_replace('.', '', (string) $params['amount']);
         $params['orderSource'] = self::DEFAULT_ORDER_SOURCE;
 
-        return $this->respond($this->litle_sdk->authorizationRequest($params));
+        return $this->respond($this->litle_sdk->creditRequest($params));
     }
 
     /**
