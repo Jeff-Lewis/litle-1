@@ -167,7 +167,7 @@ class AuthorizationResponse extends TransactionResponse {
             return [
                 'original'  => [],
                 'corrected' => [],
-                'extended'  => $updater_element['message']
+                'extended'  => $updater_element['extendedCardResponse']['message']
             ];
         }
     }
