@@ -150,17 +150,25 @@ class AuthorizationResponse extends TransactionResponse {
 
         $updater_element = $data['litleOnlineResponse']['authorizationResponse']['accountUpdater'];
 
-        return [
-            'original'  => [
-                'type'       => $updater_element['originalCardTokenInfo']['type'],
-                'litleToken' => $updater_element['originalCardTokenInfo']['litleToken'],
-                'expDate'    => $updater_element['originalCardTokenInfo']['expDate']
-            ],
-            'corrected' => [
-                'type'       => $updater_element['newCardTokenInfo']['type'],
-                'litleToken' => $updater_element['newCardTokenInfo']['litleToken'],
-                'expDate'    => $updater_element['newCardTokenInfo']['expDate']
-            ]
-        ];
+        if (isset($updater_element['originalCardTokenInfo'])) {
+            return [
+                'original'  => [
+                    'type'       => $updater_element['originalCardTokenInfo']['type'],
+                    'litleToken' => $updater_element['originalCardTokenInfo']['litleToken'],
+                    'expDate'    => $updater_element['originalCardTokenInfo']['expDate']
+                ],
+                'corrected' => [
+                    'type'       => $updater_element['newCardTokenInfo']['type'],
+                    'litleToken' => $updater_element['newCardTokenInfo']['litleToken'],
+                    'expDate'    => $updater_element['newCardTokenInfo']['expDate']
+                ]
+            ];
+        } else if (isset($updater_element['extendedCardResponse'])) {
+            return [
+                'original'  => [],
+                'corrected' => [],
+                'extended'  => $updater_element['message']
+            ];
+        }
     }
 }
