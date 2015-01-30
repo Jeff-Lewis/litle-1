@@ -13,8 +13,6 @@ use MissingRequestParameterException;
  */
 class RefundRequest extends TransactionRequest {
 
-    const DEFAULT_ORDER_SOURCE = 'ecommerce';
-
     /**
      * Make a Refund Transaction
      *
