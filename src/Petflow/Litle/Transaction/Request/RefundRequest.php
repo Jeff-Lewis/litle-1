@@ -27,10 +27,6 @@ class RefundRequest extends TransactionRequest {
     public function make($params) {
         $this->checkForCardRequirements($params);
 
-        // remove the comma!
-        $params['amount']      = str_replace('.', '', (string) $params['amount']);
-        $params['orderSource'] = self::DEFAULT_ORDER_SOURCE;
-
         return $this->respond($this->litle_sdk->creditRequest($params));
     }
 
@@ -53,13 +49,13 @@ class RefundRequest extends TransactionRequest {
      *
      * @param  array $params
      *
-     * @throws Exception If requirements are missing.
+     * @throws MissingRequestParameterException If requirements are missing.
      * 
      * @return null
      */
     private function checkForCardRequirements($params) {
         foreach (self::$required_fields as $field) {
-            if (!isset($params[$field])) {
+            if (!in_array($field, array_keys($params))) {
                 throw new MissingRequestParameterException($field);
             }
         }
@@ -72,7 +68,6 @@ class RefundRequest extends TransactionRequest {
      */
     private static $required_fields = [
         'id',
-        'orderId',
-        'amount'
+        'litleTxnId'
     ];
 }
