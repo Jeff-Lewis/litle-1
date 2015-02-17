@@ -7,9 +7,6 @@ use MissingRequestParameterException;
 
 /**
  * Refund Request Transaction
- *
- * @author Cory Crowther <cory@petflow.com>
- * @copyright Petflow.com 2015
  */
 class RefundRequest extends TransactionRequest {
 
