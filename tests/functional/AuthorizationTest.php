@@ -20,20 +20,6 @@ class AuthorizationTest extends FunctionalTestCase {
     }
 
     /**
-     * Test the account updater element
-     */
-    public function testAccountUpdater() {
-        $authorization = (new AuthorizationRequest(static::getParams(), []))->make(static::transactions('account_updater'));
-        $this->assertArrayHasKey('original', $authorization->getUpdatedCardInformation());
-        $this->assertArrayHasKey('corrected', $authorization->getUpdatedCardInformation());
-
-        $this->assertNotEmpty($authorization->getUpdatedCardInformation()['original']);
-        $this->assertNotEmpty($authorization->getUpdatedCardInformation()['corrected']);
-
-        $this->assertTrue($authorization->cardRequiresUpdate());
-    }
-
-    /**
      * Transactions
      */
     public static function transactions($key)
@@ -45,22 +31,6 @@ class AuthorizationTest extends FunctionalTestCase {
                 'amount'    => '1000',
                 'card'      => [
                     'number'    => '374322062409525',
-                    'type'      => 'AX',
-                    'expDate'   => '0315',
-                    'cardValidationNumber' => ''
-                ],
-                'billToAddress' => [
-                    'name' => 'Johnny Sucks',
-                    'zip' => 12561
-                ]
-            ],
-
-            'account_updater' => [
-                'id'        => '22',
-                'orderId'   => '22',
-                'amount'    => '1000',
-                'card'      => [
-                    'number'    => '4100117890123000',
                     'type'      => 'AX',
                     'expDate'   => '0315',
                     'cardValidationNumber' => ''
