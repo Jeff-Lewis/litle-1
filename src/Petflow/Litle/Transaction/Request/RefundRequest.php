@@ -62,7 +62,6 @@ class RefundRequest extends TransactionRequest {
      * @var array
      */
     private static $required_fields = [
-        'id',
         'litleTxnId'
     ];
 }
