@@ -10,8 +10,8 @@
     "license": "MIT",
     "minimum-stability": "dev",
     "require": {
-        "nkrantz/litle-sdk-for-php" : "dev-master",
-        "illuminate/support"        : "4.1.*"
+        "illuminate/support":        "4.1.*",
+        "nkrantz/litle-sdk-for-php": "dev-master#1.0"
     },
     "require-dev": {
         "mockery/mockery": "dev-master@dev",
