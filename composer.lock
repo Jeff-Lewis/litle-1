@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7ba1a3fcd5ac1e2726cabc361a330574",
+    "hash": "d9e42aea152d04b61901509619752040",
     "packages": [
         {
             "name": "illuminate/support",
@@ -62,7 +62,7 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/nkrantz23/litle-sdk-for-php",
-                "reference": "master"
+                "reference": "e95335127581d3fde060378a1ed74cf54554a361"
             },
             "dist": {
                 "type": "zip",
